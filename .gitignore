@@ -27,7 +27,8 @@ ehthumbs.db
 Thumbs.db
 
 /app/tmp/*
+/app/Vendor/*
 /app/Config/core.php
 /app/Config/database.php
-/vendors/*
+/vendor/*
 /app/webroot/uploads
