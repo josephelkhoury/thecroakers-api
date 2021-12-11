@@ -1296,7 +1296,7 @@ class ApiController extends AppController
                             Utility::sendPushNotificationToMobileDevice(json_encode($notification));
                         }
                     }
-		
+
                     $notification_data['sender_id'] = $sender_details['User']['id'];
                     $notification_data['receiver_id'] = $receiver_details['User']['id'];
                     $notification_data['type'] = "following";
@@ -1317,7 +1317,7 @@ class ApiController extends AppController
 
                     $receiver_details['User']['button'] = "Friends";
 
-                } else   if(count($follower_details) > 0 && count($following_details) < 1){	
+                } else   if(count($follower_details) > 0 && count($following_details) < 1){
                     $receiver_details['User']['button'] = "following";
                 }
 
@@ -2497,7 +2497,7 @@ class ApiController extends AppController
 			    $new_array[$key]["User"]["videos_count"] = $user_videos_count;
 			}
 		    }
-		}	
+		}
 	     }
 
              if(count($new_array) > 0) {
@@ -3633,9 +3633,11 @@ class ApiController extends AppController
             if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
             }
-	    if (isset($data['other_user_id'])) {
-		$other_user_id = $data['other_user_id'];
-	    }
+	    			if (isset($data['other_user_id']) && $data['other_user_id'] != "") {
+							$other_user_id = $data['other_user_id'];
+	    			}
+	    			else
+	    				$other_user_id = $user_id;
 
             if (isset($data['starting_point'])) {
                 $starting_point = $data['starting_point'];
@@ -5185,7 +5187,7 @@ class ApiController extends AppController
                         } else {
                             $videos[$key]['Video']['favourite'] = 0;
                         }
-                    
+
 
 		    	$follower_details = $this->Follower->ifFollowing($user_id, $video['Video']['user_id']);
                     	$following_details = $this->Follower->ifFollowing($video['Video']['user_id'], $user_id);
@@ -5279,7 +5281,7 @@ class ApiController extends AppController
                         } else {
                             $videos[$key]['Video']['favourite'] = 0;
                         }
-			
+
                         $follower_details = $this->Follower->ifFollowing($user_id, $video['Video']['user_id']);
                         $following_details = $this->Follower->ifFollowing($video['Video']['user_id'], $user_id);
                         if(count($follower_details) > 0 && count($following_details) > 0){
@@ -5561,11 +5563,11 @@ class ApiController extends AppController
             $interest_id = $this->request->data('interest_id');
 	    $topic_id = $this->request->data('topic_id');
 	    $main_video_id = $this->request->data('main_video_id');
-	    $country_id = $this->request->data('country_id');		
+	    $country_id = $this->request->data('country_id');
 
             $data_hashtag = json_decode($hashtags_json, TRUE);
             $data_users = json_decode($users_json, TRUE);
-	
+
             $video_userDetails = $this->User->getUserDetailsFromID($user_id);
 
             if(count($video_userDetails) > 0) {
@@ -5662,7 +5664,7 @@ class ApiController extends AppController
 
                     if (count($data_hashtag) > 0) {
                         foreach ($data_hashtag as $key => $value) {
-			
+
                             $name = $value['name'];
 
                             $if_hashtag_exist = $this->Hashtag->ifExist($name);
@@ -5688,7 +5690,7 @@ class ApiController extends AppController
 
 		    $hashtag_video[$topic_id]['hashtag_id'] = $topic_id;
 		    $hashtag_video[$topic_id]['video_id'] = $video_id;
-		    $this->HashtagVideo->saveAll($hashtag_video);	
+		    $this->HashtagVideo->saveAll($hashtag_video);
 
                     /*************************end hashtag save ********************/
 
@@ -5786,7 +5788,7 @@ class ApiController extends AppController
 
 
                                 $if_exist = $this->PushNotification->getDetails($user_id);
-                              
+
                                 if (count($if_exist) > 0) {
 
                                     $video_updates = $if_exist['PushNotification']['video_updates'];
@@ -5948,7 +5950,7 @@ class ApiController extends AppController
 
 
     }
-    
+
     /*public function showCountries(){
 
         $this->loadModel('Country');
@@ -7974,7 +7976,7 @@ class ApiController extends AppController
                 $email_data['to'] = $email;
                 $email_data['name'] = $full_name;
                 $email_data['subject'] = "reset your password";
-                $email_data['message'] = "You recently requested to reset your password for your ".APP_NAME." account  with the e-mail address (".$email."). 
+                $email_data['message'] = "You recently requested to reset your password for your ".APP_NAME." account  with the e-mail address (".$email.").
 Please enter this verification code to reset your password.<br><br>Confirmation code: <b></b>".$code."<b>";
                 $response = Utility::sendMail($email_data);
 
@@ -8144,7 +8146,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
                 $email_data['to'] = $email;
                 $email_data['name'] = $full_name;
                 $email_data['subject'] = "change your email address";
-                $email_data['message'] = "You recently requested to update your email for your " . APP_NAME . " account. 
+                $email_data['message'] = "You recently requested to update your email for your " . APP_NAME . " account.
 Please enter this verification code to reset your email.<br><br>Confirmation code: <b></b>" . $code . "<b>";
                 $response = Utility::sendMail($email_data);
 
