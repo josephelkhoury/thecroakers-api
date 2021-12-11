@@ -3415,12 +3415,11 @@ class ApiController extends AppController
     public function showFavouriteVideos()
     {
         $this->loadModel("VideoFavourite");
-	$this->loadModel("VideoLike");
-	$this->loadModel("VideoComment");
-	$this->loadModel("Video");
+				$this->loadModel("VideoLike");
+				$this->loadModel("VideoComment");
+				$this->loadModel("Video");
 
         if ($this->request->isPost()) {
-
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
             $user_id = $data['user_id'];
@@ -3431,30 +3430,32 @@ class ApiController extends AppController
                 $starting_point = $data['starting_point'];
             }
             $fav_posts = $this->VideoFavourite->getUserFavouriteVideos($user_id,$starting_point);
-	    foreach ($fav_posts as $key => $video) {
-		$video_data['user_id'] = $user_id;
-		$video_data['video_id'] = $video['Video']['id'];
-		$video_like_detail = $this->VideoLike->ifExist($video_data);
-		$video_favourite_detail = $this->VideoFavourite->ifExist($video_data);
-		if (count($video_like_detail) > 0) {
-		    $video['Video']['like'] = 1;
-		} else {
-		    $video['Video']['like'] = 0;
-		}
+            $new_array = [];
 
-		if (count($video_favourite_detail) > 0) {
-		    $video['Video']['favourite'] = 1;
-		} else {
-		    $video['Video']['favourite'] = 0;
-		}
+	    			foreach ($fav_posts as $key => $video) {
+								$video_data['user_id'] = $user_id;
+								$video_data['video_id'] = $video['Video']['id'];
+								$video_like_detail = $this->VideoLike->ifExist($video_data);
+								$video_favourite_detail = $this->VideoFavourite->ifExist($video_data);
+								if (count($video_like_detail) > 0) {
+		    						$video['Video']['like'] = 1;
+								} else {
+		    					$video['Video']['like'] = 0;
+								}
 
-		$comment_count = $this->VideoComment->countComments($video['Video']['id']);
-		$video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
-		$video['Video']['comment_count'] = $comment_count;
-		$video['Video']['like_count'] = $video_likes_count;
-		$video['Topic'] = $this->Video->getTopic($video['Video']['HashtagVideo']);
-		$new_array[] = $video;
-	    }
+								if (count($video_favourite_detail) > 0) {
+										$video['Video']['favourite'] = 1;
+								} else {
+										$video['Video']['favourite'] = 0;
+								}
+
+								$comment_count = $this->VideoComment->countComments($video['Video']['id']);
+								$video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
+								$video['Video']['comment_count'] = $comment_count;
+								$video['Video']['like_count'] = $video_likes_count;
+								$video['Topic'] = $this->Video->getTopic($video['Video']['HashtagVideo']);
+								$new_array[] = $video;
+	    			}
 
             if(count($new_array) > 0) {
                 $output['code'] = 200;
