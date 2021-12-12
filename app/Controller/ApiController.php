@@ -223,12 +223,10 @@ class ApiController extends AppController
             $user['created'] = date('Y-m-d H:i:s', time());
             $user['role'] = "user";
 
-	    if (isset($data['country_id']))
-	      $user['country_id'] = $data['country_id'];
+	    			if (isset($data['country_id']))
+	      				$user['country_id'] = $data['country_id'];
 
-	    $user['country_id'] = 1;
-
-            if(isset($data['first_name'])){
+            if(isset($data['first_name'])) {
 
                 $first_name = $data['first_name'];
                 $last_name = $data['last_name'];
@@ -252,7 +250,7 @@ class ApiController extends AppController
                 $user['last_name'] = $last_name;
             }
 
-            if(isset($data['username'])){
+            if(isset($data['username'])) {
 
                 $username = $data['username'];
 
@@ -459,7 +457,6 @@ class ApiController extends AppController
 
                 $session_token = Utility::generateSessionToken();
                 $user['dob'] = $data['dob'];
-		//$user['country_id'] = $data['country_id'];
                 $user['auth_token'] = $session_token;
                 $user['username'] = $username;
                 $user['password'] = $data['password'];
@@ -635,7 +632,6 @@ class ApiController extends AppController
 
                 $user['username'] = $username;
                 $user['dob'] = $data['dob'];
-		$user['country_id'] = $data['country_id'];
 
                 if(isset($data['gender'])){
 
@@ -6817,16 +6813,11 @@ class ApiController extends AppController
 
     public function addPromotion()
     {
-
-        $this->loadModel("Promotion");
-
-
-
+       	$this->loadModel("Promotion");
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
-
 
             $video_id = $data['video_id'];
             $user_id = $data['user_id'];
@@ -6840,8 +6831,6 @@ class ApiController extends AppController
             $active = 0;
             $created = date('Y-m-d H:i:s', time());
 
-
-
             $audience['video_id'] = $video_id;
             $audience['user_id'] = $user_id;
             $audience['destination'] = $destination;
@@ -6853,64 +6842,34 @@ class ApiController extends AppController
             $audience['active'] = $active;
             $audience['created'] = $created;
 
-
-
-
-
-
-
-
-
             $this->Promotion->save($audience);
-
-
 
             $id = $this->Promotion->getInsertID();
 
-
-
             $details = $this->Promotion->getDetails($id);
-
 
             $output['code'] = 200;
             $output['msg'] = $details;
             echo json_encode($output);
-
-
             die();
-
-
-
-
-
-
-
-
         }
     }
 
     public function learnMoreTap()
     {
-
         $this->loadModel("Promotion");
-
-
-
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
-
             $promotion_id = $data['promotion_id'];
             $details = $this->Promotion->getDetails($promotion_id);
 
-            if(count($details) > 0 ){
+            if(count($details) > 0 ) {
 
                 $destination_tap =  $details['Promotion']['destination_tap'];
                 $this->Promotion->id = $promotion_id;
                 $this->Promotion->saveField('destination_tap',$destination_tap + 1);
-
-
 
                 $details = $this->Promotion->getDetails($promotion_id);
 
@@ -6918,21 +6877,12 @@ class ApiController extends AppController
                 $output['msg'] = $details;
                 echo json_encode($output);
 
-
                 die();
 
-            }else{
-
-
+            } else {
                 Message::EMPTYDATA();
                 die();
             }
-
-
-
-
-
-
         }
     }
     /*public function addDeviceData()
@@ -7050,7 +7000,7 @@ class ApiController extends AppController
             $state_id = 0;
             $country_id = 0;
             $city_id = 0;
-            if(count($ipdat) > 0 ) {
+            if (count($ipdat) > 0 ) {
 
                 /*echo 'Country Name: ' . $ipdat->geoplugin_countryName . "\n";
                 echo 'City Name: ' . $ipdat->geoplugin_city . "\n";
@@ -7075,14 +7025,9 @@ class ApiController extends AppController
 
 
 
-                if(count($country_details) > 0){
-
+                if (count($country_details) > 0) {
                     $country_id =  $country_details['Country']['id'];
-
-
-
-                }else    if(count($country_details_short_name) > 0){
-
+                } else if (count($country_details_short_name) > 0){
                     $country_id =  $country_details_short_name['Country']['id'];
 
                 }
@@ -7090,13 +7035,13 @@ class ApiController extends AppController
                 $state_details = $this->State->getStateAgainstName($state_name,$country_id);
                 $state_short_details = $this->State->getStateAgainstShortName($state_short_name,$country_id);
 
-                if(count($state_details) > 0){
+                if (count($state_details) > 0) {
 
 
                     $state_id =  $state_details['State']['id'];
 
 
-                }else if(count($state_short_details) > 0 ){
+                } else if (count($state_short_details) > 0 ) {
 
                     $state_id = $state_short_details['State']['id'];
                 }
@@ -7111,7 +7056,7 @@ class ApiController extends AppController
             }
             $user_id = $data['user_id'];
 
-            $user['country_id'] = $country_id;
+            //$user['country_id'] = $country_id;
             $user['state_id'] = $state_id;
             $user['city_id'] = $city_id;
             $userDetails = $this->User->getUserDetailsFromID($user_id);
@@ -7158,13 +7103,9 @@ class ApiController extends AppController
                 $output['code'] = 200;
                 $output['msg'] = $userDetails;
                 echo json_encode($output);
-            }else{
-
-
+            } else {
                 Message::EMPTYDATA();
                 die();
-
-
             }
 
         }
