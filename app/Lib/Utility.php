@@ -686,8 +686,6 @@ class Utility
         }
     }
 
-
-
     public static function sendPushNotificationToMobileDevice($data) {
         $key=FIREBASE_PUSH_NOTIFICATION_KEY;
 

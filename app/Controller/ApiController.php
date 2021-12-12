@@ -1277,8 +1277,8 @@ class ApiController extends AppController
                     $notification['notification']['type'] = "folllow";
                     $notification['notification']['receiver_id'] = $receiver_id;
                     $notification['data']['receiver_id'] = $receiver_id;
-                    $notification['data']['title'] = $msg;
-                    $notification['data']['body'] = '';
+                    $notification['data']['title'] = '';
+                    $notification['data']['body'] = $msg;
                     $notification['data']['icon'] = "";
                     $notification['data']['badge'] = "1";
                     $notification['data']['sound'] = "default";
@@ -2649,8 +2649,8 @@ class ApiController extends AppController
 									$notification['notification']['sound'] = "default";
 									$notification['notification']['icon'] = "";
 									$notification['notification']['type'] = "comment";
-									$notification['data']['title'] = $notification_msg;
-									$notification['data']['body'] = '';
+									$notification['data']['title'] = '';
+									$notification['data']['body'] = $notification_msg;
 									$notification['data']['icon'] = "";
 									$notification['data']['badge'] = "1";
 									$notification['data']['sound'] = "default";
@@ -2753,8 +2753,8 @@ class ApiController extends AppController
             $notification['notification']['sound'] = "default";
             $notification['notification']['icon'] = "";
             $notification['notification']['type'] = "comment";
-            $notification['data']['title'] = $notification_msg;
-            $notification['data']['body'] = '';
+            $notification['data']['title'] = '';
+            $notification['data']['body'] = $notification_msg;
             $notification['data']['icon'] = "";
             $notification['data']['badge'] = "1";
             $notification['data']['sound'] = "default";
@@ -2956,8 +2956,8 @@ class ApiController extends AppController
                     	$notification['notification']['sound'] = "default";
                     	$notification['notification']['icon'] = "";
                     	$notification['notification']['type'] = "";
-                    	$notification['data']['title'] = $notification_msg;
-                    	$notification['data']['body'] = '';
+                    	$notification['data']['title'] = '';
+                    	$notification['data']['body'] = $notification_msg;
                    	$notification['data']['icon'] = "";
                     	$notification['data']['badge'] = "1";
                     	$notification['data']['sound'] = "default";
@@ -5698,8 +5698,8 @@ class ApiController extends AppController
                                 $notification['notification']['sound'] = "default";
                                 $notification['notification']['icon'] = "";
                                 $notification['notification']['type'] = "video_tag";
-                                $notification['data']['title'] = $msg;
-                                $notification['data']['body'] = '';
+                                $notification['data']['title'] = '';
+                                $notification['data']['body'] = $msg;
                                 $notification['data']['icon'] = "";
                                 $notification['data']['badge'] = "1";
                                 $notification['data']['sound'] = "default";
@@ -5759,8 +5759,8 @@ class ApiController extends AppController
                                 $notification['notification']['sound'] = "default";
                                 $notification['notification']['icon'] = "";
                                 $notification['notification']['type'] = "video_new_post";
-                                $notification['data']['title'] = $msg;
-                                $notification['data']['body'] = '';
+                                $notification['data']['title'] = '';
+                                $notification['data']['body'] = $msg;
                                 $notification['data']['icon'] = "";
                                 $notification['data']['badge'] = "1";
                                 $notification['data']['sound'] = "default";
