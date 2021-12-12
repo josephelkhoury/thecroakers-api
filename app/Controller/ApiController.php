@@ -2610,47 +2610,37 @@ class ApiController extends AppController
 
     public function postCommentOnVideo()
     {
-
         $this->loadModel("VideoComment");
         $this->loadModel("User");
         $this->loadModel("Video");
         $this->loadModel("Notification");
         $this->loadModel("PushNotification");
 
-
-
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
-
 
             $video_id = $data['video_id'];
             $user_id = $data['user_id'];
             $comment = $data['comment'];
 
-
             $created = date('Y-m-d H:i:s', time());
-
 
             $comment_video['video_id'] = $video_id;
             $comment_video['user_id'] = $user_id;
             $comment_video['comment'] = $comment;
             $comment_video['created'] = $created;
 
-
-
-
             $userDetails = $this->User->getUserDetailsFromID($user_id);
             if(count($userDetails) > 0) {
                 $video_details = $this->Video->getDetails($video_id);
 
-
                 $this->VideoComment->save($comment_video);
-
 
                 $id = $this->VideoComment->getInsertID();
                 $details = $this->VideoComment->getDetails($id);
 
+								var_dump($details);
 
                 $notification_msg = $userDetails['User']['username'] . ' commented: ' . $comment;
                 $notification['to'] = $video_details['User']['device_token'];
@@ -2688,15 +2678,11 @@ class ApiController extends AppController
 
                 $this->Notification->save($notification_data);
 
-
                 $output['code'] = 200;
                 $output['msg'] = $details;
                 echo json_encode($output);
-
-
                 die();
-            }else{
-
+            } else {
                 $output['code'] = 201;
                 $output['msg'] = "Login First";
                 echo json_encode($output);
