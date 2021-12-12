@@ -73,13 +73,18 @@ class User extends AppModel
             'className' => 'PrivacySetting',
             'foreignKey' => 'id',
             'dependent' =>true
-
-
         ),
 
     );
 
-    public function isEmailAlreadyExist($email){ 
+    public $belongsTo = array(
+				'Country' => array(
+	    			'className' => 'Country',
+	    			'foreignKey' => 'country_id'
+				),
+    );
+
+    public function isEmailAlreadyExist($email){
 
         return $this->find('count', array(
             'conditions' => array(
@@ -87,33 +92,32 @@ class User extends AppModel
         ));
     }
 
-    public function isfbAlreadyExist($fb_id){ 
+    public function isfbAlreadyExist($fb_id){
 
         return $this->find('count', array(
             'conditions' => array('fb_id' => $fb_id)
         ));
     }
 
-    public function getDetailsAgainstFBID($fb_id){ 
+    public function getDetailsAgainstFBID($fb_id){
 
         return $this->find('first', array(
             'conditions' => array('fb_id' => $fb_id)
         ));
     }
 
-    public function getAllFacebookUsers($fb_ids,$user_id){ 
+    public function getAllFacebookUsers($fb_ids,$user_id){
 
         return $this->find('all', array(
             'conditions' => array(
                 'User.social_id IN' => $fb_ids,
                 'User.social' => "facebook",
                 'User.id !='=>$user_id
-                
                 )
         ));
     }
 
-    public function isSocialIDAlreadyExist($social_id){ 
+    public function isSocialIDAlreadyExist($social_id){
 
         return $this->find('first', array(
             'conditions' => array(
@@ -146,7 +150,7 @@ class User extends AppModel
         ));
     }
 
-    public function isUsernameAlreadyExist($username){ 
+    public function isUsernameAlreadyExist($username){
 
         return $this->find('count', array(
             'conditions' => array('username' => $username)
@@ -184,14 +188,14 @@ class User extends AppModel
         ));
     }
 
-    public function isphoneNoAlreadyExist($phone){ 
+    public function isphoneNoAlreadyExist($phone){
 
         return $this->find('first', array(
             'conditions' => array('phone' => $phone)
         ));
     }
 
-    public function editIsEmailAlreadyExist($email,$user_id){ 
+    public function editIsEmailAlreadyExist($email,$user_id){
 
         return $this->find('count', array(
             'conditions' => array(
@@ -201,7 +205,7 @@ class User extends AppModel
         ));
     }
 
-    public function editIsUsernameAlreadyExist($username,$user_id){ 
+    public function editIsUsernameAlreadyExist($username,$user_id){
 
         return $this->find('count', array(
             'conditions' => array(
@@ -211,7 +215,7 @@ class User extends AppModel
         ));
     }
 
-    public function editIsphoneNoAlreadyExist($phone,$user_id){ 
+    public function editIsphoneNoAlreadyExist($phone,$user_id){
 
         return $this->find('count', array(
             'conditions' => array(
@@ -252,19 +256,19 @@ class User extends AppModel
 
     }
 
-    public function getUserDetailsFromID($user_id){
+    public function getUserDetailsFromID($user_id) {
         $this->Behaviors->attach('Containable');
         return $this->find('first', array(
             'conditions' => array(
                 'User.id' => $user_id,
                 'User.active' => 1,
             ),
-            'contain' => array('PushNotification','PrivacySetting'),
+            'contain' => array('PushNotification','PrivacySetting','Country'),
             'recursive' => 0
         ));
     }
 
-    public function getUserDetailsFromIDContain($user_id){
+    public function getUserDetailsFromIDContain($user_id) {
         $this->Behaviors->attach('Containable');
         return $this->find('first', array(
             'conditions' => array(
@@ -278,18 +282,14 @@ class User extends AppModel
 
     }
 
-    public function getUserDetailsFromUsername($username){
-
+    public function getUserDetailsFromUsername($username) {
         return $this->find('first', array(
+        		'contain' => array('Country'),
             'conditions' => array(
                 'User.username' => $username
             ),
-
             'recursive' => 0
-
-
         ));
-
     }
 
     public function getUserDetailsFromIDAndRole($user_id,$role){
@@ -419,8 +419,8 @@ class User extends AppModel
 
     public function searchLocation($keyword){
 
-        return $this->query("SELECT DISTINCT User.country,User.city,User.region  
-          FROM user as User 
+        return $this->query("SELECT DISTINCT User.country,User.city,User.region
+          FROM user as User
         WHERE User.country Like '$keyword%'  OR User.city Like '$keyword%' OR User.region Like '$keyword%'");
     }
 
@@ -775,7 +775,7 @@ WHERE User.city_id =  $state_id
             $salt = $password;
 
             $this->data['User']['password'] = $passwordBlowfishHasher->hash($password);
-           
+
         }
         return true;
     }

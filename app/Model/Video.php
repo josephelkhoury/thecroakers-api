@@ -15,10 +15,10 @@ class Video extends AppModel
             'className' => 'Sound',
             'foreignKey' => 'sound_id',
         ),
-	'Country' => array(
-	    'className' => 'Country',
-	    'foreignKey' => 'country_id'
-	),
+				'Country' => array(
+	    			'className' => 'Country',
+	    			'foreignKey' => 'country_id'
+				),
     );
 
     public $hasMany = array(
@@ -61,13 +61,13 @@ class Video extends AppModel
 		    $results[$key]['Video']['allow_comments'] = "false";
 		    $results[$key]['Video']['allow_duet'] = "1";
 	    	}
-		else 
+		else
 		    $results[$key]['Video']['allow_duet'] = "0";
     	    }
 	}
     	return $results;
     }
-  
+
     public function getDetails($id)
     {
         $this->Behaviors->attach('Containable');
@@ -291,7 +291,7 @@ class Video extends AppModel
                 //'Video.user_id !='=> $user_id,
                 'Video.block'=> 0,
                 'Video.privacy_type'=> 'public',
-		'Video.main_video_id IS NOT NULL' 
+		'Video.main_video_id IS NOT NULL'
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,

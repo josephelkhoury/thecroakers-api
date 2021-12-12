@@ -3481,7 +3481,7 @@ class ApiController extends AppController
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
-            if(isset($data['user_id'])){
+            if(isset($data['user_id'])) {
                 $user_id = $data['user_id'];
             }
 
@@ -3492,7 +3492,7 @@ class ApiController extends AppController
             $followers_count = $this->Follower->countFollowers($user_id);
             $following_count = $this->Follower->countFollowing($user_id);
             $likes_count = $this->VideoLike->countUserAllVideoLikes($user_id);
-	    $video_count = $this->Video->getUserVideosCount($user_id);
+	    			$video_count = $this->Video->getUserVideosCount($user_id);
             $userDetail['User']['followers_count'] = $followers_count;
             $userDetail['User']['following_count'] = $following_count;
             $userDetail['User']['likes_count'] = $likes_count;
