@@ -196,7 +196,7 @@ class Utility
         } else {
             print_r($operation->getError());
         }
-       
+
 
     }
     public static function getGoogleUserInfo($access_token){
@@ -354,7 +354,7 @@ class Utility
         }
         return( $arh );
     }
-   
+
 
 
 
@@ -688,10 +688,7 @@ class Utility
 
 
 
-    public static function sendPushNotificationToMobileDevice($data){
-
-
-
+    public static function sendPushNotificationToMobileDevice($data) {
         $key=FIREBASE_PUSH_NOTIFICATION_KEY;
 
         $curl = curl_init();
