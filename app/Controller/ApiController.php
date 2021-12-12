@@ -2640,43 +2640,43 @@ class ApiController extends AppController
                 $id = $this->VideoComment->getInsertID();
                 $details = $this->VideoComment->getDetails($id);
 
-								var_dump($details);
+								if ($details["Video"]["user_id"] != $user_id) {
+									$notification_msg = $userDetails['User']['username'] . ' commented: ' . $comment;
+									$notification['to'] = $video_details['User']['device_token'];
+									$notification['notification']['title'] = $notification_msg;
+									$notification['notification']['body'] = "";
+									$notification['notification']['badge'] = "1";
+									$notification['notification']['sound'] = "default";
+									$notification['notification']['icon'] = "";
+									$notification['notification']['type'] = "comment";
+									$notification['data']['title'] = $notification_msg;
+									$notification['data']['body'] = '';
+									$notification['data']['icon'] = "";
+									$notification['data']['badge'] = "1";
+									$notification['data']['sound'] = "default";
+									$notification['data']['type'] = "comment";
+									$notification['notification']['receiver_id'] =  $video_details['User']['id'];
+									$notification['data']['receiver_id'] = $video_details['User']['id'];
 
-                $notification_msg = $userDetails['User']['username'] . ' commented: ' . $comment;
-                $notification['to'] = $video_details['User']['device_token'];
-                $notification['notification']['title'] = $notification_msg;
-                $notification['notification']['body'] = "";
-                $notification['notification']['badge'] = "1";
-                $notification['notification']['sound'] = "default";
-                $notification['notification']['icon'] = "";
-                $notification['notification']['type'] = "comment";
-                $notification['data']['title'] = $notification_msg;
-                $notification['data']['body'] = '';
-                $notification['data']['icon'] = "";
-                $notification['data']['badge'] = "1";
-                $notification['data']['sound'] = "default";
-                $notification['data']['type'] = "comment";
-                $notification['notification']['receiver_id'] =  $video_details['User']['id'];
-                $notification['data']['receiver_id'] = $video_details['User']['id'];
+									$if_exist = $this->PushNotification->getDetails($video_details['User']['id']);
+									if (count($if_exist) > 0) {
 
-                $if_exist = $this->PushNotification->getDetails($video_details['User']['id']);
-                if (count($if_exist) > 0) {
+											$likes = $if_exist['PushNotification']['new_followers'];
+											if ($likes > 0) {
+													Utility::sendPushNotificationToMobileDevice(json_encode($notification));
+											}
+									}
 
-                    $likes = $if_exist['PushNotification']['new_followers'];
-                    if ($likes > 0) {
-                        Utility::sendPushNotificationToMobileDevice(json_encode($notification));
-                    }
-                }
+									$notification_data['sender_id'] = $user_id;
+									$notification_data['receiver_id'] = $video_details['User']['id'];
+									$notification_data['type'] = "video_comment";
+									$notification_data['video_id'] = $video_id;
 
-                $notification_data['sender_id'] = $user_id;
-                $notification_data['receiver_id'] = $video_details['User']['id'];
-                $notification_data['type'] = "video_comment";
-                $notification_data['video_id'] = $video_id;
+									$notification_data['string'] = $notification_msg;
+									$notification_data['created'] = $created;
 
-                $notification_data['string'] = $notification_msg;
-                $notification_data['created'] = $created;
-
-                $this->Notification->save($notification_data);
+									$this->Notification->save($notification_data);
+								}
 
                 $output['code'] = 200;
                 $output['msg'] = $details;
