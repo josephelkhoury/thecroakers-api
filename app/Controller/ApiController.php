@@ -8916,7 +8916,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 
 	   			$countries = $this->Country->getCountries();
 
-					if (isset($data['worldwide'] && $data['worldwide'] == "1")) {
+					if (isset($data['worldwide']) && $data['worldwide'] == "1") {
 	   					$country = [];
 	   					$country['Country']['id'] = 0;
 	   					$country['Country']['name'] = "Worldwide";
