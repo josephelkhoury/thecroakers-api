@@ -69,26 +69,30 @@ class HashtagVideo extends AppModel
         ));
     }
 
-    public function getHashtagVideosLimit($hashtag_id)
+    public function getHashtagVideosLimit($hashtag_id, $country_id = 0)
     {
         $this->Behaviors->attach('Containable');
+
+        $conditions = [];
+        $conditions['HashtagVideo.hashtag_id'] = $hashtag_id;
+        $conditions['Video.privacy_type'] = "public";
+        $conditions['User.role'] = "publisher";
+        if ($country_id != 0)
+	   				$conditions['Video.country_id'] = $country_id;
+
         return $this->find('all', array(
             'contain' => array('Video.Sound','Video.User', 'Video.Country', 'Hashtag'),
             'joins' => array(
-		array(
-		    'table' => 'user',
-		    'alias' => 'User',
-    		    'type' => 'LEFT',
-		    'conditions' => array(
-		    	'User.id = Video.user_id'
-		    ),
-		),
-	    ),
-	    'conditions' => array(
-                'HashtagVideo.hashtag_id'=> $hashtag_id,
-                'Video.privacy_type'=> "public",
-            	'User.role' => "publisher"
-	    ),
+								array(
+		    						'table' => 'user',
+		    						'alias' => 'User',
+    		    				'type' => 'LEFT',
+		    						'conditions' => array(
+		    								'User.id = Video.user_id'
+		    						),
+								),
+	    			),
+	    			'conditions' => $conditions,
             'limit'=>5,
             'order' => 'Video.view DESC',
         ));
@@ -119,24 +123,27 @@ class HashtagVideo extends AppModel
         ));
     }
 
-    public function countHashtagVideos($hashtag_id)
+    public function countHashtagVideos($hashtag_id, $country_id = 0)
     {
+    		$conditions = [];
+        $conditions['HashtagVideo.hashtag_id'] = $hashtag_id;
+        $conditions['Video.privacy_type'] = "public";
+        $conditions['User.role'] = "publisher";
+        if ($country_id != 0)
+	   				$conditions['Video.country_id'] = $country_id;
+
         return $this->find('count', array(
             'joins' => array(
-		array(
-		    'table' => 'user',
-		    'alias' => 'User',
-		    'type' => 'LEFT',
-		    'conditions' => array(
-		        'User.id = Video.user_id'
-		    ),
-		),
-	     ),
-            'conditions' => array(
-                'HashtagVideo.hashtag_id'=> $hashtag_id,
-                'Video.privacy_type'=> "public",
-		'User.role' => 'publisher'
-            ),
+								array(
+		    						'table' => 'user',
+										'alias' => 'User',
+										'type' => 'LEFT',
+										'conditions' => array(
+												'User.id = Video.user_id'
+										),
+								),
+	     			),
+            'conditions' => $conditions,
         ));
     }
 

@@ -456,28 +456,34 @@ class Video extends AppModel
         ));
     }
 
-    public function getUserVideosLimit($user_id)
+    public function getUserVideosLimit($user_id, $country_id = 0)
     {
+    		$conditions = [];
+        $conditions['Video.user_id'] = $user_id;
+        $conditions['Video.privacy_type'] = "public";
+        if ($country_id != 0)
+	   				$conditions['Video.country_id'] = $country_id;
+
         $this->Behaviors->attach('Containable');
         return $this->find('all', array(
             'contain' => array('Sound','User','Country', 'HashtagVideo.Hashtag'),
-            'conditions' => array(
-                'Video.user_id'=> $user_id,
-                'Video.privacy_type'=> "public",
-            ),
+            'conditions' => $conditions,
             'limit'=>5,
             'order' => 'Video.view DESC',
         ));
     }
 
-    public function countUserVideos($user_id)
+    public function countUserVideos($user_id, $country_id = 0)
     {
+    		$conditions = [];
+        $conditions['Video.user_id'] = $user_id;
+        $conditions['Video.privacy_type'] = "public";
+        if ($country_id != 0)
+	   				$conditions['Video.country_id'] = $country_id;
+
         return $this->find('count', array(
             //'contain' => array('Video'),
-            'conditions' => array(
-                'Video.user_id'=> $user_id,
-                'Video.privacy_type'=> "public",
-            ),
+            'conditions' => $conditions
         ));
     }
 }

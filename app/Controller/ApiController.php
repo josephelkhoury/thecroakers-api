@@ -2454,8 +2454,8 @@ class ApiController extends AppController
                 $hashtags = $this->HashtagVideo->getHashtagsWhichHasGreaterNoOfVideos($starting_point, $country_id);
                 if(count($hashtags) > 0) {
                     foreach ($hashtags as $key => $hashtag) {
-                        $hashtag_videos = $this->HashtagVideo->getHashtagVideosLimit($hashtag['Hashtag']['id']);
-                        $hashtag_videos_count = $this->HashtagVideo->countHashtagVideos($hashtag['Hashtag']['id']);
+                        $hashtag_videos = $this->HashtagVideo->getHashtagVideosLimit($hashtag['Hashtag']['id'], $country_id);
+                        $hashtag_videos_count = $this->HashtagVideo->countHashtagVideos($hashtag['Hashtag']['id'], $country_id);
                         if(count($hashtag_videos) > 0) {
                             $new_array[$key]["Hashtag"] = $hashtag['Hashtag'];
                             $new_array[$key]["Hashtag"]['views'] = $hashtag[0]['total_views'];
@@ -2469,8 +2469,8 @@ class ApiController extends AppController
 	        			$users = $this->Video->getUsersWhichHaveGreaterNoOfVideos($starting_point, $section, $country_id);
 								if (count($users) > 0) {
 		    						foreach ($users as $key => $user) {
-												$user_videos = $this->Video->getUserVideosLimit($user['User']['id']);
-												$user_videos_count = $this->Video->countUserVideos($user['User']['id']);
+												$user_videos = $this->Video->getUserVideosLimit($user['User']['id'], $country_id);
+												$user_videos_count = $this->Video->countUserVideos($user['User']['id'], $country_id);
 												if (count($user_videos) > 0) {
 														$new_array[$key]["User"] = $user['User'];
 														$new_array[$key]["User"]["views"] = $user[0]['total_views'];
