@@ -8921,6 +8921,8 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 	   					$country['Country']['id'] = "0";
 	   					$country['Country']['name'] = "Worldwide";
 	   					$country['Country']['emoji'] = "🌐";
+	   					$country['Country']['short_name'] = "ww";
+	   					$country['Country']['phonecode'] = "";
 	   					array_unshift($countries, $country);
 	   			}
 
