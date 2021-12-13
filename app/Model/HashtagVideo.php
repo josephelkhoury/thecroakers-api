@@ -140,15 +140,18 @@ class HashtagVideo extends AppModel
         ));
     }
 
-    public function getHashtagsWhichHasGreaterNoOfVideos($starting_point)
+    public function getHashtagsWhichHasGreaterNoOfVideos($starting_point, $country_id)
     {
         $this->Behaviors->attach('Containable');
-        return $this->find('all', array(
-	    'conditions' => array(
-		'Hashtag.featured' => true,
-	    ),
-            'fields' => array( 'DISTINCT HashtagVideo.hashtag_id','Hashtag.*','sum(Video.view) as total_views'),
 
+        $conditions = [];
+        $conditions['Hashtag.featured'] = true;
+        if ($country_id != 0)
+	   				$conditions['Video.country_id'] = $country_id;
+
+        return $this->find('all', array(
+	    			'conditions' => $conditions,
+            'fields' => array( 'DISTINCT HashtagVideo.hashtag_id','Hashtag.*','sum(Video.view) as total_views'),
             'group' => array('HashtagVideo.hashtag_id'),
             'order' => 'total_views DESC',
             'limit'=>10,

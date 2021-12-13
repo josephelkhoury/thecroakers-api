@@ -432,21 +432,24 @@ class Video extends AppModel
 	}
     }
 
-    public function getUsersWhichHaveGreaterNoOfVideos($starting_point, $section)
+    public function getUsersWhichHaveGreaterNoOfVideos($starting_point, $section, $country_id)
     {
         $this->Behaviors->attach('Containable');
 
-	$conditions = [];
+				$conditions = [];
 
-	if ($section == 1)
-	   $conditions['User.role'] = 'publisher';
-	else
-	   $conditions['User.role'] = 'user';
+				if ($section == 1)
+					 $conditions['User.role'] = 'publisher';
+				else
+					 $conditions['User.role'] = 'user';
+
+				if ($country_id != 0)
+	   				$conditions['Video.country_id'] = $country_id;
 
         return $this->find('all', array(
             'fields' => array( 'DISTINCT Video.user_id','User.*','sum(view) as total_views'),
             'conditions' => $conditions,
-	    'group' => array('Video.user_id'),
+	    			'group' => array('Video.user_id'),
             'order' => 'total_views DESC',
             'limit'=>10,
             'offset' => $starting_point*10
