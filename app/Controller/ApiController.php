@@ -8917,9 +8917,9 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 	   			$countries = $this->Country->getCountries();
 
 	   			$country = [];
-	   			$country['id'] = 0;
-	   			$country['name'] = "Worldwide";
-	   			$country['emoji'] = "🌐";
+	   			$country['Country']['id'] = 0;
+	   			$country['Country']['name'] = "Worldwide";
+	   			$country['Country']['emoji'] = "🌐";
 	   			array_unshift($countries, $country);
 
 	   			if (count($countries) > 0) {
