@@ -8908,7 +8908,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
       }
     }
 
-    public function showCountries(){
+    public function showCountries() {
 			$this->loadModel('Country');
 			if ($this->request->isPost()) {
 	   			$json = file_get_contents('php://input');
@@ -8916,11 +8916,13 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 
 	   			$countries = $this->Country->getCountries();
 
-	   			$country = [];
-	   			$country['Country']['id'] = 0;
-	   			$country['Country']['name'] = "Worldwide";
-	   			$country['Country']['emoji'] = "🌐";
-	   			array_unshift($countries, $country);
+					if (isset($data['worldwide'] && $data['worldwide'] == "1")) {
+	   					$country = [];
+	   					$country['Country']['id'] = 0;
+	   					$country['Country']['name'] = "Worldwide";
+	   					$country['Country']['emoji'] = "🌐";
+	   					array_unshift($countries, $country);
+	   			}
 
 	   			if (count($countries) > 0) {
 	      			$output['code'] = 200;
