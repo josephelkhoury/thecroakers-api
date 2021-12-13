@@ -8918,7 +8918,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 
 					if (isset($data['worldwide']) && $data['worldwide'] == "1") {
 	   					$country = [];
-	   					$country['Country']['id'] = 0;
+	   					$country['Country']['id'] = "0";
 	   					$country['Country']['name'] = "Worldwide";
 	   					$country['Country']['emoji'] = "🌐";
 	   					array_unshift($countries, $country);
