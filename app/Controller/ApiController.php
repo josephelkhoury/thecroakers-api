@@ -8909,26 +8909,32 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
     }
 
     public function showCountries(){
-	$this->loadModel('Country');
-	if ($this->request->isPost()) {
-	   $json = file_get_contents('php://input');
-	   $data = json_decode($json, TRUE);
+			$this->loadModel('Country');
+			if ($this->request->isPost()) {
+	   			$json = file_get_contents('php://input');
+	   			$data = json_decode($json, TRUE);
 
-	   $countries = $this->Country->getCountries();
+	   			$countries = $this->Country->getCountries();
 
-	   if (count($countries) > 0) {
-	      $output['code'] = 200;
-	      $output['msg'] = $countries;
+	   			$country = [];
+	   			$country['id'] = 0;
+	   			$country['name'] = "Worldwide";
+	   			$country['emoji'] = "🌐";
+	   			array_unshift($countries, $country);
 
-	      echo json_encode($output);
+	   			if (count($countries) > 0) {
+	      			$output['code'] = 200;
+	      			$output['msg'] = $countries;
 
-	      die();
-	   } else {
-	      Message::EMPTYDATA();
-	      die();
-           }
-        }
-     }
+	      			echo json_encode($output);
+
+	      			die();
+	   			} else {
+	      		Message::EMPTYDATA();
+	      		die();
+        	}
+      }
+  	}
 }
 
 ?>
