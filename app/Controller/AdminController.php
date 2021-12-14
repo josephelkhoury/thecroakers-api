@@ -222,50 +222,24 @@ class AdminController extends AppController
 
     public function sendPushNotificationToAllUsers()
     {
-
         $this->loadModel("User");
-
-
         if ($this->request->isPost()) {
-
-
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
-
-
-
             $txt = $data['text'];
+            $users =  $this->User->getAllUsersNotification();
 
-
-
-                $users =  $this->User->getAllUsersNotification();
-
-
-
-
-
-
-
-
-            if(count($users) > 0){
-
-
-                foreach ($users as $user){
-
-
+            if (count($users) > 0) {
+                foreach ($users as $user) {
                     $device_token = $user['User']['device_token'];
 
-                    if(strlen($device_token) > 15){
-
-
+                    if (strlen($device_token) > 15) {
                         $notification['to'] = $device_token;
                         $notification['notification']['title'] = "";
                         $notification['notification']['body'] = $txt;
                         $notification['notification']['badge'] = "1";
                         $notification['notification']['sound'] = "default";
                         $notification['notification']['icon'] = "";
-
-
 
                         $notification['data']['title']="";
                         $notification['data']['body'] = $txt;
@@ -274,30 +248,20 @@ class AdminController extends AppController
                         $notification['data']['badge'] = "1";
                         $notification['data']['sound'] = "default";
 
-
                         Utility::sendPushNotificationToMobileDevice(json_encode($notification));
-
-
-
-
                     }
                 }
             }
 
             $output['code'] = 200;
-
             $output['msg'] = "sucessfully sent";
             echo json_encode($output);
 
-
             die();
-
         }
-
-
     }
 
-    public function deleteVideoComment(){
+    public function deleteVideoComment() {
 
 
 

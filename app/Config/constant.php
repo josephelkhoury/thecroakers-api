@@ -5,7 +5,7 @@ define('ADMIN_API_KEY', '156c4675-9608-4591-1111-00000');
 
 date_default_timezone_set('Asia/Beirut');
 define('BASE_URL', 'http://13.40.124.46/mobileapp_api/');
-define('APP_STATUS', 'live');///demo/live
+define('APP_STATUS', 'live');
 define('APP_NAME', 'The Croakers');
 
 define('ADMIN_RECORDS_PER_PAGE',20);
@@ -37,7 +37,7 @@ define('FACEBOOK_APP_SECRET', 'App Secret Here');
 define('FACEBOOK_GRAPH_VERSION', 'v2.10');
 
 //Google
-define('GOOGLE_CLIENT_ID', 'Google Client ID Here.apps.googleusercontent.com');
+define('GOOGLE_CLIENT_ID', '77904546117-90na2pptinsrpdhe3q3q705l4jdtdbbv.apps.googleusercontent.com');
 
 //FFMPEG
 

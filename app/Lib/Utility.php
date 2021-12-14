@@ -718,7 +718,6 @@ class Utility
         } else {
             return $response;
         }
-
     }
 
     public static function sendSmsVerificationCurl($to_number,$msg)

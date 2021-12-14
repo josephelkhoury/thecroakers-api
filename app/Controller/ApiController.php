@@ -2949,7 +2949,7 @@ class ApiController extends AppController
                     $id = $this->VideoLike->getInsertID();
                     $details = $this->VideoLike->getDetails($id);
 
-		    if ($user_id != $video_details['Video']['user_id']) {
+		    						if ($user_id != $video_details['Video']['user_id']) {
                     	$msg = $details;
 
                     	$notification_msg = $userDetail['User']['username'] . ' liked your video';
@@ -2962,20 +2962,20 @@ class ApiController extends AppController
                     	$notification['notification']['type'] = "";
                     	$notification['data']['title'] = '';
                     	$notification['data']['body'] = $notification_msg;
-                   	$notification['data']['icon'] = "";
+                   		$notification['data']['icon'] = "";
                     	$notification['data']['badge'] = "1";
                     	$notification['data']['sound'] = "default";
-                   	$notification['data']['type'] = "";
+                   		$notification['data']['type'] = "";
                     	$notification['notification']['receiver_id'] =  $video_details['User']['id'];
                     	$notification['data']['receiver_id'] = $video_details['User']['id'];
 
                     	$if_exist = $this->PushNotification->getDetails($userDetail['User']['id']);
                     	if (count($if_exist) > 0) {
-                            $likes = $if_exist['PushNotification']['likes'];
-                            if ($likes > 0) {
-                            	Utility::sendPushNotificationToMobileDevice(json_encode($notification));
-                            }
-                       	}
+													$likes = $if_exist['PushNotification']['likes'];
+													if ($likes > 0) {
+														Utility::sendPushNotificationToMobileDevice(json_encode($notification));
+													}
+											}
                     	$notification_data['video_id'] = $video_id;
                     	$notification_data['sender_id'] = $user_id;
                     	$notification_data['receiver_id'] = $video_details['User']['id'];
@@ -5314,21 +5314,13 @@ class ApiController extends AppController
                 Message::EMPTYDATA();
                 die();
             }
-
         }
-
-
     }
-
-
-
 
     public function showSuggestedUsers()
     {
-
         $this->loadModel("User");
         $this->loadModel("Follower");
-
 
         if ($this->request->isPost()) {
 
@@ -5337,22 +5329,16 @@ class ApiController extends AppController
 
             $starting_point = 0;
 
-
             if (isset($data['starting_point'])) {
-
                 $starting_point = $data['starting_point'];
-
             }
-            if(isset($data['user_id'])) {
-
+            if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
 
                 $followers = $this->Follower->isFollowerOrFollowed($user_id);
                 $newarray = array();
                 if (count($followers) > 0) {
                     foreach ($followers as $key => $val) {
-
-
                         $sender_id = $val['Follower']['sender_id'];
                         $receiver_id = $val['Follower']['receiver_id'];
 
@@ -5367,40 +5353,25 @@ class ApiController extends AppController
                     }
                 }
                 $users = $this->User->getRecommendedUsers($user_id, $newarray,$starting_point);
-            }else{
-
-
+            } else {
                 $users = $this->User->getRecommendedRandomUsers();
             }
 
-
             if(count($users) > 0) {
-
-                foreach($users as $key=>$user){
-
+                foreach($users as $key=>$user) {
                     $followers_count = $this->Follower->countFollowers($user['User']['id']);
                     $users[$key]['User']['followers_count'] = $followers_count;
-
                 }
                 $output['code'] = 200;
-
                 $output['msg'] = $users;
-
-
                 echo json_encode($output);
-
-
                 die();
-
-            }else{
+            } else {
                 Message::EMPTYDATA();
                 die();
-
-
             }
         }
     }
-
 
     public function getPromotionalVideo($user_details){
 
@@ -5410,7 +5381,6 @@ class ApiController extends AppController
         $this->loadModel('Follower');
         $this->loadModel('VideoComment');
 
-
         $created = date('Y-m-d H:i:s', time());
 
         if(count($user_details) > 0) {
@@ -5419,13 +5389,9 @@ class ApiController extends AppController
 
             $promotion_details = $this->Promotion->getPromotedVideoWhichHasNotBeenWatchedByTheUser($user_id, $user_details['User']['city_id'], $user_details['User']['state_id'], $user_details['User']['country_id'], $user_details['User']['gender'], $age, $created);
 
-
-
             // $log = $this->Promotion->getDataSource()->getLog(false, false);
 
             if (count($promotion_details) > 0) {
-
-
 
                 $video_id = $promotion_details['Video']['id'];
                 if($video_id > 0){
@@ -5521,7 +5487,7 @@ class ApiController extends AppController
         }
     }
 
-    public function postVideo(){
+    public function postVideo() {
 
         $this->loadModel('Video');
         $this->loadModel('Sound');
@@ -5531,7 +5497,7 @@ class ApiController extends AppController
         $this->loadModel('Notification');
         $this->loadModel('Follower');
         $this->loadModel('PushNotification');
-	$this->loadModel('TopicVideo');
+				$this->loadModel('TopicVideo');
 
         if ($this->request->isPost()) {
             $created = date('Y-m-d H:i:s', time());
@@ -5548,9 +5514,9 @@ class ApiController extends AppController
             $duet = $this->request->data('duet');
             $lang_id = $this->request->data('lang_id');
             $interest_id = $this->request->data('interest_id');
-	    $topic_id = $this->request->data('topic_id');
-	    $main_video_id = $this->request->data('main_video_id');
-	    $country_id = $this->request->data('country_id');
+	    			$topic_id = $this->request->data('topic_id');
+	    			$main_video_id = $this->request->data('main_video_id');
+	    			$country_id = $this->request->data('country_id');
 
             $data_hashtag = json_decode($hashtags_json, TRUE);
             $data_users = json_decode($users_json, TRUE);
@@ -5576,11 +5542,11 @@ class ApiController extends AppController
 
                         $result_video = Extended::s3_video_upload($user_id, $type, $sound_details, $video_details, $duet);
 
-                        if(strlen(CLOUDFRONT_URL) > 5) {
+                        if (strlen(CLOUDFRONT_URL) > 5) {
                             $video_url = Utility::getCloudFrontUrl($result_video['video'], "/video");
                             $gif_url = Utility::getCloudFrontUrl($result_video['gif'], "/gif");
                             $thum_url = Utility::getCloudFrontUrl($result_video['thum'], "/thum");
-                        }else{
+                        } else {
                             $video_url = $result_video['video'];
                             $gif_url = $result_video['gif'];
                             $thum_url = $result_video['thum'];
@@ -5621,7 +5587,6 @@ class ApiController extends AppController
                         $video_save['sound_id'] = $sound_id;
                     }
 
-
                     //$filepath_thumb = Utility::multipartFileUpload($user_id, 'thumb',$type);
 
                     $video_save['gif'] = $gif_url;
@@ -5637,8 +5602,8 @@ class ApiController extends AppController
                     $video_save['user_id'] = $user_id;
                     $video_save['interest_id'] = $interest_id;
                     $video_save['created'] = $created;
-		    $video_save['main_video_id'] = $main_video_id;
-		    $video_save['country_id'] = $country_id;
+		    						$video_save['main_video_id'] = $main_video_id;
+		   			 				$video_save['country_id'] = $country_id;
 
                     if (!$this->Video->save($video_save)) {
                         echo Message::DATASAVEERROR();
@@ -5662,32 +5627,29 @@ class ApiController extends AppController
                                 $this->Hashtag->save($hashtag);
                                 $hashtag_id = $this->Hashtag->getInsertID();
                                 $this->Hashtag->clear();
-			    } else {
+														} else {
                                 $hashtag_id = $if_hashtag_exist['Hashtag']['id'];
                             }
-			    $hashtag_video[$key]['hashtag_id'] = $hashtag_id;
-                 	    $hashtag_video[$key]['video_id'] = $video_id;
-			    //$this->HashtagVideo->save($hashtag_video);
+			    									$hashtag_video[$key]['hashtag_id'] = $hashtag_id;
+                 	    			$hashtag_video[$key]['video_id'] = $video_id;
+			    									//$this->HashtagVideo->save($hashtag_video);
                         }
-
                         /*if (count($hashtag_video) > 0) {
                             $this->HashtagVideo->saveAll($hashtag_video);
                         }*/
                     }
 
-		    $hashtag_video[$topic_id]['hashtag_id'] = $topic_id;
-		    $hashtag_video[$topic_id]['video_id'] = $video_id;
-		    $this->HashtagVideo->saveAll($hashtag_video);
+										$hashtag_video[$topic_id]['hashtag_id'] = $topic_id;
+										$hashtag_video[$topic_id]['video_id'] = $video_id;
+										$this->HashtagVideo->saveAll($hashtag_video);
 
                     /*************************end hashtag save ********************/
 
-		    /**************pushnotification to tagged users******************/
+		    						/**************pushnotification to tagged users******************/
 
 
                     if (count($data_users) > 0) {
-
                         foreach ($data_users as $key => $value) {
-
                             $user_id = $value['user_id'];
 
                             $tagged_userDetails = $this->User->getUserDetailsFromID($user_id);
@@ -5711,9 +5673,6 @@ class ApiController extends AppController
                                 $notification['notification']['receiver_id'] =  $tagged_userDetails['User']['id'];
                                 $notification['data']['receiver_id'] = $tagged_userDetails['User']['id'];
 
-
-
-
                                 $if_exist = $this->PushNotification->getDetails($tagged_userDetails['User']['id']);
 
                                 if (count($if_exist) > 0) {
@@ -5734,23 +5693,17 @@ class ApiController extends AppController
                                 $notification_data['created'] = $created;
 
                                 $this->Notification->save($notification_data);
-
                             }
-
-
                         }
                     }
-                    /*************************end hashtag save ********************/
-
+                    /*************************end hashtag save********************/
 
                     /**************pushnotification to tagged users******************/
                     $all_followers = $this->Follower->getUserFollowersWithoutLimit($user_id);
                     if (count($all_followers) > 0) {
                         foreach ($all_followers as $key => $value) {
-
                             $user_id = $value['FollowerList']['id'];
                             $device_token = $value['FollowerList']['device_token'];
-
 
                             $msg = $video_userDetails['User']['username'] . " has posted a a video";
 
@@ -5772,18 +5725,14 @@ class ApiController extends AppController
                                 $notification['notification']['receiver_id'] =  $value['FollowerList']['id'];
                                 $notification['data']['receiver_id'] = $value['FollowerList']['id'];
 
-
-
                                 $if_exist = $this->PushNotification->getDetails($user_id);
 
                                 if (count($if_exist) > 0) {
-
                                     $video_updates = $if_exist['PushNotification']['video_updates'];
                                     if ($video_updates > 0) {
                                         Utility::sendPushNotificationToMobileDevice(json_encode($notification));
                                     }
                                 }
-
 
                                 $notification_data['sender_id'] = $video_userDetails['User']['id'];
                                 $notification_data['receiver_id'] = $user_id;
@@ -5794,37 +5743,27 @@ class ApiController extends AppController
                                 $notification_data['created'] = $created;
 
                                 $this->Notification->save($notification_data);
-
                             }
-
-
                         }
                     }
-                    /*************************end hashtag save ********************/
-
+                    /*************************end pushnotification to tagged users********************/
 
                     $output = array();
 
                     $album_details = $this->Video->getDetails($video_id);
 
-
                     $output['code'] = 200;
                     $output['msg'] = $album_details;
                     echo json_encode($output);
-
                 }
-            }else{
+            } else {
                 Message::EMPTYDATA();
                 die();
-
             }
-
-
         }
-
     }
 
-    public function showFollowingVideos(){
+    public function showFollowingVideos() {
 
         $this->loadModel('Video');
         $this->loadModel('VideoComment');
@@ -5839,15 +5778,14 @@ class ApiController extends AppController
             $user_id = 0;
             $device_id = $data['device_id'];
             $starting_point = $data['starting_point'];
-            if(isset($data['user_id'])) {
-
+            if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
             }
 
             $following_users = $this->Follower->getUserFollowingWithoutLimit($user_id);
 
             $ids = array();
-            if(count($following_users) > 0) {
+            if (count($following_users) > 0) {
                 foreach ($following_users as $key => $following) {
 
                     $ids[$key] = $following['FollowingList']['id'];
@@ -5855,7 +5793,7 @@ class ApiController extends AppController
                 }
             }
 
-            if(count($ids) > 0){
+            if (count($ids) > 0) {
             $videos = $this->Video->getFollowingVideosNotWatched($user_id, $device_id, $starting_point,$ids);
 
 
@@ -5863,7 +5801,7 @@ class ApiController extends AppController
 
                 $videos = $this->Video->getFollowingVideosWatched($user_id, $device_id, $starting_point,$ids);
             }
-            if(count($videos) > 0) {
+            if (count($videos) > 0) {
 
                 foreach ($videos as $key => $video) {
 

@@ -389,7 +389,7 @@ class User extends AppModel
         ));
     }
 
-    public function getAllUsersNotification(){
+    public function getAllUsersNotification() {
 
         return $this->find('all', array(
             'order' => 'User.id DESC',
