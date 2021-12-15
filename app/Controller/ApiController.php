@@ -5787,93 +5787,61 @@ class ApiController extends AppController
             $ids = array();
             if (count($following_users) > 0) {
                 foreach ($following_users as $key => $following) {
-
                     $ids[$key] = $following['FollowingList']['id'];
-
                 }
             }
 
             if (count($ids) > 0) {
-            $videos = $this->Video->getFollowingVideosNotWatched($user_id, $device_id, $starting_point,$ids);
+            		$videos = $this->Video->getFollowingVideosNotWatched($user_id, $device_id, $starting_point,$ids);
 
+            		if (count($videos) < 1) {
+                		$videos = $this->Video->getFollowingVideosWatched($user_id, $device_id, $starting_point,$ids);
+            		}
+            		if (count($videos) > 0) {
+                		foreach ($videos as $key => $video) {
+                    		if ($user_id > 0) {
+                        		$video_data['user_id'] = $user_id;
+                        		$video_data['video_id'] = $video['Video']['id'];
+														$video_like_detail = $this->VideoLike->ifExist($video_data);
+														$video_favourite_detail = $this->VideoFavourite->ifExist($video_data);
 
-            if (count($videos) < 1) {
+														if (count($video_like_detail) > 0) {
+																$videos[$key]['Video']['like'] = 1;
+														} else {
+																$videos[$key]['Video']['like'] = 0;
+														}
+														if (count($video_favourite_detail) > 0) {
+																$videos[$key]['Video']['favourite'] = 1;
+														} else {
+																$videos[$key]['Video']['favourite'] = 0;
+														}
+												} else {
+														$videos[$key]['Video']['like'] = 0;
+														$videos[$key]['Video']['favourite'] = 0;
+												}
+                    		$comment_count = $this->VideoComment->countComments($video['Video']['id']);
+                    		$video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
 
-                $videos = $this->Video->getFollowingVideosWatched($user_id, $device_id, $starting_point,$ids);
-            }
-            if (count($videos) > 0) {
-
-                foreach ($videos as $key => $video) {
-
-                    if ($user_id > 0) {
-                        $video_data['user_id'] = $user_id;
-                        $video_data['video_id'] = $video['Video']['id'];
-                        $video_like_detail = $this->VideoLike->ifExist($video_data);
-                        $video_favourite_detail = $this->VideoFavourite->ifExist($video_data);
-
-                        if (count($video_like_detail) > 0) {
-
-                            $videos[$key]['Video']['like'] = 1;
-
-                        } else {
-
-                            $videos[$key]['Video']['like'] = 0;
-                        }
-
-                        if (count($video_favourite_detail) > 0) {
-
-                            $videos[$key]['Video']['favourite'] = 1;
-
-                        } else {
-
-                            $videos[$key]['Video']['favourite'] = 0;
-                        }
-                    } else {
-                        $videos[$key]['Video']['like'] = 0;
-                        $videos[$key]['Video']['favourite'] = 0;
-
-
-                    }
-                    $comment_count = $this->VideoComment->countComments($video['Video']['id']);
-                    $video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
-
-                    $videos[$key]['Video']['comment_count'] = $comment_count;
-                    $videos[$key]['Video']['like_count'] = $video_likes_count;
-		    $videos[$key]['Topic'] = $this->Video->getTopic($video['HashtagVideo']
-);
-                }
-
-                $output['code'] = 200;
-
-                $output['msg'] = $videos;
-
-
-                echo json_encode($output);
-
-
-                die();
-            }else{
-
-                Message::EMPTYDATA();
-                die();
-            }
-            }else{
-
-                $output['code'] = 201;
-
+                    		$videos[$key]['Video']['comment_count'] = $comment_count;
+                    		$videos[$key]['Video']['like_count'] = $video_likes_count;
+		    								$videos[$key]['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
+                		}
+                		$output['code'] = 200;
+                		$output['msg'] = $videos;
+                		echo json_encode($output);
+               	 		die();
+            		} else {
+                		Message::EMPTYDATA();
+                		die();
+            		}
+            } else {
+                $output['code'] = 202;
                 $output['msg'] = "you are not following anyone yet";
 
-
                 echo json_encode($output);
-
-
                 die();
-
             }
-
         }
-
-
     }
 
     /*public function showCountries(){
