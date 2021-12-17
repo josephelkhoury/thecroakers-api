@@ -4166,7 +4166,7 @@ class ApiController extends AppController
         }
     }
 
-    public function showVideoDetailAd(){
+    public function showVideoDetailAd() {
 
         $this->loadModel('Video');
         $this->loadModel('VideoLike');
@@ -5037,7 +5037,7 @@ class ApiController extends AppController
         }
     }
 
-    public function showVideosAgainstSound(){
+    public function showVideosAgainstSound() {
 
         $this->loadModel('Sound');
         $this->loadModel('Video');
@@ -5474,7 +5474,7 @@ class ApiController extends AppController
 
                         return $promo_video;
                     }
-                }else{
+                } else {
 
                     return false;
 
@@ -5482,8 +5482,6 @@ class ApiController extends AppController
             }
 
             return false;
-
-
         }
     }
 
@@ -5769,7 +5767,8 @@ class ApiController extends AppController
     		$videos = $this->Video->getAllVideos();
 
     		foreach ($videos as $video) {
-    				$video['gif'] = Regular::videoToGif($video['Video']['video'], $video['Video']['user_id']);
+    				$video['Video']['gif'] = Regular::videoToGif($video['Video']['video'], $video['Video']['user_id']);
+    				//$this->Video->id = $video_id;
     				$this->Video->save($video);
     		}
     }
