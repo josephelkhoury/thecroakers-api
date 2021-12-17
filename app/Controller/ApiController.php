@@ -5343,12 +5343,9 @@ class ApiController extends AppController
                         $receiver_id = $val['Follower']['receiver_id'];
 
                         if ($user_id == $sender_id) {
-
                             $newarray[$key] = $receiver_id;
                         } else {
-
                             $newarray[$key] = $sender_id;
-
                         }
                     }
                 }

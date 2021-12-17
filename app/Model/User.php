@@ -157,13 +157,11 @@ class User extends AppModel
         ));
     }
 
-    public function getRecommendedRandomUsers(){
+    public function getRecommendedRandomUsers() {
 
         return $this->find('all', array(
             'conditions' => array(
                 'User.first_name !='=>"",
-                'User.last_name !='=>"",
-                'User.last_name !='=>"",
                 'User.profile_pic !='=>"",
             ),
             'order' => 'rand()',
@@ -171,16 +169,14 @@ class User extends AppModel
         ));
     }
 
-    public function getRecommendedUsers($user_id,$followers,$starting_point){
+    public function getRecommendedUsers($user_id,$followers,$starting_point) {
 
         return $this->find('all', array(
             'conditions' => array(
-
                 'User.id !='=>$user_id,
                 'User.first_name !='=>"",
-                'User.last_name !='=>"",
                 'User.profile_pic !='=>"",
-                "NOT" => array( "User.id" => $followers )
+                "NOT" => array("User.id" => $followers)
             ),
             'order' => 'rand()',
             'limit' => 10,
@@ -188,14 +184,14 @@ class User extends AppModel
         ));
     }
 
-    public function isphoneNoAlreadyExist($phone){
+    public function isphoneNoAlreadyExist($phone) {
 
         return $this->find('first', array(
             'conditions' => array('phone' => $phone)
         ));
     }
 
-    public function editIsEmailAlreadyExist($email,$user_id){
+    public function editIsEmailAlreadyExist($email,$user_id) {
 
         return $this->find('count', array(
             'conditions' => array(
