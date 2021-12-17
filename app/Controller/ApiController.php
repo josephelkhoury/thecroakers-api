@@ -775,38 +775,34 @@ class ApiController extends AppController
 
     public function showFollowers()
     {
-
-
         $this->loadModel("Follower");
         $this->loadModel("Video");
-
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
-
             $user_id = 0;
-            if(isset($data['user_id'])){
-
+            if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
             }
 
-
             $starting_point = 0;
             if (isset($data['starting_point'])) {
-
                 $starting_point = $data['starting_point'];
-
             }
 
-            $followers = $this->Follower->getUserFollowers($user_id,$starting_point);
+            $other_user_id = 0;
+            if (isset($data['other_user_id'])) {
+                $other_user_id = $data['other_user_id'];
+            }
+
+            $followers = $this->Follower->getUserFollowers($other_user_id, $starting_point);
 
             if (count($followers) > 0) {
                 foreach ($followers as $key => $follow) {
 
                     $person_user_id = $follow['FollowerList']['id'];
-
 
                     $follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
                     $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
@@ -1013,25 +1009,25 @@ class ApiController extends AppController
 
             $user_id = 0;
             if(isset($data['user_id'])){
-
                 $user_id = $data['user_id'];
             }
+
             $starting_point = 0;
-
-
             if (isset($data['starting_point'])) {
-
                 $starting_point = $data['starting_point'];
-
             }
-            $following = $this->Follower->getUserFollowing($user_id,$starting_point);
+
+            $other_user_id = 0;
+            if (isset($data['other_user_id'])) {
+                $other_user_id = $data['other_user_id'];
+            }
+
+            $following = $this->Follower->getUserFollowing($other_user_id,$starting_point);
 
             if (count($following) > 0) {
                 foreach ($following as $key => $follow) {
 
                     $person_user_id = $follow['FollowingList']['id'];
-
-
 
                     $follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
                     $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
@@ -5357,7 +5353,22 @@ class ApiController extends AppController
             if(count($users) > 0) {
                 foreach($users as $key=>$user) {
                     $followers_count = $this->Follower->countFollowers($user['User']['id']);
-                    $users[$key]['User']['followers_count'] = $followers_count;
+                    $user['User']['followers_count'] = $followers_count;
+
+                    $person_user_id = $user['User']['id'];
+
+                    $follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
+                    $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
+
+                    if (count($follower_details) > 0 && count($follower_back_details) > 0) {
+                        $user['User']['button'] = "Friends";
+                    } else if (count($follower_details) > 0) {
+                        $user['User']['button'] = "Following";
+                    } else if (count($follower_back_details) > 0 && $follower_details < 0) {
+                        $user['User']['button'] = "Follow Back";
+                    } else {
+                        $user['User']['button'] = "Follow";
+                    }
                 }
                 $output['code'] = 200;
                 $output['msg'] = $users;
