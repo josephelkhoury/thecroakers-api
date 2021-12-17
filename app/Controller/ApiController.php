@@ -804,83 +804,30 @@ class ApiController extends AppController
 
                     $person_user_id = $follow['FollowerList']['id'];
 
-                    $follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
-                    $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
+                    if ($user_id == $person_user_id)
+                    		$followers[$key]['FollowerList']['button'] = "";
+                    else {
+												$follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
+												$follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
 
-                    $followers_count = $this->Follower->countFollowers($person_user_id);
+												$followers_count = $this->Follower->countFollowers($person_user_id);
 
-                    $video_count = $this->Video->getUserVideosCount($person_user_id);
-                    $followers[$key]['FollowerList']['follower_count'] = $followers_count;
-                    $followers[$key]['FollowerList']['video_count'] = $video_count;
-                    if (count($follower_details) > 0 && count($follower_back_details) > 0) {
-
-                        $followers[$key]['FollowerList']['button'] = "Friends";
-                    } else if (count($follower_details) > 0) {
-
-                        $followers[$key]['FollowerList']['button'] = "Following";
-
-                    } else if (count($follower_back_details) > 0 && $follower_details < 0) {
-
-                        $followers[$key]['FollowerList']['button'] = "Follow Back";
-
-                    } else {
-
-                        $followers[$key]['FollowerList']['button'] = "Follow";
-
-                    }
-
+												$video_count = $this->Video->getUserVideosCount($person_user_id);
+												$followers[$key]['FollowerList']['follower_count'] = $followers_count;
+												$followers[$key]['FollowerList']['video_count'] = $video_count;
+												if (count($follower_details) > 0 && count($follower_back_details) > 0) {
+														$followers[$key]['FollowerList']['button'] = "Friends";
+												} else if (count($follower_details) > 0) {
+														$followers[$key]['FollowerList']['button'] = "Following";
+												} else if (count($follower_back_details) > 0 && $follower_details < 0) {
+														$followers[$key]['FollowerList']['button'] = "Follow Back";
+												} else {
+														$followers[$key]['FollowerList']['button'] = "Follow";
+												}
+										}
                 }
             }
 
-
-
-
-
-
-            if(isset($data['other_user_id'])) {
-                $other_user_id = $data['other_user_id'];
-
-                $followers = $this->Follower->getUserFollowers($other_user_id,$starting_point);
-
-
-                if (count($followers) > 0) {
-                    foreach ($followers as $key => $follow) {
-
-                        $person_user_id = $follow['FollowerList']['id'];
-
-                        if ($user_id == $person_user_id) {
-
-                            $followers[$key]['FollowerList']['button'] = "0";
-
-                        } else {
-                            $follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
-                            $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
-
-                            $followers_count = $this->Follower->countFollowers($person_user_id);
-
-                            $video_count = $this->Video->getUserVideosCount($person_user_id);
-                            $followers[$key]['FollowerList']['follower_count'] = $followers_count;
-                            $followers[$key]['FollowerList']['video_count'] = $video_count;
-                            if (count($follower_details) > 0 && count($follower_back_details) > 0) {
-
-                                $followers[$key]['FollowerList']['button'] = "Friends";
-                            } else if (count($follower_details) > 0) {
-
-                                $followers[$key]['FollowerList']['button'] = "Following";
-
-                            } else if (count($follower_back_details) > 0 && $follower_details < 0) {
-
-                                $followers[$key]['FollowerList']['button'] = "Follow Back";
-
-                            } else {
-
-                                $followers[$key]['FollowerList']['button'] = "Follow";
-
-                            }
-                        }
-                    }
-                }
-            }
             if(count($followers) > 0 ) {
 
                 $output['code'] = 200;
@@ -998,8 +945,6 @@ class ApiController extends AppController
 
     public function showFollowing()
     {
-
-
         $this->loadModel("Follower");
         $this->loadModel("Video");
 
@@ -1029,110 +974,45 @@ class ApiController extends AppController
 
                     $person_user_id = $follow['FollowingList']['id'];
 
-                    $follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
-                    $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
+                    if ($user_id == $person_user_id)
+                    		$followers[$key]['FollowerList']['button'] = "";
+                    else {
+												$follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
+												$follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
 
-                    $following_count = $this->Follower->countFollowing($person_user_id);
+												$following_count = $this->Follower->countFollowing($person_user_id);
 
-                    $video_count = $this->Video->getUserVideosCount($person_user_id);
-                    $following[$key]['FollowingList']['following_count'] = $following_count;
-                    $following[$key]['FollowingList']['video_count'] = $video_count;
+												$video_count = $this->Video->getUserVideosCount($person_user_id);
+												$following[$key]['FollowingList']['following_count'] = $following_count;
+												$following[$key]['FollowingList']['video_count'] = $video_count;
 
-                    if (count($follower_details) > 0 && count($follower_back_details) > 0) {
-
-                        $following[$key]['FollowingList']['button'] = "Friends";
-                    } else if (count($follower_details) > 0) {
-
-                        $following[$key]['FollowingList']['button'] = "Following";
-
-                    } else if (count($follower_back_details) > 0 && $follower_details < 0) {
-
-                        $following[$key]['FollowingList']['button'] = "Follow Back";
-
-                    } else {
-
-                        $following[$key]['FollowingList']['button'] = "Follow";
-
-                    }
-
+												if (count($follower_details) > 0 && count($follower_back_details) > 0) {
+														$following[$key]['FollowingList']['button'] = "Friends";
+												} else if (count($follower_details) > 0) {
+														$following[$key]['FollowingList']['button'] = "Following";
+												} else if (count($follower_back_details) > 0 && $follower_details < 0) {
+														$following[$key]['FollowingList']['button'] = "Follow Back";
+												} else {
+														$following[$key]['FollowingList']['button'] = "Follow";
+												}
+										}
                 }
             }
 
-            if(isset($data['other_user_id'])) {
-                $other_user_id = $data['other_user_id'];
-
-                $following = $this->Follower->getUserFollowing($other_user_id,$starting_point);
-
-
-
-                if (count($following) > 0) {
-                    foreach ($following as $key => $follow) {
-
-                        $person_user_id = $follow['FollowingList']['id'];
-
-                        if ($user_id == $person_user_id) {
-
-                            $following[$key]['FollowingList']['button'] = "0";
-
-                        } else {
-                            $follower_details = $this->Follower->ifFollowing($user_id, $person_user_id);
-                            $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
-
-                            $following_count = $this->Follower->countFollowing($person_user_id);
-
-                            $video_count = $this->Video->getUserVideosCount($person_user_id);
-                            $following[$key]['FollowingList']['following_count'] = $following_count;
-                            $following[$key]['FollowingList']['video_count'] = $video_count;
-                            if (count($follower_details) > 0 && count($follower_back_details) > 0) {
-
-                                $following[$key]['FollowingList']['button'] = "Friends";
-                            } else if (count($follower_details) > 0) {
-
-                                $following[$key]['FollowingList']['button'] = "Following";
-
-                            } else if (count($follower_back_details) > 0 && $follower_details < 0) {
-
-                                $following[$key]['FollowingList']['button'] = "Follow Back";
-
-                            } else {
-
-                                $following[$key]['FollowingList']['button'] = "Follow";
-
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            if(count($following) > 0) {
+            if (count($following) > 0) {
                 $output['code'] = 200;
-
                 $output['msg'] = $following;
-
-
                 echo json_encode($output);
-
-
                 die();
 
-            }else{
-
-
-
+            } else {
                 Message::EMPTYDATA();
                 die();
-
-
             }
         }
     }
 
-
-
-
-
-    public function deleteVideo(){
+    public function deleteVideo() {
 
         $this->loadModel('Video');
 
