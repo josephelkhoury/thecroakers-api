@@ -5769,7 +5769,7 @@ class ApiController extends AppController
     		$videos = $this->Video->getAllVideos();
 
     		foreach ($videos as $video) {
-    				$video['gif'] = Regular::videoToGif($video['video'], $video['user_id']);
+    				$video['gif'] = Regular::videoToGif($video['Video']['video'], $video['Video']['user_id']);
     				$this->Video->save($video);
     		}
     }
