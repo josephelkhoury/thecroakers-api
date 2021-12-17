@@ -5353,7 +5353,7 @@ class ApiController extends AppController
             if(count($users) > 0) {
                 foreach($users as $key=>$user) {
                     $followers_count = $this->Follower->countFollowers($user['User']['id']);
-                    $user['User']['followers_count'] = $followers_count;
+                    $users[$key]['User']['followers_count'] = $followers_count;
 
                     $person_user_id = $user['User']['id'];
 
@@ -5361,13 +5361,13 @@ class ApiController extends AppController
                     $follower_back_details = $this->Follower->ifFollowing($person_user_id, $user_id);
 
                     if (count($follower_details) > 0 && count($follower_back_details) > 0) {
-                        $user['User']['button'] = "Friends";
+                        $users[$key]['User']['button'] = "Friends";
                     } else if (count($follower_details) > 0) {
-                        $user['User']['button'] = "Following";
+                        $users[$key]['User']['button'] = "Following";
                     } else if (count($follower_back_details) > 0 && $follower_details < 0) {
-                        $user['User']['button'] = "Follow Back";
+                        $users[$key]['User']['button'] = "Follow Back";
                     } else {
-                        $user['User']['button'] = "Follow";
+                        $users[$key]['User']['button'] = "Follow";
                     }
                 }
                 $output['code'] = 200;
