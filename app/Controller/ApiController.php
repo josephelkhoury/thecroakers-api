@@ -5763,6 +5763,17 @@ class ApiController extends AppController
         }
     }
 
+    public function optimizeGifs() {
+    		$this->loadModel('Video');
+
+    		$videos = $this->Video->getAllVideos();
+
+    		foreach ($videos as $video) {
+    				$video['gif'] = Regular::videoToGif($video['video'], $video['user_id']);
+    				$this->Video->save($video);
+    		}
+    }
+
     public function showFollowingVideos() {
 
         $this->loadModel('Video');
