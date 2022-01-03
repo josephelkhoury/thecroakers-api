@@ -584,15 +584,12 @@ WHERE User.city_id =  $state_id
     }
     public function verify($email,$user_password,$role)
     {
-
         if ($email != "") {
             $userData = $this->find('all', array(
                 'conditions' => array(
                     'User.email' => $email,
                     //'User.role' => $role,
                     'User.active' => 1,
-
-
                 )
             ));
 
@@ -609,17 +606,11 @@ WHERE User.city_id =  $state_id
         $passwordHash = Security::hash($user_password, 'blowfish', $userData[0]['User']['password']);
         $salt = Security::hash($user_password, 'sha256', true);
 
-        if ($passwordHash == $userData[0]['User']['password'] ) {
+        if ($passwordHash == $userData[0]['User']['password']) {
             return $userData;
         } else {
-
             return false;
-
-
         }
-
-
-
     }
 
     public function verifyWithUsername($email,$user_password,$role)

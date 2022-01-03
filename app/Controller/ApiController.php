@@ -8472,7 +8472,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 
                 die();
 
-            }else{
+            } else {
 
                 $output['code'] = 201;
 
@@ -8700,6 +8700,46 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 	      		die();
         	}
       }
+  	}
+
+  	public function applyAsCroaker() {
+  			if ($this->request->isPost()) {
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, TRUE);
+
+            $user_id = $data['user_id'];
+            $device_id = $data['device_id'];
+
+            $output['code'] = 200;
+            $output['msg'] = "deleted";
+
+						echo json_encode($output);
+
+						die();
+				} else {
+	      		Message::EMPTYDATA();
+	      		die();
+        }
+  	}
+
+  	public function applyAsPublisher() {
+				if ($this->request->isPost()) {
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, TRUE);
+
+            $user_id = $data['user_id'];
+            $device_id = $data['device_id'];
+
+            $output['code'] = 200;
+            $output['msg'] = "deleted";
+
+						echo json_encode($output);
+
+						die();
+				} else {
+	      		Message::EMPTYDATA();
+	      		die();
+        }
   	}
 }
 
