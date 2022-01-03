@@ -704,40 +704,22 @@ class ApiController extends AppController
     {
         $this->loadModel('User');
 
-
         if ($this->request->isPost()) {
 
-
             $json = file_get_contents('php://input');
-
             $data = json_decode($json, TRUE);
-
-
             $password = $data['password'];
 
-
-
-
-
-
-
             if (isset($data['email'])) {
-
                 $email = strtolower($data['email']);
-                $userData = $this->User->verify($email, $password,"user");
+                $userData = $this->User->verify($email, $password, "user");
 
-
-                if(count($userData) < 0){
-
+                if (count($userData) < 0) {
                     $userData = $this->User->verifyWithUsername($email, $password,"user");
-
                 }
             }
 
-
-            if (($userData)) {
-
-
+            if ($userData) {
                 $user_id = $userData[0]['User']['id'];
                 $active = $userData[0]['User']['active'];
 
@@ -760,15 +742,10 @@ class ApiController extends AppController
                 $output['msg'] = $userDetails;
                 echo json_encode($output);
                 die();
-
-
             } else {
                 echo Message::INVALIDDETAILS();
                 die();
-
             }
-
-
         }
     }
 
@@ -6787,15 +6764,12 @@ class ApiController extends AppController
             $user['version'] = $data['version'];
             $created = date('Y-m-d H:i:s', time());
 
-            $ipdat =   Utility::getLocationFromIP($data['ip']);
-
-
+            $ipdat = Utility::getLocationFromIP($data['ip']);
 
             $state_id = 0;
             $country_id = 0;
             $city_id = 0;
             if (count($ipdat) > 0 ) {
-
                 /*echo 'Country Name: ' . $ipdat->geoplugin_countryName . "\n";
                 echo 'City Name: ' . $ipdat->geoplugin_city . "\n";
                 echo 'Continent Name: ' . $ipdat->geoplugin_continentName . "\n";
@@ -6810,42 +6784,26 @@ class ApiController extends AppController
                 $user['country'] = strtolower($ipdat['geoplugin_countryName']);
                 $short_country_name = strtolower($ipdat['geoplugin_countryCode']);
 
-
-
                 $country_details = $this->Country->getCountryAgainstName($user['country']);
                 $country_details_short_name = $this->Country->getCountryAgainstShortName($short_country_name);
-
-
-
-
 
                 if (count($country_details) > 0) {
                     $country_id =  $country_details['Country']['id'];
                 } else if (count($country_details_short_name) > 0){
                     $country_id =  $country_details_short_name['Country']['id'];
-
                 }
 
                 $state_details = $this->State->getStateAgainstName($state_name,$country_id);
                 $state_short_details = $this->State->getStateAgainstShortName($state_short_name,$country_id);
 
                 if (count($state_details) > 0) {
-
-
                     $state_id =  $state_details['State']['id'];
-
-
                 } else if (count($state_short_details) > 0 ) {
-
                     $state_id = $state_short_details['State']['id'];
                 }
                 $city_details = $this->City->getCityAgainstName($user['city'],$state_id,$country_id);
-                if(count($city_details) > 0){
-
-
+                if(count($city_details) > 0) {
                     $city_id =  $city_details['City']['id'];
-
-
                 }
             }
             $user_id = $data['user_id'];
@@ -6855,12 +6813,10 @@ class ApiController extends AppController
             $user['city_id'] = $city_id;
             $userDetails = $this->User->getUserDetailsFromID($user_id);
             if(count($userDetails) > 0) {
-
                 $this->User->id = $user_id;
                 $this->User->save($user);
 
                 $if_exist = $this->PushNotification->getDetails($user_id);
-
 
                 if(count($if_exist) < 1) {
                     $notification['likes'] = 1;
@@ -6893,7 +6849,6 @@ class ApiController extends AppController
                 $output = array();
                 $userDetails = $this->User->getUserDetailsFromID($user_id);
 
-
                 $output['code'] = 200;
                 $output['msg'] = $userDetails;
                 echo json_encode($output);
@@ -6901,7 +6856,6 @@ class ApiController extends AppController
                 Message::EMPTYDATA();
                 die();
             }
-
         }
     }
 

@@ -589,13 +589,12 @@ WHERE User.city_id =  $state_id
             $userData = $this->find('all', array(
                 'conditions' => array(
                     'User.email' => $email,
-                    'User.role' => $role,
+                    //'User.role' => $role,
                     'User.active' => 1,
 
 
                 )
             ));
-
 
             /*$userData = $this->findByEmail($email, array(
             'user_id',
@@ -604,10 +603,7 @@ WHERE User.city_id =  $state_id
             'salt'
            ));*/
             if (empty($userData)) {
-
-
                 return false;
-
             }
         }
         $passwordHash = Security::hash($user_password, 'blowfish', $userData[0]['User']['password']);
