@@ -42,7 +42,7 @@ define('GOOGLE_CLIENT_ID', '77904546117-90na2pptinsrpdhe3q3q705l4jdtdbbv.apps.go
 //FFMPEG
 
 //email send SMTP config
-define('MAIL_HOST', 'smtpout.asia.secureserver.net');
+define('MAIL_HOST', 'smtp.office365.com');
 define('MAIL_USERNAME', 'contact@ngofit.org');
 define('MAIL_PASSWORD', 'vR4gH1wX7g');
 define('MAIL_FROM', 'no-reply@thecroakers.com');
