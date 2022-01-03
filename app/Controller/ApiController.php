@@ -8776,7 +8776,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
            	 		$result['msg'] = "Email address not found in our records";
            	}
 
-						echo json_encode($output);
+						echo json_encode($result);
 
 						die();
 				} else {
