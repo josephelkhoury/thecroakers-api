@@ -45,9 +45,9 @@ define('GOOGLE_CLIENT_ID', '77904546117-90na2pptinsrpdhe3q3q705l4jdtdbbv.apps.go
 define('MAIL_HOST', 'smtp.office365.com');
 define('MAIL_USERNAME', 'contact@ngofit.org');
 define('MAIL_PASSWORD', 'vR4gH1wX7g');
-define('MAIL_FROM', 'no-reply@ngofit.org');
+define('MAIL_FROM', 'contact@ngofit.org');
 define('MAIL_NAME', 'The Croakers');
-define('MAIL_REPLYTO', 'no-reply@ngofit.org');
+define('MAIL_REPLYTO', 'contact@ngofit.org');
 
 define("MEDIA_STORAGE","local");
 // if you want to enable AWS s3 then you have to put the value "s3" and if you put "local" videos will be stored in your local server/hosting
