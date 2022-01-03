@@ -7630,7 +7630,7 @@ class ApiController extends AppController
 
 
 
-    function forgotPassword()
+    function forgotPasswordOld()
     {
 
 
