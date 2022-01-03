@@ -8711,7 +8711,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
             $device_id = $data['device_id'];
 
             $output['code'] = 200;
-            $output['msg'] = "deleted";
+            $output['msg'] = "Thank you for applying as a Croaker! We will contact you soon.";
 
 						echo json_encode($output);
 
@@ -8731,7 +8731,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
             $device_id = $data['device_id'];
 
             $output['code'] = 200;
-            $output['msg'] = "deleted";
+            $output['msg'] = "Thank you for applying as a Publisher! We will contact you soon.";
 
 						echo json_encode($output);
 
