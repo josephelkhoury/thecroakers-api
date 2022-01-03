@@ -751,7 +751,6 @@ WHERE User.city_id =  $state_id
     {
         $passwordBlowfishHasher = new BlowfishPasswordHasher();
 
-
         if (isset($this->data[$this->alias]['password'])) {
             $password = $this->data[$this->alias]['password'];
 

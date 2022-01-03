@@ -7746,7 +7746,6 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
             //$json = $this->request->data('json');
             $data = json_decode($json, TRUE);
 
-
             $user_id        = $data['user_id'];
             $this->User->id = $user_id;
             $email          = $this->User->field('email');
@@ -7754,12 +7753,10 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
             $old_password   = $data['old_password'];
             $new_password   = $data['new_password'];
 
-
             if ($this->User->verifyPassword($email, $old_password)) {
 
                 $this->request->data['password'] = $new_password;
                 $this->User->id                  = $user_id;
-
 
                 if ($this->User->save($this->request->data)) {
 
@@ -7767,12 +7764,8 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
 
                     die();
                 } else {
-
-
                     echo Message::DATASAVEERROR();
                     die();
-
-
                 }
 
             } else {
@@ -8736,6 +8729,94 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 						echo json_encode($output);
 
 						die();
+				} else {
+	      		Message::EMPTYDATA();
+	      		die();
+        }
+  	}
+
+  	public function forgotPassword() {
+  			if ($this->request->isPost()) {
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, TRUE);
+
+            $device_id = $data['device_id'];
+            $email = $data['email'];
+
+            $user_info = $this->User->getUserDetailsAgainstEmail($email);
+
+            if (count($user_info) > 0) {
+            		$code = Utility::randomNumber(6);
+
+                $user_id = $user_details['User']['id'];
+                $first_name = $user_details['User']['first_name'];
+                $last_name = $user_details['User']['last_name'];
+                $full_name = $first_name . ' ' . $last_name;
+
+                $email_data['to'] = $email;
+                $email_data['name'] = $full_name;
+                $email_data['subject'] = "Forgot Password";
+                $email_data['message'] = "You recently requested to reset your password for your " . APP_NAME . " account.
+Please enter this verification code to reset your password.<br><br>Confirmation code: <b></b>" . $code . "<b>";
+                $response = Utility::sendMail($email_data);
+
+                //  $response['ErrorCode']  = 0;
+                if ($response['code'] == 200) {
+
+                    $this->User->id = $user_info['id'];
+                    $savedField = $this->User->saveField('token', $code);
+                    $result['code'] = 200;
+                    $result['msg'] = "An email has been sent to " . $email . ". You should receive it shortly.";
+                } else {
+                    $result['code'] = 201;
+                    $result['msg'] = $response['msg'];
+              	}
+           	} else {
+           			$output['code'] = 201;
+           	 		$output['msg'] = "Email address not found in our records";
+           	}
+
+						echo json_encode($output);
+
+						die();
+				} else {
+	      		Message::EMPTYDATA();
+	      		die();
+        }
+  	}
+
+  	public function changeForgotPassword() {
+  			if ($this->request->isPost()) {
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, TRUE);
+
+            $device_id = $data['device_id'];
+            $email = $data['email'];
+            $code = $data['code'];
+            $password = $data['password'];
+
+            $code_verify = $this->User->verifyToken($code, $email);
+
+						if (!empty($code_verify) && $code > 0) {
+								$user_info = $this->User->getUserDetailsAgainstEmail($email);
+								$user_info['password'] = $password;
+                $this->User->id = $user_id;
+
+                if ($this->User->save($user_info)) {
+
+                    echo Message::DATASUCCESSFULLYSAVED();
+
+                    die();
+                } else {
+                    echo Message::DATASAVEERROR();
+                    die();
+                }
+						} else {
+								$result['code'] = 201;
+								$result['msg'] = "Invalid code";
+								echo json_encode($result);
+								die();
+						}
 				} else {
 	      		Message::EMPTYDATA();
 	      		die();
