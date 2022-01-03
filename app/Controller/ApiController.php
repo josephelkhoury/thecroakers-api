@@ -8761,7 +8761,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
                 $response = Utility::sendMail($email_data);
 
                 if ($response['code'] == 200) {
-                    $this->User->id = $user_info['id'];
+                    $this->User->id = $user_info['User']['id'];
                     $savedField = $this->User->saveField('token', $code);
                     $result['code'] = 200;
                     $result['msg'] = "An email has been sent to " . $email . ". You should receive it shortly.";
