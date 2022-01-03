@@ -8760,9 +8760,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 Please enter this verification code to reset your password.<br><br>Confirmation code: <b></b>" . $code . "<b>";
                 $response = Utility::sendMail($email_data);
 
-                //  $response['ErrorCode']  = 0;
                 if ($response['code'] == 200) {
-
                     $this->User->id = $user_info['id'];
                     $savedField = $this->User->saveField('token', $code);
                     $result['code'] = 200;
