@@ -8748,9 +8748,9 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
             if (count($user_info) > 0) {
             		$code = Utility::randomNumber(6);
 
-                $user_id = $user_details['User']['id'];
-                $first_name = $user_details['User']['first_name'];
-                $last_name = $user_details['User']['last_name'];
+                $user_id = $user_info['User']['id'];
+                $first_name = $user_info['User']['first_name'];
+                $last_name = $user_info['User']['last_name'];
                 $full_name = $first_name . ' ' . $last_name;
 
                 $email_data['to'] = $email;
@@ -8772,8 +8772,8 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
                     $result['msg'] = $response['msg'];
               	}
            	} else {
-           			$output['code'] = 201;
-           	 		$output['msg'] = "Email address not found in our records";
+           			$result['code'] = 201;
+           	 		$result['msg'] = "Email address not found in our records";
            	}
 
 						echo json_encode($output);
