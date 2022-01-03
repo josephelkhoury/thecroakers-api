@@ -8801,9 +8801,8 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
                 $this->User->id = $user_info['User']['id'];
 
                 if ($this->User->save($user_info)) {
-
-                    echo Message::DATASUCCESSFULLYSAVED();
-
+                    $result['code'] = 201;
+										$result['msg'] = "Password reset successfully";
                     die();
                 } else {
                     echo Message::DATASAVEERROR();

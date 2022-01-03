@@ -4,7 +4,7 @@ define('API_KEY', '156c4675-9608-4591-1111-00000');
 define('ADMIN_API_KEY', '156c4675-9608-4591-1111-00000');
 
 date_default_timezone_set('Asia/Beirut');
-define('BASE_URL', 'http://13.40.124.46/mobileapp_api/');
+define('BASE_URL', 'https://app.thecroakers.com/mobileapp_api/');
 define('APP_STATUS', 'live');
 define('APP_NAME', 'The Croakers');
 
