@@ -8798,6 +8798,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
 						if (!empty($code_verify) && $code > 0) {
 								$user_info = $this->User->getUserDetailsAgainstEmail($email);
 								$user_info['password'] = $password;
+								$user_info['token'] = 0;
                 $this->User->id = $user_info['User']['id'];
 
                 if ($this->User->save($user_info)) {
