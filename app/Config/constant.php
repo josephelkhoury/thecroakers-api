@@ -44,7 +44,7 @@ define('GOOGLE_CLIENT_ID', '77904546117-90na2pptinsrpdhe3q3q705l4jdtdbbv.apps.go
 //email send SMTP config
 define('MAIL_HOST', 'mail.thecroakers.com');
 define('MAIL_USERNAME', 'info@thecroakers.com');
-define('MAIL_PASSWORD', '#@Fadi2021@$');
+define('MAIL_PASSWORD', '$@Fadi2021@$');
 define('MAIL_FROM', 'info@thecroakers.com');
 define('MAIL_NAME', 'The Croakers');
 define('MAIL_REPLYTO', 'info@thecroakers.com');
