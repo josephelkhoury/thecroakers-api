@@ -8803,6 +8803,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
                 if ($this->User->save($user_info)) {
                     $result['code'] = 200;
 										$result['msg'] = "Password reset successfully";
+										echo json_encode($result);
                     die();
                 } else {
                     echo Message::DATASAVEERROR();
