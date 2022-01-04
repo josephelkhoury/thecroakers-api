@@ -209,7 +209,7 @@ class Regular
             mkdir($folder, 0777, true);
         }
 
-        $gif = "ffmpeg -ss 3 -t 0.5 -i $original_video_file_path -vf 'fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse' -loop 0 $genrateGifPath";
+        $gif = "ffmpeg -ss 0 -t 0.5 -i $original_video_file_path -vf 'fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse' -loop 0 $genrateGifPath";
 
         exec($gif,$output);
 
