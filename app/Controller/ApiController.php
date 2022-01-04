@@ -8797,11 +8797,11 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
 
 						if (!empty($code_verify) && $code > 0) {
 								$user_info = $this->User->getUserDetailsAgainstEmail($email);
-								$user_info['password'] = $password;
-								$user_info['token'] = 0;
+								$this->request->data['password'] = $password;
+								$this->request->data['token'] = 0;
                 $this->User->id = $user_info['User']['id'];
 
-                if ($this->User->save($user_info)) {
+                if ($this->User->save($this->request->data)) {
                     $result['code'] = 200;
 										$result['msg'] = "Password reset successfully";
 										echo json_encode($result);
