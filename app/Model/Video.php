@@ -53,19 +53,25 @@ class Video extends AppModel
     );
 
     public function afterFind($results, $primary = false) {
-	foreach ($results as $key => $val) {
-	    if (isset($val['Video']) && isset($val['Video']['user_id'])) {
-	        $user = $this->User->getUserDetailsFromID($val['Video']['user_id']);
-            	if ($user['User']['role'] == "publisher") {
-		    $results[$key]['Video']['allow_likes'] = "false";
-		    $results[$key]['Video']['allow_comments'] = "false";
-		    $results[$key]['Video']['allow_duet'] = "1";
-	    	}
-		else
-		    $results[$key]['Video']['allow_duet'] = "0";
-    	    }
-	}
-    	return $results;
+				foreach ($results as $key => $val) {
+	    			if (isset($val['Video']) && isset($val['Video']['user_id'])) {
+	        			$user = $this->User->getUserDetailsFromID($val['Video']['user_id']);
+            		if ($user['User']['role'] == "publisher") {
+		    						$results[$key]['Video']['allow_likes'] = "false";
+		    						$results[$key]['Video']['allow_comments'] = "false";
+		    						$results[$key]['Video']['allow_duet'] = "1";
+	    					}
+								else
+		    						$results[$key]['Video']['allow_duet'] = "0";
+
+		    				if ($val['Video']['country_id'] == "0") {
+		    						$results[$key]['Video']['Country'] = [];
+		    						$results[$key]['Video']['Country']['id'] = 0;
+		    						$results[$key]['Video']['Country']['name'] = "Worldwide";
+		    				}
+    	   		}
+				}
+    		return $results;
     }
 
     public function getDetails($id)
