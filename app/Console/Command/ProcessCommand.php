@@ -5,7 +5,7 @@ use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 
-class HelloCommand extends Command
+class ProcessCommand extends Command
 {
     public function execute(Arguments $args, ConsoleIo $io)
     {
