@@ -1,6 +1,6 @@
 <?php
 
-class ProcessCommand extends Shell
+class ProcessShell extends Shell
 {
     public function main()
     {
