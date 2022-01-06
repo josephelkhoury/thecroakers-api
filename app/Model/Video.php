@@ -70,7 +70,7 @@ class Video extends AppModel
 		    						$results[$key]['Video']['Country']['name'] = "Worldwide";
 		    						$results[$key]['Country'] = [];
 		    						$results[$key]['Country']['id'] = 0;
-		    						$results[$key]['Country']['name'] = "Worlwide";
+		    						$results[$key]['Country']['name'] = "Worldwide";
 		    				}
     	   		}
 				}
