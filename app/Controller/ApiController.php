@@ -5721,13 +5721,12 @@ class ApiController extends AppController
 
         $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
-        		var_dump($value);
-        		$this->Video->id = $value['id'];
+        		$this->Video->id = $value['Video']['id'];
             $this->Video->saveField('status', 1);
 
-						$sound_details = $this->Sound->getDetails($value['sound_id']);
+						$sound_details = $this->Sound->getDetails($value['Video']['sound_id']);
 						$video_details = $this->Video->getDetails($video_id);
-            $result_video = Regular::local_video_upload($value['user_id'], $value['video'], $sound_details, $video_details, 0);
+            $result_video = Regular::local_video_upload($value['Video']['user_id'], $value['Video']['video'], $sound_details, $video_details, 0);
 
             $video_url = $result_video['video'];
           	$gif_url = $result_video['gif'];
