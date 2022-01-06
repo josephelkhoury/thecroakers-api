@@ -2,14 +2,7 @@
 
 class ProcessShell extends Shell
 {
-		public $video = array('Video');
-		public $sound = array('Sound');
-		public $hashtag = array('Hashtag');
-		public $hashtag_video = array('HashtagVideo');
-		public $user = array('User');
-		public $notification = array('Notification');
-		public $follower = array('Follower');
-		public $push_notification = array('PushNotification');
+		public $uses = array('Video', 'Sound', 'Hashtag', 'HashtagVideo', 'User', 'Notification', 'Follower', 'PushNotification');
 
     public function main()
     {
