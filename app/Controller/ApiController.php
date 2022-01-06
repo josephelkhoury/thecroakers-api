@@ -5696,6 +5696,8 @@ class ApiController extends AppController
 										die();
 								}
 
+								$video_id = $this->Video->getInsertID();
+
 								/**************hashtag save******************/
 
 								if (count($data_hashtag) > 0) {
