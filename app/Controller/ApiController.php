@@ -2312,7 +2312,7 @@ class ApiController extends AppController
                         if(count($hashtag_videos) > 0) {
                         		$array = array();
                             $array["Hashtag"] = $hashtag['Hashtag'];
-                            $array[["Hashtag"]['views'] = $hashtag[0]['total_views'];
+                            $array["Hashtag"]['views'] = $hashtag[0]['total_views'];
                             $array["Hashtag"]['Videos'] = $hashtag_videos;
                             $array["Hashtag"]['videos_count'] = $hashtag_videos_count;
                             $new_array[] = $array;
