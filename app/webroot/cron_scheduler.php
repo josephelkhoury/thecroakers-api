@@ -101,6 +101,7 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 
 if($argc == 2 && php_sapi_name() === "cli")
 {
+		App::uses('Dispatcher');
     # Set request URI
     $_SERVER['REQUEST_URI'] = $argv[1];
     # Set user-agent, so we can do custom processing
