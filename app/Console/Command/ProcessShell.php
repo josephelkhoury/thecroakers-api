@@ -8,6 +8,7 @@ class ProcessShell extends Shell
     {
         $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
+        		$this->out(print_r($value, true));
         		$this->Video->id = $value['id'];
             $this->Video->saveField('status', 1);
 
