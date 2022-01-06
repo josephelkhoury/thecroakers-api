@@ -5678,7 +5678,7 @@ class ApiController extends AppController
                     $video_details = array();
                 }
 
-                $video_save['sound_id'] = $sound_id;
+                $video_save['sound_id'] = 0;
 								$video_save['lang_id'] = $lang_id;
 								$video_save['description'] = $description;
 								$video_save['privacy_type'] = $privacy_type;
