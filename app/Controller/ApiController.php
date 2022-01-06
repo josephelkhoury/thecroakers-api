@@ -5069,7 +5069,6 @@ class ApiController extends AppController
     }
 
     public function showRelatedVideos() {
-
         $this->loadModel('Video');
         $this->loadModel('VideoComment');
         $this->loadModel('VideoLike');
@@ -5149,7 +5148,7 @@ class ApiController extends AppController
 
                     $videos[$key]['Video']['comment_count'] = $comment_count;
                     $videos[$key]['Video']['like_count'] = $video_likes_count;
-		    $videos[$key]['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
+		    						$videos[$key]['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
                 }
 
                 if(count($user_details) > 0) {

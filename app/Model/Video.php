@@ -45,11 +45,11 @@ class Video extends AppModel
             'foreignKey' => 'video_id',
             'dependent' =>true
         ),
-	'HashtagVideo' => array(
-	    'className' => 'HashtagVideo',
-	    'foreignKey' => 'video_id',
-   	    'dependent' => true
-	),
+				'HashtagVideo' => array(
+						'className' => 'HashtagVideo',
+						'foreignKey' => 'video_id',
+						'dependent' => true
+				),
     );
 
     public function afterFind($results, $primary = false) {
@@ -64,7 +64,7 @@ class Video extends AppModel
 								else
 		    						$results[$key]['Video']['allow_duet'] = "0";
 
-		    				if (isset($val['Video']['country_id']) &&  $val['Video']['country_id'] == "0") {
+		    				if (isset($val['Video']['country_id']) && $val['Video']['country_id'] == "0") {
 		    						$results[$key]['Video']['Country'] = [];
 		    						$results[$key]['Video']['Country']['id'] = 0;
 		    						$results[$key]['Video']['Country']['name'] = "Worldwide";
@@ -238,7 +238,8 @@ class Video extends AppModel
         return $this->find('all', array(
 
             'conditions' => array(
-                'Video.privacy_type'=> 'public'
+                'Video.privacy_type'=> 'public',
+                'Video.status' => 2
             ),
             'fields' => array( 'DISTINCT Video.sound_id','COUNT(*) count'),
             'group' => array('Video.sound_id'),
@@ -266,19 +267,19 @@ class Video extends AppModel
 
     public function getVideoReplies($user_id,$video_id,$starting_id)
     {
-	$this->Behaviors->attach('Containable');
+				$this->Behaviors->attach('Containable');
 
-	return $this->find('all', array(
-	  'conditions' => array(
-	    'Video.main_video_id'=> $video_id,
-	    'Video.privacy_type'=> 'public',
-	    'Video.status'=> 2,
-          ),
-	  'contain' => array('Sound', 'User.PrivacySetting','User.PushNotification', 'HashtagVideo.Hashtag', 'Country'),
-	  'limit' => APP_RECORDS_PER_PAGE,
-	  'offset' => $starting_id*APP_RECORDS_PER_PAGE,
-	  'order' => 'Video.view DESC'
-	));
+				return $this->find('all', array(
+						'conditions' => array(
+								'Video.main_video_id'=> $video_id,
+								'Video.privacy_type'=> 'public',
+								'Video.status'=> 2,
+						),
+						'contain' => array('Sound', 'User.PrivacySetting','User.PushNotification', 'HashtagVideo.Hashtag', 'Country'),
+						'limit' => APP_RECORDS_PER_PAGE,
+						'offset' => $starting_id*APP_RECORDS_PER_PAGE,
+						'order' => 'Video.view DESC'
+				));
     }
 
     public function getPromotedVideo()
@@ -429,7 +430,7 @@ class Video extends AppModel
     {
         return $this->find('all', array(
             'conditions' => array(
-                'Video.sound_id'=> $sound_id,,
+                'Video.sound_id'=> $sound_id,
                 'Video.status'=> 2
             ),
             'recursive' => -1,
@@ -444,10 +445,10 @@ class Video extends AppModel
     }
 
     public function getTopic($hashtags) {
-	foreach ($hashtags as $hashtag) {
-   	   if ($hashtag['Hashtag']['featured'] == true)
-		return $hashtag['Hashtag'];
-	}
+				foreach ($hashtags as $hashtag) {
+   	   		if ($hashtag['Hashtag']['featured'] == true)
+							return $hashtag['Hashtag'];
+				}
     }
 
     public function getUsersWhichHaveGreaterNoOfVideos($starting_point, $section, $country_id)
