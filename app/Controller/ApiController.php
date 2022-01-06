@@ -5679,12 +5679,7 @@ class ApiController extends AppController
                 }
 
                 $video_save['sound_id'] = $sound_id;
-								$video_save['gif'] = $gif_url;
-								$video_save['duration'] = $video_duration;
-								$video_save['video'] = $video_url;
 								$video_save['lang_id'] = $lang_id;
-
-								$video_save['thum'] = $thum_url;
 								$video_save['description'] = $description;
 								$video_save['privacy_type'] = $privacy_type;
 								$video_save['allow_comments'] = $allow_comments;
