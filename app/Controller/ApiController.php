@@ -5838,7 +5838,7 @@ class ApiController extends AppController
 								$output['code'] = 200;
 								$output['msg'] = 'Video is being processed';
 								echo json_encode($output);
-								processVideos();
+								$this->processVideos();
             } else {
                 Message::EMPTYDATA();
                 die();
