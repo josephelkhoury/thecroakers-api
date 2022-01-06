@@ -5678,6 +5678,7 @@ class ApiController extends AppController
                     $video_details = array();
                 }
 
+								$video_save['video'] = Regular::only_local_video_upload($value['user_id'], 'Video');
                 $video_save['sound_id'] = 0;
 								$video_save['lang_id'] = $lang_id;
 								$video_save['description'] = $description;

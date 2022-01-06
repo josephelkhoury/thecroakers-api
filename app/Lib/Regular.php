@@ -77,6 +77,10 @@ class Regular
 				return $final_output;
     }
 
+    static function only_local_video_upload($user_id, $param) {
+        return (new self)->uploadOriginalVideoFileIntoTemporaryFolder($param,$user_id);
+    }
+
     static function unlinkFile($file_path) {
         if (file_exists($file_path)) {
             unlink($file_path);
