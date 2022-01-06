@@ -5860,7 +5860,8 @@ class ApiController extends AppController
             $this->Video->saveField('status', 1);
 
 						$sound_details = $this->Sound->getDetails($value['Video']['sound_id']);
-						$video_details = $this->Video->getDetails($value['Video']['id']);
+						//$video_details = $this->Video->getDetails($value['Video']['id']);
+						$video_details = array();
             $result_video = Regular::local_video_upload($value['Video']['user_id'], $value['Video']['video'], $sound_details, $video_details, 0);
 
             $video_url = $result_video['video'];
