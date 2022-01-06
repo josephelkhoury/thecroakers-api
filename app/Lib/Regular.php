@@ -7,8 +7,8 @@ App::uses('Utility', 'Lib');
 
 class Regular
 {
-    static function local_video_upload($user_id, $param, $sound_details, $video_details, $duet) {
-        $original_video_file_path = (new self)->uploadOriginalVideoFileIntoTemporaryFolder($param,$user_id);
+    static function local_video_upload($user_id, $original_video_file_path, $sound_details, $video_details, $duet) {
+        /*$original_video_file_path = (new self)->uploadOriginalVideoFileIntoTemporaryFolder($param,$user_id);
 
         if (!$original_video_file_path) {
             $error['code'] = 201;
@@ -16,7 +16,7 @@ class Regular
 
             echo json_encode($error);
             die();
-        }
+        }*/
 
         $final_video = (new self)->addBlackBackgroundInTheVideo($original_video_file_path);
 
