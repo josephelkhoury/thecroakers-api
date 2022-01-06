@@ -1,5 +1,11 @@
 <?php
 
+App::uses('Utility', 'Lib');
+App::uses('Extended', 'Lib');
+App::uses('Regular', 'Lib');
+App::uses('Message', 'Lib');
+App::uses('CustomEmail', 'Lib');
+
 class ProcessShell extends Shell
 {
 		public $uses = array('Video', 'Sound', 'Hashtag', 'HashtagVideo', 'User', 'Notification', 'Follower', 'PushNotification');
