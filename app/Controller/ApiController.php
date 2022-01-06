@@ -5759,17 +5759,7 @@ class ApiController extends AppController
 								$video_save['duration'] = $video_duration;
 								$video_save['video'] = $video_url;
 								$video_save['lang_id'] = $lang_id;
-
 								$video_save['thum'] = $thum_url;
-								$video_save['description'] = $description;
-								$video_save['privacy_type'] = $privacy_type;
-								$video_save['allow_comments'] = $allow_comments;
-								$video_save['allow_duet'] = $allow_duet;
-								$video_save['user_id'] = $user_id;
-								$video_save['interest_id'] = $interest_id;
-								$video_save['created'] = $created;
-								$video_save['main_video_id'] = $main_video_id;
-								$video_save['country_id'] = $country_id;
 								$video_save['status'] = 2;
 
 								$this->Video->id = $value['id'];
