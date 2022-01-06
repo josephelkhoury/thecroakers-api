@@ -64,11 +64,11 @@ class Video extends AppModel
 								else
 		    						$results[$key]['Video']['allow_duet'] = "0";
 
-		    				if (isset($val['Video']['country_id']) &&  $val['Video']['country_id'] == "0") {
+		    				/*if (isset($val['Video']['country_id']) &&  $val['Video']['country_id'] == "0") {
 		    						$results[$key]['Video']['Country'] = [];
 		    						$results[$key]['Video']['Country']['id'] = 0;
 		    						$results[$key]['Video']['Country']['name'] = "Worldwide";
-		    				}
+		    				}*/
     	   		}
 				}
     		return $results;
