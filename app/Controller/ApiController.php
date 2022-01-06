@@ -5664,7 +5664,7 @@ class ApiController extends AppController
 
             $video_userDetails = $this->User->getUserDetailsFromID($user_id);
 
-            if(count($video_userDetails) > 0) {
+            if (count($video_userDetails) > 0) {
                 $type = "video";
                 $sound_details = $this->Sound->getDetails($sound_id);
 
@@ -5705,7 +5705,6 @@ class ApiController extends AppController
 								$output['code'] = 200;
 								$output['msg'] = 'Video is being processed';
 								echo json_encode($output);
-                }
             } else {
                 Message::EMPTYDATA();
                 die();
