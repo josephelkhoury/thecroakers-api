@@ -2310,10 +2310,12 @@ class ApiController extends AppController
                         $hashtag_videos = $this->HashtagVideo->getHashtagVideosLimit($hashtag['Hashtag']['id'], $country_id);
                         $hashtag_videos_count = $this->HashtagVideo->countHashtagVideos($hashtag['Hashtag']['id'], $country_id);
                         if(count($hashtag_videos) > 0) {
-                            $new_array[$key]["Hashtag"] = $hashtag['Hashtag'];
-                            $new_array[$key]["Hashtag"]['views'] = $hashtag[0]['total_views'];
-                            $new_array[$key]["Hashtag"]['Videos'] = $hashtag_videos;
-                            $new_array[$key]["Hashtag"]['videos_count'] = $hashtag_videos_count;
+                        		$array = array();
+                            $array["Hashtag"] = $hashtag['Hashtag'];
+                            $array[["Hashtag"]['views'] = $hashtag[0]['total_views'];
+                            $array["Hashtag"]['Videos'] = $hashtag_videos;
+                            $array["Hashtag"]['videos_count'] = $hashtag_videos_count;
+                            $new_array[] = $array;
                         }
                     }
                 }
