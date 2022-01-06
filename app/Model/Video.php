@@ -146,6 +146,7 @@ class Video extends AppModel
             'conditions' => array(
                 'Video.user_id'=> $user_id,
                 'Video.privacy_type'=> "public",
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => APP_RECORDS_PER_PAGE,
@@ -161,6 +162,7 @@ class Video extends AppModel
             'conditions' => array(
                 'Video.user_id'=> $user_id,
                 'Video.privacy_type'=> "public",
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'order' => 'Video.id DESC'
@@ -174,6 +176,7 @@ class Video extends AppModel
             'conditions' => array(
                 'Video.user_id'=> $user_id,
                 'Video.privacy_type'=> "private",
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'order' => 'Video.id DESC'
@@ -186,6 +189,7 @@ class Video extends AppModel
         return $this->find('all', array(
             'conditions' => array(
                 'Video.user_id'=> $user_id,
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'order' => 'Video.id DESC'
@@ -208,6 +212,7 @@ class Video extends AppModel
             'conditions' => array(
                 'Video.user_id'=> $user_id,
                 'Video.privacy_type'=> "private",
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => APP_RECORDS_PER_PAGE,
@@ -222,6 +227,7 @@ class Video extends AppModel
         return $this->find('count', array(
             'conditions' => array(
                 'Video.user_id'=> $user_id,
+                'Video.status'=> 2
             ),
         ));
     }
@@ -248,7 +254,8 @@ class Video extends AppModel
             // 'fields' => array('id'),
             'conditions' => array(
                 'Video.sound_id'=> $sound_id,
-                'Video.privacy_type'=> 'public'
+                'Video.privacy_type'=> 'public',
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => APP_RECORDS_PER_PAGE,
@@ -264,7 +271,8 @@ class Video extends AppModel
 	return $this->find('all', array(
 	  'conditions' => array(
 	    'Video.main_video_id'=> $video_id,
-	    'Video.privacy_type'=> 'public'
+	    'Video.privacy_type'=> 'public',
+	    'Video.status'=> 2
           ),
 	  'contain' => array('Sound', 'User.PrivacySetting','User.PushNotification', 'HashtagVideo.Hashtag', 'Country'),
 	  'limit' => APP_RECORDS_PER_PAGE,
@@ -297,7 +305,8 @@ class Video extends AppModel
                 //'Video.user_id !='=> $user_id,
                 'Video.block'=> 0,
                 'Video.privacy_type'=> 'public',
-		'Video.main_video_id IS NOT NULL'
+								'Video.main_video_id IS NOT NULL',
+								'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,
@@ -317,7 +326,8 @@ class Video extends AppModel
                 //'Video.user_id !='=> $user_id,
                 'Video.block'=> 0,
                 'Video.user_id'=> 1,
-                'Video.privacy_type'=> 'public'
+                'Video.privacy_type'=> 'public',
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'TopicVideo'),
             'limit' => 10,
@@ -337,7 +347,8 @@ class Video extends AppModel
             'conditions' => array(
                 'Video.user_id !='=> $user_id,
                 'Video.block'=> 0,
-                'Video.privacy_type'=> 'public'
+                'Video.privacy_type'=> 'public',
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo'),
             'limit' => 5,
@@ -355,7 +366,8 @@ class Video extends AppModel
                // 'Video.user_id !='=> $user_id,
                 'Video.block'=> 0,
                 'Video.privacy_type'=> 'public',
-		'Video.main_video_id IS NOT NULL'
+								'Video.main_video_id IS NOT NULL',
+								'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,
@@ -375,10 +387,10 @@ class Video extends AppModel
                // '(SELECT id FROM follower as Follower WHERE Video.user_id = Follower.receiver_id AND Follower.sender_id ='.$user_id.' LIMIT 1)',
                 //'(SELECT id FROM video_watch as VideoWatch WHERE Video.id = VideoWatch.video_id AND VideoWatch.device_id ='.$device_id.' LIMIT 1)',
                 'Video.user_id !='=> $user_id,
-
                 'Video.privacy_type'=> 'public',
                 'Video.block'=> 0,
-                'Video.user_id IN'=> $ids
+                'Video.user_id IN'=> $ids,
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,
@@ -399,11 +411,10 @@ class Video extends AppModel
             // 'fields' => array('id'),
             'conditions' => array('exists '.
                 '(SELECT id FROM follower as Follower WHERE Video.user_id = Follower.receiver_id AND Follower.sender_id ='.$user_id.')',
-
                 'Video.user_id !='=> $user_id,
                 'Video.block'=> 0,
-
-                'Video.privacy_type'=> 'public'
+                'Video.privacy_type'=> 'public',
+                'Video.status'=> 2
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,
@@ -418,7 +429,8 @@ class Video extends AppModel
     {
         return $this->find('all', array(
             'conditions' => array(
-                'Video.sound_id'=> $sound_id,
+                'Video.sound_id'=> $sound_id,,
+                'Video.status'=> 2
             ),
             'recursive' => -1,
         ));
@@ -467,6 +479,7 @@ class Video extends AppModel
     		$conditions = [];
         $conditions['Video.user_id'] = $user_id;
         $conditions['Video.privacy_type'] = "public";
+        $conditions['Video.status'] = 2;
         if ($country_id != 0)
 	   				$conditions['Video.country_id'] = $country_id;
 
@@ -484,6 +497,7 @@ class Video extends AppModel
     		$conditions = [];
         $conditions['Video.user_id'] = $user_id;
         $conditions['Video.privacy_type'] = "public";
+        $conditions['Video.status'] = 2;
         if ($country_id != 0)
 	   				$conditions['Video.country_id'] = $country_id;
 
