@@ -5725,17 +5725,19 @@ class ApiController extends AppController
             $this->Video->saveField('status', 1);
 
 						$sound_details = $this->Sound->getDetails($value['Video']['sound_id']);
-						$video_details = $this->Video->getDetails($video_id);
+						$video_details = $this->Video->getDetails($value['Video']['id']);
             $result_video = Regular::local_video_upload($value['Video']['user_id'], $value['Video']['video'], $sound_details, $video_details, 0);
 
             $video_url = $result_video['video'];
           	$gif_url = $result_video['gif'];
             $thum_url = $result_video['thum'];
 
-            $video_save['sound_id'] = $value['sound_id'];
+            $video_save['sound_id'] = $value['Video']['sound_id'];
 						if (count($result_video) > 0) {
 								$video_duration = Utility::getDurationOfVideoFile($result_video['video']);
 								if (strlen($result_video['audio']) > 2) {
+
+										$video_userDetails = $this->User->getUserDetailsFromID($value['Video']['user_id']);
 
 										$audio_url = Utility::getCloudFrontUrl($result_video['audio'], "/audio");
 
