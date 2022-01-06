@@ -132,7 +132,7 @@ class HashtagVideo extends AppModel
     		$conditions = [];
         $conditions['HashtagVideo.hashtag_id'] = $hashtag_id;
         $conditions['Video.privacy_type'] = "public";
-         $conditions['Video.status'] = 2;
+        $conditions['Video.status'] = 2;
         $conditions['User.role'] = "publisher";
         if ($country_id != 0)
 	   				$conditions['Video.country_id'] = $country_id;
