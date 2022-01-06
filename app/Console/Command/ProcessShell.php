@@ -8,19 +8,18 @@ class ProcessShell extends Shell
     {
         $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
-        		$this->out(print_r($value, true));
-        		$this->Video->id = $value['id'];
+        		$this->Video->id = $value['Video']['id'];
             $this->Video->saveField('status', 1);
 
-						$sound_details = $this->Sound->getDetails($value['sound_id']);
+						$sound_details = $this->Sound->getDetails($value['Video']['sound_id']);
 						$video_details = $this->Video->getDetails($video_id);
-            $result_video = Regular::local_video_upload($value['user_id'], $value['video'], $sound_details, $video_details, 0);
+            $result_video = Regular::local_video_upload($value['Video']['user_id'], $value['Video']['video'], $sound_details, $video_details, 0);
 
             $video_url = $result_video['video'];
           	$gif_url = $result_video['gif'];
             $thum_url = $result_video['thum'];
 
-            $video_save['sound_id'] = $value['sound_id'];
+            $video_save['sound_id'] = $value['Video']['sound_id'];
 						if (count($result_video) > 0) {
 								$video_duration = Utility::getDurationOfVideoFile($result_video['video']);
 								if (strlen($result_video['audio']) > 2) {
@@ -58,7 +57,7 @@ class ProcessShell extends Shell
 								$video_save['country_id'] = $country_id;
 								$video_save['status'] = 2;
 
-								$this->Video->id = $value['id'];
+								$this->Video->id = $value['Video']['id'];
 
 								if (!$this->Video->save($video_save)) {
 										die();
