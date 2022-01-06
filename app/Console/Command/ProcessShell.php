@@ -2,18 +2,17 @@
 
 class ProcessShell extends Shell
 {
+		public $video = array('Video');
+		public $sound = array('Sound');
+		public $hashtag = array('Hashtag');
+		public $hashtag_video = array('HashtagVideo');
+		public $user = array('User');
+		public $notification = array('Notification');
+		public $follower = array('Follower');
+		public $push_notification = array('PushNotification');
+
     public function main()
     {
-        $this->loadModel('Video');
-        $this->loadModel('Sound');
-        $this->loadModel('Hashtag');
-        $this->loadModel('HashtagVideo');
-        $this->loadModel('User');
-        $this->loadModel('Notification');
-        $this->loadModel('Follower');
-        $this->loadModel('PushNotification');
-				$this->loadModel('TopicVideo');
-
         $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
         		$this->Video->id = $value['id'];
