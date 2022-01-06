@@ -5721,6 +5721,7 @@ class ApiController extends AppController
 
         $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
+        		var_dump($value);
         		$this->Video->id = $value['id'];
             $this->Video->saveField('status', 1);
 
