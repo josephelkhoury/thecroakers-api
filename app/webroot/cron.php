@@ -1,7 +1,7 @@
 <?php
 
 $_SERVER[ 'HTTP_HOST' ] = 'app.thecroakers.com';
-require dirname(__DIR__) . '/config/bootstrap.php';
+require '../config/bootstrap.php';
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Routing\Router;
