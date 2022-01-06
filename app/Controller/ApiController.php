@@ -5352,7 +5352,7 @@ class ApiController extends AppController
         }
     }
 
-    public function postVideo() {
+    public function postVideoOld() {
 
         $this->loadModel('Video');
         $this->loadModel('Sound');
@@ -5620,6 +5620,91 @@ class ApiController extends AppController
                     $output['code'] = 200;
                     $output['msg'] = $album_details;
                     echo json_encode($output);
+                }
+            } else {
+                Message::EMPTYDATA();
+                die();
+            }
+        }
+    }
+
+    public function postVideo() {
+
+        $this->loadModel('Video');
+        $this->loadModel('Sound');
+        $this->loadModel('Hashtag');
+        $this->loadModel('HashtagVideo');
+        $this->loadModel('User');
+        $this->loadModel('Notification');
+        $this->loadModel('Follower');
+        $this->loadModel('PushNotification');
+				$this->loadModel('TopicVideo');
+
+        if ($this->request->isPost()) {
+            $created = date('Y-m-d H:i:s', time());
+            $user_id = $this->request->data('user_id');
+
+            $description = $this->request->data('description');
+            $privacy_type = $this->request->data('privacy_type');
+            $allow_comments = $this->request->data('allow_comments');
+            $allow_duet = $this->request->data('allow_duet');
+            $video_id = $this->request->data('video_id');
+            $sound_id = $this->request->data('sound_id');
+            $hashtags_json = $this->request->data('hashtags_json');
+            $users_json = $this->request->data('users_json');
+            $duet = $this->request->data('duet');
+            $lang_id = $this->request->data('lang_id');
+            $interest_id = $this->request->data('interest_id');
+	    			$topic_id = $this->request->data('topic_id');
+	    			$main_video_id = $this->request->data('main_video_id');
+	    			$country_id = $this->request->data('country_id');
+
+            $data_hashtag = json_decode($hashtags_json, TRUE);
+            $data_users = json_decode($users_json, TRUE);
+
+            $video_userDetails = $this->User->getUserDetailsFromID($user_id);
+
+            if(count($video_userDetails) > 0) {
+                $type = "video";
+                $sound_details = $this->Sound->getDetails($sound_id);
+
+                if ($video_id > 0) {
+                    //duet
+                    $video_details = $this->Video->getDetails($video_id);
+                    $video_save['duet_video_id'] = $video_details['Video']['id'];
+                    $sound_details = $this->Sound->getDetails($video_details['Video']['sound_id']);
+
+                } else {
+                    $video_details = array();
+                }
+
+                $video_save['sound_id'] = $sound_id;
+								$video_save['gif'] = $gif_url;
+								$video_save['duration'] = $video_duration;
+								$video_save['video'] = $video_url;
+								$video_save['lang_id'] = $lang_id;
+
+								$video_save['thum'] = $thum_url;
+								$video_save['description'] = $description;
+								$video_save['privacy_type'] = $privacy_type;
+								$video_save['allow_comments'] = $allow_comments;
+								$video_save['allow_duet'] = $allow_duet;
+								$video_save['user_id'] = $user_id;
+								$video_save['interest_id'] = $interest_id;
+								$video_save['created'] = $created;
+								$video_save['main_video_id'] = $main_video_id;
+								$video_save['country_id'] = $country_id;
+
+								if (!$this->Video->save($video_save)) {
+										echo Message::DATASAVEERROR();
+										die();
+								}
+
+								$output = array();
+
+								$output['code'] = 200;
+								$output['msg'] = 'Video is being processed';
+								echo json_encode($output);
                 }
             } else {
                 Message::EMPTYDATA();
