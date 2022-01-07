@@ -5790,12 +5790,12 @@ class ApiController extends AppController
 												$user_id = $value['FollowerList']['id'];
 												$device_token = $value['FollowerList']['device_token'];
 
-												$msg = $video_userDetails['User']['username'] . " has posted a a video";
+												$msg = $video_userDetails['User']['username'] . " has posted a video";
 
 												if (strlen($device_token) > 8) {
 														$notification['to'] = $device_token;
 
-														$notification['notification']['title'] = $msg;
+														$notification['notification']['title'] = "";
 														$notification['notification']['body'] = "";
 														$notification['notification']['badge'] = "1";
 														$notification['notification']['sound'] = "default";
