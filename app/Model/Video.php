@@ -463,7 +463,7 @@ class Video extends AppModel
 				if ($section == 1)
 					 $conditions['User.role'] = 'publisher';
 				else
-					 $conditions['User.role'] = 'user';
+					 $conditions['User.role'] = 'croaker';
 
 				if ($country_id != 0)
 	   				$conditions['Video.country_id'] = $country_id;
