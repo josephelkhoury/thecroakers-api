@@ -2328,8 +2328,9 @@ class ApiController extends AppController
 												$user_videos = $this->Video->getUserVideosLimit($user['User']['id'], $country_id);
 												$user_videos_count = $this->Video->countUserVideos($user['User']['id'], $country_id);
 												if (count($user_videos) > 0) {
-														$new_array[$key]["User"] = $user['User'];
-														$new_array[$key]["User"]["views"] = $user[0]['total_views'];
+														$array = array();
+														$array["User"] = $user['User'];
+														$array["User"]["views"] = $user[0]['total_views'];
 														foreach ($user_videos as $key2 => $video) {
 																$video['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
 																$comment_count = $this->VideoComment->countComments($video['Video']['id']);
@@ -2347,10 +2348,11 @@ class ApiController extends AppController
 																				$video['Video']['like'] = 0;
 																		}
 																}
-																$new_array[$key]["User"]["Videos"][] = $video;
+																$array["User"]["Videos"][] = $video;
 														}
 														//$new_array[$key]["User"]["Videos"] = $publisher_videos;
-														$new_array[$key]["User"]["videos_count"] = $user_videos_count;
+														$array["User"]["videos_count"] = $user_videos_count;
+														$new_array[] = $array;
 												}
 										}
 								}
