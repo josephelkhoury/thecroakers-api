@@ -3926,7 +3926,7 @@ class ApiController extends AppController
                     $video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
                     $videos[$key]['Video']['like_count'] = $video_likes_count;
                     $videos[$key]['Video']['like'] = 1;
-		    $videos[$key]['Video']['Topic'] = $this->Video->getTopic($video['Video']['HashtagVideo']);
+		    						$videos[$key]['Video']['Topic'] = $this->Video->getTopic($video['Video']['HashtagVideo']);
 
                     if (isset($data['other_user_id'])) {
                         $other_person_user_id = $data['other_user_id'];

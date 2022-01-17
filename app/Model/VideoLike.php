@@ -53,6 +53,7 @@ class VideoLike extends AppModel
             'contain' => array('Video.Sound','Video.User.PrivacySetting', 'Video.HashtagVideo.Hashtag', 'Video.Country'),
             'conditions' => array(
                 'VideoLike.user_id'=> $user_id,
+                'Video.privacy_type'=> "public",
             ),
             'limit'=>APP_RECORDS_PER_PAGE,
             'offset' => $starting_point*APP_RECORDS_PER_PAGE,
