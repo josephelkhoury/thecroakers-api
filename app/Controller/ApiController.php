@@ -3480,8 +3480,7 @@ class ApiController extends AppController
             }
 	    			if (isset($data['other_user_id']) && $data['other_user_id'] != "") {
 							$other_user_id = $data['other_user_id'];
-	    			}
-	    			else
+	    			} else
 	    				$other_user_id = $user_id;
 
             if (isset($data['starting_point'])) {
@@ -3489,8 +3488,8 @@ class ApiController extends AppController
             }
 
             if ($other_user_id > 0) {
-                $videos_public = $this->Video->getUserPublicVideos($other_user_id,$starting_point);
-                $videos_private = $this->Video->getUserPrivateVideos($other_user_id,$starting_point);
+                $videos_public = $this->Video->getUserPublicVideos($other_user_id, $starting_point);
+                $videos_private = $this->Video->getUserPrivateVideos($other_user_id, $starting_point);
             }
 
             /*if (isset($data['other_user_id'])) {
@@ -3532,21 +3531,14 @@ class ApiController extends AppController
                         $videos_public[$key]['User']['following_count'] = $following_count;
                         $videos_public[$key]['User']['likes_count'] = $likes_count;
                         $videos_public[$key]['User']['video_count'] = $video_count;
+
                         if (count($follower_details) > 0 && count($following_details) > 0) {
-
                             $videos_public[$key]['User']['button'] = "Friends";
-
                         } else if (count($follower_details) > 0 && count($following_details) < 1) {
-
                             $videos_public[$key]['User']['button'] = "following";
-
                         } else if (count($following_details) > 0) {
-
-
                             $videos_public[$key]['User']['button'] = "follow back";
                         } else {
-
-
                             $videos_public[$key]['User']['button'] = "follow";
                         }
                     }
@@ -3554,11 +3546,63 @@ class ApiController extends AppController
                     $comment_count = $this->VideoComment->countComments($video['Video']['id']);
                     $video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
 
-
                     $videos_public[$key]['Video']['comment_count'] = $comment_count;
                     $videos_public[$key]['Video']['like_count'] = $video_likes_count;
-		    $videos_public[$key]['Topic'] = $this->Video->getTopic($video['HashtagVideo']
-);
+		    						$videos_public[$key]['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
+                }
+
+                foreach ($videos_private as $key => $video) {
+                    if ($user_id > 0) {
+                        $video_data['user_id'] = $user_id;
+                        $video_data['video_id'] = $video['Video']['id'];
+                        $video_like_detail = $this->VideoLike->ifExist($video_data);
+                        $video_favourite_detail = $this->VideoFavourite->ifExist($video_data);
+                        if (count($video_like_detail) > 0) {
+                            $videos_private[$key]['Video']['like'] = 1;
+                        } else {
+                            $videos_private[$key]['Video']['like'] = 0;
+                        }
+
+                        if (count($video_favourite_detail) > 0) {
+                            $videos_private[$key]['Video']['favourite'] = 1;
+                        } else {
+                            $videos_private[$key]['Video']['favourite'] = 0;
+                        }
+                    } else {
+                        $videos_private[$key]['Video']['like'] = 0;
+                        $videos_private[$key]['Video']['favourite'] = 0;
+                    }
+
+                    if (isset($data['other_user_id'])) {
+                        $other_person_user_id = $data['other_user_id'];
+                        $follower_details = $this->Follower->ifFollowing($user_id, $other_person_user_id);
+                        $following_details = $this->Follower->ifFollowing($other_person_user_id, $user_id);
+                        $followers_count = $this->Follower->countFollowers($other_person_user_id);
+                        $following_count = $this->Follower->countFollowing($other_person_user_id);
+                        $likes_count = $this->VideoLike->countUserAllVideoLikes($other_person_user_id);
+                        $video_count = $this->Video->getUserVideosCount($other_person_user_id);
+                        $videos_private[$key]['User']['followers_count'] = $followers_count;
+                        $videos_private[$key]['User']['following_count'] = $following_count;
+                        $videos_private[$key]['User']['likes_count'] = $likes_count;
+                        $videos_private[$key]['User']['video_count'] = $video_count;
+
+                        if (count($follower_details) > 0 && count($following_details) > 0) {
+                            $videos_private[$key]['User']['button'] = "Friends";
+                        } else if (count($follower_details) > 0 && count($following_details) < 1) {
+                            $videos_private[$key]['User']['button'] = "following";
+                        } else if (count($following_details) > 0) {
+                            $videos_private[$key]['User']['button'] = "follow back";
+                        } else {
+                            $videos_private[$key]['User']['button'] = "follow";
+                        }
+                    }
+
+                    $comment_count = $this->VideoComment->countComments($video['Video']['id']);
+                    $video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
+
+                    $videos_private[$key]['Video']['comment_count'] = $comment_count;
+                    $videos_private[$key]['Video']['like_count'] = $video_likes_count;
+		    						$videos_private[$key]['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
                 }
 
 
@@ -3567,17 +3611,12 @@ class ApiController extends AppController
                 $output['msg']['public'] = $videos_public;
                 $output['msg']['private'] = $videos_private;
 
-
                 echo json_encode($output);
 
-
-            }else{
-
+            } else {
                 Message::EMPTYDATA();
                 die();
-
             }
-
         }
     }
 
@@ -4734,7 +4773,7 @@ class ApiController extends AppController
 
                     $videos[$key]['Video']['comment_count'] = $comment_count;
                     $videos[$key]['Video']['like_count'] = $video_likes_count;
-		    $videos[$key]['Video']['Topic'] = $video['Hashtag'];
+		    						$videos[$key]['Video']['Topic'] = $video['Hashtag'];
                 }
                 $hashtag_videos_count = $this->HashtagVideo->countHashtagVideos($hashtag_details['Hashtag']['id']);
 
@@ -4991,14 +5030,14 @@ class ApiController extends AppController
         }
     }
 
-    public function showVideoReplies(){
+    public function showVideoReplies() {
 
         $this->loadModel('Sound');
         $this->loadModel('Video');
         $this->loadModel('VideoLike');
         $this->loadModel('VideoFavourite');
         $this->loadModel('VideoComment');
-	$this->loadModel('Follower');
+				$this->loadModel('Follower');
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
