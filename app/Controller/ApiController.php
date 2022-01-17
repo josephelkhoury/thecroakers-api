@@ -2358,7 +2358,7 @@ class ApiController extends AppController
 								}
 	     			}
 
-            if(count($new_array) > 0) {
+            if (count($new_array) > 0) {
             		$output['code'] = 200;
                 $output['msg'] = $new_array;
                 echo json_encode($output);
@@ -5938,7 +5938,6 @@ class ApiController extends AppController
 								$video_save['gif'] = $gif_url;
 								$video_save['duration'] = $video_duration;
 								$video_save['video'] = $video_url;
-								$video_save['lang_id'] = $lang_id;
 								$video_save['thum'] = $thum_url;
 								$video_save['status'] = 2;
 
