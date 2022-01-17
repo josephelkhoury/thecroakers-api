@@ -5719,7 +5719,19 @@ class ApiController extends AppController
                     $video_details = array();
                 }
 
-								$video_save['video'] = Regular::only_local_video_upload($user_id, 'video');
+                $video_path = Regular::only_local_video_upload($user_id, 'video');
+
+                if (!$video_path) {
+                	$output = array();
+
+									$output['code'] = 201;
+									$output['title'] = 'Error';
+									$output['msg'] = 'An error has occurred, please try again!';
+									echo json_encode($output);
+									die();
+                }
+
+								$video_save['video'] = $video_path;
                 $video_save['sound_id'] = 0;
 								$video_save['lang_id'] = $lang_id;
 								$video_save['description'] = $description;
@@ -5933,7 +5945,7 @@ class ApiController extends AppController
 										$video_save['sound_id'] = $sound_id;
 								}
 
-								//$filepath_thumb = Utility::multipartFileUpload($user_id, 'thumb',$type);
+								//$filepath_thumb = Utility::multipartFileUpload($user_id, 'thumb', $type);
 
 								$video_save['gif'] = $gif_url;
 								$video_save['duration'] = $video_duration;

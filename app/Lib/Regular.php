@@ -78,7 +78,7 @@ class Regular
     }
 
     static function only_local_video_upload($user_id, $param) {
-        return (new self)->uploadOriginalVideoFileIntoTemporaryFolder($param,$user_id);
+        return (new self)->uploadOriginalVideoFileIntoTemporaryFolder($param, $user_id);
     }
 
     static function unlinkFile($file_path) {
@@ -113,34 +113,21 @@ class Regular
 				}
     }
 
-
-    static function multipartFileUpload($user_id, $param, $sound_details)
-    {
-
-
-
+    static function multipartFileUpload($user_id, $param, $sound_details) {
         $original_video_file_path = (new self)->uploadOriginalVideoFileIntoTemporaryFolder($param);
-
-
 
         $gif = (new self)->videoToGif($original_video_file_path,$user_id);
         $thumb = (new self)->videoToThumb($original_video_file_path,$user_id);
 
         if (count($sound_details) < 1) {
-
             $mp3_file = (new self)->convertVideoToAudio($original_video_file_path,$user_id);
             $output['audio'] = $mp3_file;
         } else {
-
-
             $video_path_with_audio = (new self)->mergeVideoWithSound($user_id, $original_video_file_path, $sound_details['Sound']['audio']);
             $output['audio'] = $video_path_with_audio;
-
-
         }
         $optimized_file_path = (new self)->optimizeVideoSize($original_video_file_path);
         $final_video = (new self)->addBlackBackgroundInTheVideo($optimized_file_path,$user_id);
-
 
         $output['video'] = $final_video;
 
@@ -148,18 +135,8 @@ class Regular
         $output['gif'] = $gif;
         $output['error'] = 0;
 
-
         unlink($original_video_file_path);
         return $output;
-
-
-
-
-
-
-
-
-
     }
 
 
