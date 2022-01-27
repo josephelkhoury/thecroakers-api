@@ -5907,7 +5907,7 @@ class ApiController extends AppController
 				$user_id = $value['Video']['user_id'];
 				$device_token = $video_userDetails['User']['device_token'];
 
-				$msg = "Your video is ready!"
+				$msg = "Your video is ready!";
 
 				if (strlen($device_token) > 8) {
 					$notification['to'] = $device_token;
