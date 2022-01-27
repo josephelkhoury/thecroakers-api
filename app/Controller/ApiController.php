@@ -5856,7 +5856,8 @@ class ApiController extends AppController
 
         $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
-        	$this->Video->id = $value['Video']['id'];
+        	$video_id = $value['Video']['id'];
+        	$this->Video->id = $video_id;
             $this->Video->saveField('status', 1);
 
 			$sound_details = $this->Sound->getDetails($value['Video']['sound_id']);
@@ -5896,7 +5897,7 @@ class ApiController extends AppController
 				$video_save['thum'] = $thum_url;
 				$video_save['status'] = 2;
 
-				$this->Video->id = $value['Video']['id'];
+				$this->Video->id = $video_id;
 
 				if (!$this->Video->save($video_save)) {
 					die();
@@ -5931,7 +5932,7 @@ class ApiController extends AppController
 				/*************************end pushnotification to user********************/
 				
 				/**************pushnotification to followers******************/
-				$all_followers = $this->Follower->getUserFollowersWithoutLimit($value['Video']['user_id']);
+				$all_followers = $this->Follower->getUserFollowersWithoutLimit($user_id);
 				if (count($all_followers) > 0) {
 					foreach ($all_followers as $key => $value) {
 						$user_id = $value['FollowerList']['id'];
@@ -5968,7 +5969,7 @@ class ApiController extends AppController
 							$notification_data['sender_id'] = $video_userDetails['User']['id'];
 							$notification_data['receiver_id'] = $user_id;
 							$notification_data['type'] = "video_updates";
-							$notification_data['video_id'] = $value['Video']['id'];
+							$notification_data['video_id'] = $video_id;
 
 							$notification_data['string'] = $msg;
 							$notification_data['created'] = $created;
@@ -5983,15 +5984,15 @@ class ApiController extends AppController
     }
 
     public function optimizeGifs() {
-    		$this->loadModel('Video');
+		$this->loadModel('Video');
 
-    		$videos = $this->Video->getAllVideos();
+		$videos = $this->Video->getAllVideos();
 
-    		foreach ($videos as $video) {
-    				$video['Video']['gif'] = Regular::videoToGif($video['Video']['video'], $video['Video']['user_id']);
-    				//$this->Video->id = $video_id;
-    				$this->Video->save($video);
-    		}
+		foreach ($videos as $video) {
+			$video['Video']['gif'] = Regular::videoToGif($video['Video']['video'], $video['Video']['user_id']);
+			//$this->Video->id = $video_id;
+			$this->Video->save($video);
+		}
     }
 
     public function showFollowingVideos() {
@@ -6003,7 +6004,7 @@ class ApiController extends AppController
         $this->loadModel('Follower');
 
         if ($this->request->isPost()) {
-            $json = file_get_contents('php://input');
+        	$json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
             $user_id = 0;
