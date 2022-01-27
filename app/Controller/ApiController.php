@@ -5912,7 +5912,7 @@ class ApiController extends AppController
 				if (strlen($device_token) > 8) {
 					$notification['to'] = $device_token;
 					$notification['notification']['title'] = "The Croakers";
-					$notification['notification']['body'] = "";
+					$notification['notification']['body'] = $msg;
 					$notification['notification']['badge'] = "1";
 					$notification['notification']['sound'] = "default";
 					$notification['notification']['icon'] = "";
@@ -5943,7 +5943,7 @@ class ApiController extends AppController
 						if (strlen($device_token) > 8) {
 							$notification['to'] = $device_token;
 							$notification['notification']['title'] = "The Croakers";
-							$notification['notification']['body'] = "";
+							$notification['notification']['body'] = $msg;
 							$notification['notification']['badge'] = "1";
 							$notification['notification']['sound'] = "default";
 							$notification['notification']['icon'] = "";
