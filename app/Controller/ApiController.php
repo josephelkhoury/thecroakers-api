@@ -5790,7 +5790,7 @@ class ApiController extends AppController
 						if (strlen($tagged_userDetails['User']['device_token']) > 8) {
 							$notification['to'] = $tagged_userDetails['User']['device_token'];
 
-							$notification['notification']['title'] = 'The Croakers';
+							$notification['notification']['title'] = $msg;
 							$notification['notification']['body'] = "";
 							$notification['notification']['badge'] = "1";
 							$notification['notification']['sound'] = "default";
@@ -5810,10 +5810,9 @@ class ApiController extends AppController
 							if (count($if_exist) > 0) {
 								$video_updates = $if_exist['PushNotification']['video_updates'];
 								if ($video_updates > 0) {
-										Utility::sendPushNotificationToMobileDevice(json_encode($notification));
+									Utility::sendPushNotificationToMobileDevice(json_encode($notification));
 								}
 							}
-
 
 							$notification_data['sender_id'] = $video_userDetails['User']['id'];
 							$notification_data['receiver_id'] = $tagged_userDetails['User']['id'];
@@ -5911,7 +5910,7 @@ class ApiController extends AppController
 
 				if (strlen($device_token) > 8) {
 					$notification['to'] = $device_token;
-					$notification['notification']['title'] = "The Croakers";
+					$notification['notification']['title'] = $msg;
 					$notification['notification']['body'] = "";
 					$notification['notification']['badge'] = "1";
 					$notification['notification']['sound'] = "default";
@@ -5942,7 +5941,7 @@ class ApiController extends AppController
 
 						if (strlen($device_token) > 8) {
 							$notification['to'] = $device_token;
-							$notification['notification']['title'] = "The Croakers";
+							$notification['notification']['title'] = $msg;
 							$notification['notification']['body'] = "";
 							$notification['notification']['badge'] = "1";
 							$notification['notification']['sound'] = "default";
