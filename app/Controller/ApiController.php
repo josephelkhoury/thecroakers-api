@@ -5790,7 +5790,7 @@ class ApiController extends AppController
 						if (strlen($tagged_userDetails['User']['device_token']) > 8) {
 							$notification['to'] = $tagged_userDetails['User']['device_token'];
 
-							$notification['notification']['title'] = $msg;
+							$notification['notification']['title'] = 'The Croakers';
 							$notification['notification']['body'] = "";
 							$notification['notification']['badge'] = "1";
 							$notification['notification']['sound'] = "default";
@@ -5808,11 +5808,10 @@ class ApiController extends AppController
 							$if_exist = $this->PushNotification->getDetails($tagged_userDetails['User']['id']);
 
 							if (count($if_exist) > 0) {
-
-									$video_updates = $if_exist['PushNotification']['video_updates'];
-									if ($video_updates > 0) {
-											Utility::sendPushNotificationToMobileDevice(json_encode($notification));
-									}
+								$video_updates = $if_exist['PushNotification']['video_updates'];
+								if ($video_updates > 0) {
+										Utility::sendPushNotificationToMobileDevice(json_encode($notification));
+								}
 							}
 
 
@@ -5830,56 +5829,6 @@ class ApiController extends AppController
 				}
 				/*************************end pushnotification to tagged users********************/
 
-				/**************pushnotification to tagged users******************/
-				$all_followers = $this->Follower->getUserFollowersWithoutLimit($user_id);
-				if (count($all_followers) > 0) {
-						foreach ($all_followers as $key => $value) {
-								$user_id = $value['FollowerList']['id'];
-								$device_token = $value['FollowerList']['device_token'];
-
-								$msg = $video_userDetails['User']['username'] . " has posted a video";
-
-								if (strlen($device_token) > 8) {
-										$notification['to'] = $device_token;
-
-										$notification['notification']['title'] = "";
-										$notification['notification']['body'] = "";
-										$notification['notification']['badge'] = "1";
-										$notification['notification']['sound'] = "default";
-										$notification['notification']['icon'] = "";
-										$notification['notification']['type'] = "video_new_post";
-										$notification['data']['title'] = '';
-										$notification['data']['body'] = $msg;
-										$notification['data']['icon'] = "";
-										$notification['data']['badge'] = "1";
-										$notification['data']['sound'] = "default";
-										$notification['data']['type'] = "video_new_post";
-										$notification['notification']['receiver_id'] =  $value['FollowerList']['id'];
-										$notification['data']['receiver_id'] = $value['FollowerList']['id'];
-
-										$if_exist = $this->PushNotification->getDetails($user_id);
-
-										if (count($if_exist) > 0) {
-												$video_updates = $if_exist['PushNotification']['video_updates'];
-												if ($video_updates > 0) {
-														Utility::sendPushNotificationToMobileDevice(json_encode($notification));
-												}
-										}
-
-										$notification_data['sender_id'] = $video_userDetails['User']['id'];
-										$notification_data['receiver_id'] = $user_id;
-										$notification_data['type'] = "video_updates";
-										$notification_data['video_id'] = $video_id;
-
-										$notification_data['string'] = $msg;
-										$notification_data['created'] = $created;
-
-										$this->Notification->save($notification_data);
-								}
-						}
-				}
-				/*************************end pushnotification to tagged users********************/
-
 				$output = array();
 
 				$output['code'] = 200;
@@ -5894,7 +5843,7 @@ class ApiController extends AppController
     }
 
     public function processVideos() {
-    		$this->loadModel('Video');
+    	$this->loadModel('Video');
         $this->loadModel('Sound');
         $this->loadModel('Hashtag');
         $this->loadModel('HashtagVideo');
@@ -5902,16 +5851,18 @@ class ApiController extends AppController
         $this->loadModel('Notification');
         $this->loadModel('Follower');
         $this->loadModel('PushNotification');
-				$this->loadModel('TopicVideo');
+		$this->loadModel('TopicVideo');
+		
+		$created = date('Y-m-d H:i:s', time());
 
         $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
-        		$this->Video->id = $value['Video']['id'];
+        	$this->Video->id = $value['Video']['id'];
             $this->Video->saveField('status', 1);
 
-						$sound_details = $this->Sound->getDetails($value['Video']['sound_id']);
-						//$video_details = $this->Video->getDetails($value['Video']['id']);
-						$video_details = array();
+			$sound_details = $this->Sound->getDetails($value['Video']['sound_id']);
+			//$video_details = $this->Video->getDetails($value['Video']['id']);
+			$video_details = array();
             $result_video = Regular::local_video_upload($value['Video']['user_id'], $value['Video']['video'], $sound_details, $video_details, 0);
 
             $video_url = $result_video['video'];
@@ -5919,40 +5870,116 @@ class ApiController extends AppController
             $thum_url = $result_video['thum'];
 
             $video_save['sound_id'] = $value['Video']['sound_id'];
-						if (count($result_video) > 0) {
-								$video_duration = Utility::getDurationOfVideoFile($result_video['video']);
-								if (strlen($result_video['audio']) > 2) {
+			if (count($result_video) > 0) {
+				$video_userDetails = $this->User->getUserDetailsFromID($value['Video']['user_id']);
+				$video_duration = Utility::getDurationOfVideoFile($result_video['video']);
+				
+				if (strlen($result_video['audio']) > 2) {
+					$audio_url = Utility::getCloudFrontUrl($result_video['audio'], "/audio");
 
-										$video_userDetails = $this->User->getUserDetailsFromID($value['Video']['user_id']);
+					$duration = Utility::getDurationofAudioFile($result_video['audio']);
+					$sound_date['audio'] = $audio_url;
+					$sound_date['duration'] = $duration;
+					$sound_date['thum'] = $video_userDetails['User']['profile_pic'];
+					$sound_date['name'] = "original sound - " . $video_userDetails['User']['username'];
+					$sound_date['uploaded_by'] = "user";
 
-										$audio_url = Utility::getCloudFrontUrl($result_video['audio'], "/audio");
+					$this->Sound->save($sound_date);
+					$sound_id = $this->Sound->getInsertID();
+					$video_save['sound_id'] = $sound_id;
+				}
 
-										$duration = Utility::getDurationofAudioFile($result_video['audio']);
-										$sound_date['audio'] = $audio_url;
-										$sound_date['duration'] = $duration;
-										$sound_date['thum'] = $video_userDetails['User']['profile_pic'];
-										$sound_date['name'] = "original sound - " . $video_userDetails['User']['username'];
-										$sound_date['uploaded_by'] = "user";
+				//$filepath_thumb = Utility::multipartFileUpload($user_id, 'thumb', $type);
 
-										$this->Sound->save($sound_date);
-										$sound_id = $this->Sound->getInsertID();
-										$video_save['sound_id'] = $sound_id;
+				$video_save['gif'] = $gif_url;
+				$video_save['duration'] = $video_duration;
+				$video_save['video'] = $video_url;
+				$video_save['thum'] = $thum_url;
+				$video_save['status'] = 2;
+
+				$this->Video->id = $value['Video']['id'];
+
+				if (!$this->Video->save($video_save)) {
+					die();
+				}
+				
+				/**************pushnotification to user******************/
+				$user_id = $value['Video']['user_id'];
+				$device_token = $video_userDetails['User']['device_token'];
+
+				$msg = "Your video is ready!"
+
+				if (strlen($device_token) > 8) {
+					$notification['to'] = $device_token;
+					$notification['notification']['title'] = "The Croakers";
+					$notification['notification']['body'] = "";
+					$notification['notification']['badge'] = "1";
+					$notification['notification']['sound'] = "default";
+					$notification['notification']['icon'] = "";
+					$notification['notification']['type'] = "video_new_post";
+					$notification['data']['title'] = '';
+					$notification['data']['body'] = $msg;
+					$notification['data']['icon'] = "";
+					$notification['data']['badge'] = "1";
+					$notification['data']['sound'] = "default";
+					$notification['data']['type'] = "video_new_post";
+					$notification['notification']['receiver_id'] =  $user_id;
+					$notification['data']['receiver_id'] = $user_id;
+
+					Utility::sendPushNotificationToMobileDevice(json_encode($notification));
+				}
+				
+				/*************************end pushnotification to user********************/
+				
+				/**************pushnotification to followers******************/
+				$all_followers = $this->Follower->getUserFollowersWithoutLimit($value['Video']['user_id']);
+				if (count($all_followers) > 0) {
+					foreach ($all_followers as $key => $value) {
+						$user_id = $value['FollowerList']['id'];
+						$device_token = $value['FollowerList']['device_token'];
+
+						$msg = $video_userDetails['User']['username'] . " has posted a video";
+
+						if (strlen($device_token) > 8) {
+							$notification['to'] = $device_token;
+							$notification['notification']['title'] = "The Croakers";
+							$notification['notification']['body'] = "";
+							$notification['notification']['badge'] = "1";
+							$notification['notification']['sound'] = "default";
+							$notification['notification']['icon'] = "";
+							$notification['notification']['type'] = "video_new_post";
+							$notification['data']['title'] = '';
+							$notification['data']['body'] = $msg;
+							$notification['data']['icon'] = "";
+							$notification['data']['badge'] = "1";
+							$notification['data']['sound'] = "default";
+							$notification['data']['type'] = "video_new_post";
+							$notification['notification']['receiver_id'] =  $value['FollowerList']['id'];
+							$notification['data']['receiver_id'] = $value['FollowerList']['id'];
+
+							$if_exist = $this->PushNotification->getDetails($user_id);
+
+							if (count($if_exist) > 0) {
+								$video_updates = $if_exist['PushNotification']['video_updates'];
+								if ($video_updates > 0) {
+									Utility::sendPushNotificationToMobileDevice(json_encode($notification));
 								}
+							}
 
-								//$filepath_thumb = Utility::multipartFileUpload($user_id, 'thumb', $type);
+							$notification_data['sender_id'] = $video_userDetails['User']['id'];
+							$notification_data['receiver_id'] = $user_id;
+							$notification_data['type'] = "video_updates";
+							$notification_data['video_id'] = $value['Video']['id'];
 
-								$video_save['gif'] = $gif_url;
-								$video_save['duration'] = $video_duration;
-								$video_save['video'] = $video_url;
-								$video_save['thum'] = $thum_url;
-								$video_save['status'] = 2;
+							$notification_data['string'] = $msg;
+							$notification_data['created'] = $created;
 
-								$this->Video->id = $value['Video']['id'];
-
-								if (!$this->Video->save($video_save)) {
-										die();
-								}
-        		}
+							$this->Notification->save($notification_data);
+						}
+					}
+				}
+				/*************************end pushnotification to followers********************/
+			}
         }
     }
 

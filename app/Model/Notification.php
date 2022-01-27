@@ -5,33 +5,19 @@ class Notification extends AppModel
 {
     public $useTable = 'notification';
 
-
     public $belongsTo = array(
         'Video' => array(
             'className' => 'Video',
             'foreignKey' => 'video_id',
-
-
-
         ),
-
         'Sender' => array(
             'className' => 'User',
             'foreignKey' => 'sender_id',
-
-
-
         ),
-
         'Receiver' => array(
             'className' => 'User',
             'foreignKey' => 'receiver_id',
-
-
-
         ),
-
-
     );
 
 
@@ -40,16 +26,13 @@ class Notification extends AppModel
         return $this->find('first', array(
             'conditions' => array('Notification.id' => $id)
         ));
-
     }
 
 
 
     public function getAll()
     {
-
         return $this->find('all');
-
     }
 
 
