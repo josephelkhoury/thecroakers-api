@@ -993,6 +993,7 @@ class ApiController extends AppController
     public function deleteVideo() {
 
         $this->loadModel('Video');
+        $this->loadModel('Notification');
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
@@ -1001,14 +1002,11 @@ class ApiController extends AppController
             $video_id = $data['video_id'];
 
             $details = $this->Video->getDetails($video_id);
-            if(count($details) > 0 ) {
-
-
+            if (count($details) > 0 ) {
                 $video_url =  $details['Video']['video'];
                 $thum_url =  $details['Video']['thum'];
                 $gif_url =  $details['Video']['gif'];
                 $key = 'http';
-
 
                 if (strpos($video_url, $key) !== false) {
 
@@ -1020,55 +1018,38 @@ class ApiController extends AppController
                         $result2 = Extended::deleteObjectS3($thum_url);
                         $result3 = Extended::deleteObjectS3($gif_url);
                         if ($result1 && $result2 && $result3) {
-
                             $code = 200;
                             $msg = "deleted successfully";
                         } else {
-
                             $code = 201;
                             $msg = "something went wrong in deleting the file from the cdn";
                         }
-                    }else{
-
-
+                    } else {
                         $code =  201;
                         $msg = "Buy an extended license and setup S3. or delete S3 urls from database";
                     }
-                }else{
-
+                } else {
                     unlink($video_url);
                     unlink($thum_url);
                     unlink($gif_url);
                     $code =  200;
                     $msg = "successfully deleted";
-
-
                 }
             } else {
-
                 $code =  200;
                 $msg = "video has been already deleted";
-
             }
 
-
-            $this->Video->delete($video_id,true);
+            $this->Video->delete($video_id, true);
+            $this->Notification->deleteNotificationsAgainstVideoID($video_id);
 
             $output['code'] = $code;
-
             $output['msg'] = $msg;
-
 
             echo json_encode($output);
 
-
             die();
-
         }
-
-
-
-
     }
 
     public function followUser()
@@ -3980,10 +3961,8 @@ class ApiController extends AppController
             $video_id = $data['video_id'];
             $user_id = 0;
 
-            if(isset($data['user_id'])){
-
+            if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
-
             }
 
             $video_detail = $this->Video->getDetails($video_id);
@@ -8736,10 +8715,11 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
 
     }
 
-    public function deleteUserAccount(){
+    public function deleteUserAccount() {
 
         $this->loadModel('User');
         $this->loadModel('Follower');
+        $this->loadModel('Notification');
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
@@ -8750,9 +8730,9 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
             $details = $this->User->getUserDetailsFromID($user_id);
 
             if(count($details) > 0 ) {
-                $this->User->delete($user_id,true);
+                $this->User->delete($user_id, true);
                 $this->Follower->deleteFollowerAgainstUserID($user_id);
-
+                $this->Notification->deleteNotificationsAgainstUserID($user_id);
 
                 $output['code'] = 200;
 

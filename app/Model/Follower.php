@@ -128,7 +128,6 @@ class Follower extends AppModel
 
     public function deleteFollowerAgainstUserID($user_id){
 
-
         $conditions = array(
             'OR' => array(
                 'Follower.sender_id' => $user_id,
