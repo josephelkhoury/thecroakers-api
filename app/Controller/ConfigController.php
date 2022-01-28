@@ -1,10 +1,7 @@
 <?php
 
 App::uses('Lib', 'Utility');
-
-
 App::uses('Extended', 'Lib');
-
 
 class ConfigController extends AppController
 {
@@ -29,11 +26,11 @@ class ConfigController extends AppController
         pr($headers);
 
     }*/
+    
     public function phpInfo() {
         $this->autoRender = true;
         echo phpinfo();
     }
-
 
     public function view() {
         $this->autoRender = true;
@@ -463,10 +460,7 @@ class ConfigController extends AppController
     }
 
 
-    function checkDatabaseConnection()
-    {
-
-
+    function checkDatabaseConnection() {
         App::uses('ConnectionManager', 'Model');
 
         try {
@@ -476,19 +470,14 @@ class ConfigController extends AppController
             $errorMsg = $connectionError->getMessage();
             if (method_exists($connectionError, 'getAttributes')):
                 $attributes = $connectionError->getAttributes();
-
             endif;
         }
 
-
-
-    if ($connected && $connected->isConnected()):
-       return true;
-    else:
-      return false;
-    endif;
-
-
+		if ($connected && $connected->isConnected()):
+		   return true;
+		else:
+		  return false;
+		endif;
     }
 }
 ?>
