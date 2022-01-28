@@ -24,15 +24,11 @@ class ApiController extends AppController
             $json = file_get_contents('php://input');
             $json_error = Utility::isJsonError($json);
 
-
             if (!function_exists('apache_request_headers')) {
                 $headers = Utility::apache_request_headers();
             } else {
                 $headers = apache_request_headers();
             }
-
-
-
 
             $user_id = 0;
             if (array_key_exists("User-Id", $headers)) {
@@ -86,25 +82,18 @@ class ApiController extends AppController
 
             if ($user_id > 0) {
 
-
                 $userDetails = $this->User->getUserDetailsFromID($user_id);
 
                 if (count($userDetails) > 0) {
-
-
                     $social = $userDetails['User']['social'];
                     $db_auth_token = $userDetails['User']['auth_token'];
                     $active = $userDetails['User']['active'];
 
-
                     if ($active > 1) {
-
-
                         $output['code'] = 501;
                         $output['msg'] = "You have been blocked by the admin. Contact support";
                         echo json_encode($output);
                         die();
-
                     }
                     if ($social == "facebook") {
 
@@ -127,10 +116,7 @@ class ApiController extends AppController
 
                         $verify = Utility::getGoogleUserInfo($auth_token);
                         if ($verify) {
-
                             return true;
-
-
                         } else {
                             return true;
                             $output['code'] = 501;
@@ -138,20 +124,13 @@ class ApiController extends AppController
 
                             echo json_encode($output);
                             die();
-
                         }
-
                     } else if (strlen($social) < 2) {
-
-
                         if ($db_auth_token == $auth_token) {
-
                             return true;
-
                         } else {
-
                             return true;
-
+                            
                             $output['code'] = 501;
                             $output['msg'] = "invalid application token";
 
@@ -159,8 +138,6 @@ class ApiController extends AppController
                             die();
                         }
                     }
-
-
                 }
 
                 if(isset($data['device_token']) && isset($data['ip'])) {
@@ -170,22 +147,14 @@ class ApiController extends AppController
                     $device = $data['device'];
                     $version = $data['version'];
                     $this->addPhoneDeviceData($device_token, $ip, $device, $version);
-
                 }
             }
 
             if ($json_error == "false") {
-
-
-
                 return true;
-
-
             } else {
                 $privacy_type = $this->request->data('privacy_type');
                 if (strlen($privacy_type) > 0) {
-
-
                 }
                 return true;
                 $output['code'] = 202;
@@ -193,22 +162,13 @@ class ApiController extends AppController
 
                 echo json_encode($output);
                 die();
-
-
             }
         }
     }
 
-
-
-
-    public function index(){
-
-
+    public function index() {
         echo "Congratulations!. You have configured your mobile api correctly";
-
     }
-
 
     public function registerUser()
     {
@@ -5917,7 +5877,7 @@ class ApiController extends AppController
 					$notification['notification']['sound'] = "default";
 					$notification['notification']['icon'] = "";
 					$notification['notification']['type'] = "video_new_post";
-					$notification['data']['title'] = '';
+					$notification['data']['title'] = "The Croakers";
 					$notification['data']['body'] = $msg;
 					$notification['data']['icon'] = "";
 					$notification['data']['badge'] = "1";
@@ -5948,7 +5908,7 @@ class ApiController extends AppController
 							$notification['notification']['sound'] = "default";
 							$notification['notification']['icon'] = "";
 							$notification['notification']['type'] = "video_new_post";
-							$notification['data']['title'] = '';
+							$notification['data']['title'] = "The Croakers";
 							$notification['data']['body'] = $msg;
 							$notification['data']['icon'] = "";
 							$notification['data']['badge'] = "1";

@@ -15,10 +15,6 @@ class ConfigController extends AppController
     public $layout = false;
 
 
-
-
-
-
    /* public function beforeFilter()
     {
 
@@ -33,41 +29,31 @@ class ConfigController extends AppController
         pr($headers);
 
     }*/
-    public function phpInfo(){
-
-
+    public function phpInfo() {
         $this->autoRender = true;
         echo phpinfo();
     }
 
 
-    public function view(){
+    public function view() {
         $this->autoRender = true;
 
         $this->loadModel('Video');
         $params = $this->params['url'];
         
-         $url_param = key($params);
+        $url_param = key($params);
         $video_id = (int) filter_var($url_param, FILTER_SANITIZE_NUMBER_INT);
 
         $video_detail = $this->Video->getDetails($video_id);
 
-
         //config
-
 
         $config_data = array();
         if (method_exists('Extended', 'testFileUploadToS3')) {
             $result = Extended::testFileUploadToS3("app/webroot/uploads/images/test.jpg");
-
-
             $config_data['s3'] = $result;
             $this->set('config_data', $config_data);
-
-
-
-
-        }else{
+        } else{
 
             $this->set('config_data',$config_data);
         }
@@ -80,30 +66,20 @@ class ConfigController extends AppController
         //$this->layout = true;
     }
 
-
-
-    public function config()
-    {
+    public function config() {
         $this->autoRender = true;
         $config_data = array();
         if (method_exists('Extended', 'testFileUploadToS3')) {
             $result = Extended::testFileUploadToS3("app/webroot/uploads/images/test.jpg");
 
-
             $config_data['s3'] = $result;
-                $this->set('config_data', $config_data);
-
-
-
-
-        }else{
-
-            $this->set('config_data',$config_data);
+            $this->set('config_data', $config_data);
+        } else{
+            $this->set('config_data', $config_data);
         }
-
     }
 
-    public function setupPrivacyAndPush(){
+    public function setupPrivacyAndPush() {
 
         $this->loadModel('User');
         $this->loadModel('PrivacySetting');
@@ -111,9 +87,7 @@ class ConfigController extends AppController
 
         $users = $this->User->getAllUsers();
 
-        foreach($users as $key=>$user){
-
-
+        foreach($users as $key=>$user) {
             $user_id = $user['User']['id'];
             $notification[$key]['likes'] = 1;
             $notification[$key]['comments'] = 1;
@@ -125,7 +99,6 @@ class ConfigController extends AppController
 
            // $this->PushNotification->save($notification);
 
-
             $settings[$key]['videos_download'] = 1;
             $settings[$key]['videos_repost'] = 1;
             $settings[$key]['direct_message'] = "everyone";
@@ -135,7 +108,6 @@ class ConfigController extends AppController
             $settings[$key]['id'] = $user_id;
 
             //$this->PrivacySetting->save($settings);
-
         }
 
         $this->PushNotification->saveAll($notification);
@@ -158,19 +130,17 @@ class ConfigController extends AppController
     }
 
 
-    public function showApiSettings(){
+    public function showApiSettings() {
         $this->autoRender = false;
         $this->loadModel('ApiSetting');
 
         $details = $this->ApiSetting->getAll();
 
-        if(count($details) > 0){
+        if (count($details) > 0){
 
             pr($details);
 
-            $API_KEY = $this->findKey($details,"APP_KEY");
-
-
+            $API_KEY = $this->findKey($details, "APP_KEY");
 
                 foreach($details as $key=>$detail){
 
@@ -178,38 +148,28 @@ class ConfigController extends AppController
                    $value =  $detail["ApiSetting"]['value'];
 
                     if($title == "API_KEY"){
-
                         $array[$key]['API_KEY'] = $value;
-
                     }
-
                     if($title == "API_STATUS"){
-
                         $array[$key]['API_STATUS'] = $value;
-
                     }
-
             }
 
             Configure::write(
                 'ApiSetting',$array
             );
-
         }
-
     }
 
 
     public function updateConstantFile()
     {
-
         $this->autoRender = false;
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
             $file_path = ROOT . DS . 'app' . DS . 'Config' . DS . 'constant1.php';
-
 
             /*******************/
 
@@ -221,8 +181,6 @@ class ConfigController extends AppController
                 $content_chunks = explode($string_to_replace, $content);
                 $content = implode($replace_with, $content_chunks);
                 file_put_contents($file_path, $content);
-
-
             }
             /*******************/
 
@@ -235,10 +193,8 @@ class ConfigController extends AppController
                 $content_chunks = explode($string_to_replace, $content);
                 $content = implode($replace_with, $content_chunks);
                 file_put_contents($file_path, $content);
-
             }
             /*******************/
-
 
             /*******************/
             if (isset($data['time_zone'])) {
@@ -323,7 +279,6 @@ class ConfigController extends AppController
                     $output['code'] = 201;
 
                     $output['msg'] = "database not connected";
-
 
                     echo json_encode($output);
 
