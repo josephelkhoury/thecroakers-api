@@ -9140,7 +9140,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
         }
   	}
   	
-  	public function showEntityType() {
+  	public function showLink() {
   		$this->loadModel('ShareLink');
   		
   		if ($this->request->isPost()) {
