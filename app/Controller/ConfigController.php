@@ -33,7 +33,7 @@ class ConfigController extends AppController
     }
 
     public function view() {
-        $this->autoRender = true;
+    	$this->autoRender = true;
 
         $this->loadModel('Video');
         $params = $this->params['url'];
@@ -51,7 +51,6 @@ class ConfigController extends AppController
             $config_data['s3'] = $result;
             $this->set('config_data', $config_data);
         } else{
-
             $this->set('config_data',$config_data);
         }
 
@@ -60,7 +59,6 @@ class ConfigController extends AppController
 
         //
         $this->set('data', $data);
-        //$this->layout = true;
     }
 
     public function config() {

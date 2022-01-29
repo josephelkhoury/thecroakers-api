@@ -5447,8 +5447,8 @@ class ApiController extends AppController
                     $video_save['user_id'] = $user_id;
                     $video_save['interest_id'] = $interest_id;
                     $video_save['created'] = $created;
-		    						$video_save['main_video_id'] = $main_video_id;
-		   			 				$video_save['country_id'] = $country_id;
+		    		$video_save['main_video_id'] = $main_video_id;
+		   			$video_save['country_id'] = $country_id;
 
                     if (!$this->Video->save($video_save)) {
                         echo Message::DATASAVEERROR();
@@ -5745,7 +5745,7 @@ class ApiController extends AppController
 						$user_id = $value['user_id'];
 
 						$tagged_userDetails = $this->User->getUserDetailsFromID($user_id);
-						$msg = $video_userDetails['User']['username'] . " has tagged you in a video";
+						$msg = $video_userDetails['User']['username'] . " tagged you in a video";
 
 						if (strlen($tagged_userDetails['User']['device_token']) > 8) {
 							$notification['to'] = $tagged_userDetails['User']['device_token'];

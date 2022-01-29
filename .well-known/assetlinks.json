@@ -1,0 +1,11 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.thecroakers.app",
+    "sha256_cert_fingerprints":
+    ["AC:3A:D8:79:4A:53:82:F8:EA:2A:83:02:D1:43:06:AE:E0:64:90:42:44:FB:99:85:EE:D7:37:9C:6
+C:05:72:50", "54:64:D5:9E:E0:8C:D2:D3:4A:8F:EB:FA:66:30:46:A1:5B:2E:58:20:91:0E:49:7B:5D:9E
+:2B:59:8B:5D:43:5B"]
+  }
+}]

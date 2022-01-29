@@ -1,45 +1,33 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php
 
+if (count($data['video_detail']) > 0) {
+    $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $base_url = substr($current_url, 0, strpos($current_url, "view"));
+    if (strlen($base_url) < 1) {
+        $base_url = $current_url;
+    }
 
-if(count($data['video_detail']) > 0)
-{
+	$base_url = substr($base_url, 0, strrpos( $base_url, '/'));
+	$base_url = $base_url."/";
 
-            $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $base_url = substr($current_url, 0, strpos($current_url, "view"));
-        if (strlen($base_url) < 1) {
+	$video_detail = $data['video_detail'];
+	$key = 'http';
+	$video_url =  $video_detail['Video']['video'];
+	$title =  "video";
+	$user_pic =  $video_detail['User']['profile_pic'];
+	$user_image = $base_url.$user_pic;
 
-            $base_url = $current_url;
-        }
-
-$base_url = substr($base_url, 0, strrpos( $base_url, '/'));
-$base_url = $base_url."/";
-
-$video_detail = $data['video_detail'];
-$key = 'http';
-$video_url =  $video_detail['Video']['video'];
-$title =  "video";
-$user_pic =  $video_detail['User']['profile_pic'];
-$user_image = $base_url.$user_pic;
-
-if (strpos($video_url, $key) !== false) {
-
-
-    $thumb_url = $video_detail['Video']['thum'];
-    $video_url = $video_detail['Video']['video'];
-
-}else{
-
-    $thumb_url = $video_detail['Video']['thum'];
-
-    $thumb_url = $base_url.$thumb_url;
-
-   // $video_url = $base_url['Video']['video'];
-
-    $video_url = $base_url.$video_url;
-
-}
-
+	if (strpos($video_url, $key) !== false) {
+		$thumb_url = $video_detail['Video']['thum'];
+		$video_url = $video_detail['Video']['video'];
+	} else {
+		$thumb_url = $video_detail['Video']['thum'];
+		$thumb_url = $base_url.$thumb_url;
+	   	// $video_url = $base_url['Video']['video'];
+		$video_url = $base_url.$video_url;
+	}
+	
 ?>
     <title><?php echo $title; ?></title>
     <script src="https://kit.fontawesome.com/ac9b11d13d.js"></script>
@@ -128,8 +116,6 @@ if (strpos($video_url, $key) !== false) {
 
 <?php
 
-
-
     ?>
 
     <div class="container">
@@ -148,7 +134,6 @@ if (strpos($video_url, $key) !== false) {
                 </div>
                 <h4 class="titleName"><?= $video_detail['User']['first_name']." ".$video_detail['User']['last_name'] ?></h4>
                 <h5 class="videoDescription"><?= $video_detail['Video']['description'] ?></h5>
-                <h6>sound track refference</h6>
             </div>
             <div class="reactonSide">
                 <a href="#">
@@ -171,14 +156,10 @@ if (strpos($video_url, $key) !== false) {
         </div>
     </div>
     <?php
-}else{
-        //echo $this->Html->url('/');
-
-
-require("config.ctp");
+} else {
+	require("config.ctp");
 }
 ?>
-
 
 </body>
 </html> 
