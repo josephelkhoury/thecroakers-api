@@ -9169,7 +9169,6 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
                 echo json_encode($output);
 				die();
   			}
-  			
   		} else {
   			Message::EMPTYDATA();
 	      	die();
