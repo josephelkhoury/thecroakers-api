@@ -1043,6 +1043,11 @@ class Utility
         }
 
     }
+    
+    static function randomString($length = 5) {
+   		return substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"), 10, $length);
+   	}
+}
 
 
 

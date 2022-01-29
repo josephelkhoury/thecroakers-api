@@ -9140,6 +9140,42 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
         }
   	}
   	
+  	public function generateShareLink() {
+  		$this->loadModel('ShareLink');
+  		
+  		if ($this->request->isPost()) {
+  			$json = file_get_contents('php://input');
+            $data = json_decode($json, TRUE);
+            
+            $user_id = $data['user_id'];
+            $device_id = $data['device_id'];
+  			$type = $data['type'];
+  			$entity_id = $data['entity_id'];
+  			
+  			$share_link['user_id'] = $user_id;
+  			$share_link['device_id'] = $device_id;
+  			$share_link['type'] = $type;
+  			$share_link['entity_id'] = $entity_id;
+  			$share_link['link'] = Utility::randomString(8);
+  			
+  			if ($this->ShareLink->save($share_link)) {
+                $output['code'] = 200;
+                $output['msg'] = $share_link['link'];
+                echo json_encode($output);
+				die();
+  			} else {
+  				$output['code'] = 201;
+                $output['msg'] = "An error has occured, please try again later";
+                echo json_encode($output);
+				die();
+  			}
+  			
+  		} else {
+  			Message::EMPTYDATA();
+	      	die();
+  		}
+  	}
+  	
   	public function showShareLink() {
   		$this->loadModel('ShareLink');
   		
@@ -9169,10 +9205,6 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
   			Message::EMPTYDATA();
 	      	die();
   		}
-  	}
-  	
-  	public function generateShareLink() {
-  	
   	}
 }
 
