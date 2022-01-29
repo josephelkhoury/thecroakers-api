@@ -39,7 +39,7 @@ class VideoLike extends AppModel
     public function countUserAllVideoLikes($user_id)
     {
         return $this->find('count', array(
-	    'contain' => array('Video'),
+	    	'contain' => array('Video'),
             'conditions' => array(
                 'Video.user_id'=> $user_id,
             )

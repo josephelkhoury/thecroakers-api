@@ -9151,6 +9151,9 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
   			
   			$share_link = $this->ShareLink->getDetails($link);
   			
+  			var_dump($link);
+  			var_dump($share_link);
+  			
   			if (!empty($share_link)) {
   				$output['code'] = 200;
                 $output['msg'] = $share_link;
