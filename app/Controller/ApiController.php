@@ -9140,7 +9140,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
         }
   	}
   	
-  	public function showLink() {
+  	public function showShareLink() {
   		$this->loadModel('ShareLink');
   		
   		if ($this->request->isPost()) {
@@ -9169,6 +9169,10 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
   			Message::EMPTYDATA();
 	      	die();
   		}
+  	}
+  	
+  	public function generateShareLink() {
+  	
   	}
 }
 
