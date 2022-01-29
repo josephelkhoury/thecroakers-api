@@ -8935,7 +8935,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
     }
 
 
-    public function showTopics(){
+    public function showTopics() {
 
         $this->loadModel('Topic');
 
@@ -9102,42 +9102,73 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
   	}
 
   	public function changeForgotPassword() {
-  			if ($this->request->isPost()) {
-            $json = file_get_contents('php://input');
-            $data = json_decode($json, TRUE);
+		if ($this->request->isPost()) {
+			$json = file_get_contents('php://input');
+			$data = json_decode($json, TRUE);
 
-            $device_id = $data['device_id'];
-            $email = $data['email'];
-            $code = $data['code'];
-            $password = $data['password'];
+			$device_id = $data['device_id'];
+			$email = $data['email'];
+			$code = $data['code'];
+			$password = $data['password'];
 
-            $code_verify = $this->User->verifyToken($code, $email);
+			$code_verify = $this->User->verifyToken($code, $email);
 
-						if (!empty($code_verify) && $code > 0) {
-								$user_info = $this->User->getUserDetailsAgainstEmail($email);
-								$this->request->data['password'] = $password;
-								$this->request->data['token'] = 0;
-                $this->User->id = $user_info['User']['id'];
+			if (!empty($code_verify) && $code > 0) {
+				$user_info = $this->User->getUserDetailsAgainstEmail($email);
+				$this->request->data['password'] = $password;
+				$this->request->data['token'] = 0;
+				$this->User->id = $user_info['User']['id'];
 
-                if ($this->User->save($this->request->data)) {
-                    $result['code'] = 200;
-										$result['msg'] = "Password reset successfully";
-										echo json_encode($result);
-                    die();
-                } else {
-                    echo Message::DATASAVEERROR();
-                    die();
-                }
-						} else {
-								$result['code'] = 201;
-								$result['msg'] = "Invalid code";
-								echo json_encode($result);
-								die();
-						}
+				if ($this->User->save($this->request->data)) {
+					$result['code'] = 200;
+					$result['msg'] = "Password reset successfully";
+					echo json_encode($result);
+					die();
 				} else {
-	      		Message::EMPTYDATA();
-	      		die();
+					echo Message::DATASAVEERROR();
+					die();
+				}
+			} else {
+				$result['code'] = 201;
+				$result['msg'] = "Invalid code";
+				echo json_encode($result);
+				die();
+			}
+		} else {
+			Message::EMPTYDATA();
+			die();
         }
+  	}
+  	
+  	public function showEntityType() {
+  		$this->loadModel('ShareLink');
+  		
+  		if ($this->request->isPost()) {
+  			$json = file_get_contents('php://input');
+            $data = json_decode($json, TRUE);
+            
+  			$link = $data['link'];
+  			
+  			$share_link = $this->ShareLink->getDetails($link);
+  			
+  			if (!empty($share_link)) {
+  				$output['code'] = 200;
+                $output['msg'] = $share_link;
+
+                echo json_encode($output);
+
+                die();
+  			} else {
+  				$result['code'] = 201;
+				$result['msg'] = "Invalid link";
+				echo json_encode($result);
+				die();
+  			}
+  			
+  		} else {
+  			Message::EMPTYDATA();
+	      	die();
+  		}
   	}
 }
 
