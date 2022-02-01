@@ -8222,7 +8222,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
                 $email_data['subject'] = "verify your email address";
                 $email_data['message'] = "Please enter this verification code to register your email.<br><br>Confirmation code: <b></b>" . $code . "<b>";
 
-                if(APP_STATUS == "live"){
+                if (APP_STATUS == "live") {
                     $response = Utility::sendMail($email_data);
                 } else {
                     $code = 1234;

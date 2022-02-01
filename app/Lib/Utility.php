@@ -995,7 +995,7 @@ class Utility
         }
     }
 
-    static function sendMail($data){
+    static function sendMail($data) {
 
 
         $mail = new PHPMailer(true);
@@ -1014,7 +1014,7 @@ class Utility
             //Recipients
             $mail->setFrom(MAIL_FROM, MAIL_NAME);
             // $mail->addAddress('irfanzsheikhz@gmail.com', 'Irfan Sheikh');     // Add a recipient
-            $mail->addAddress($data['to'],$data['name']);               // Name is optional
+            $mail->addAddress($data['to'], $data['name']);               // Name is optional
             $mail->addReplyTo(MAIL_REPLYTO);
             // $mail->addCC('cc@example.com');
             //$mail->addBCC('bcc@example.com');
