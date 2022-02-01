@@ -44,9 +44,9 @@ class HashtagVideo extends AppModel
             'conditions' => array(
                 'HashtagVideo.hashtag_id' => $hashtag_id,
                 'Video.privacy_type' => "public",
-								'User.role' => 'publisher',
-								'Video.main_video_id' => null,
-								'Video.status' => 2
+				'User.role' => 'publisher',
+				'Video.main_video_id' => '0',
+				'Video.status' => 2
             ),
             'limit' => APP_RECORDS_PER_PAGE,
             'offset' => $starting_point * APP_RECORDS_PER_PAGE,
@@ -64,7 +64,7 @@ class HashtagVideo extends AppModel
                 'HashtagVideo.hashtag_id'=> $hashtag_id,
                 'Video.privacy_type'=> "public",
 								'Video.User.role' => 'publisher',
-								'Video.main_video_id' => null,
+								'Video.main_video_id' => '0',
 								'Video.status' => 2
             ),
             'order' => 'Video.view DESC',
