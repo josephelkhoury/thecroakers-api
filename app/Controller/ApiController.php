@@ -8150,38 +8150,26 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
 Please enter this verification code to reset your email.<br><br>Confirmation code: <b></b>" . $code . "<b>";
                 $response = Utility::sendMail($email_data);
 
-
                 //  $response['ErrorCode']  = 0;
                 if ($response['code'] == 200) {
-
                     $this->User->id = $user_id;
 
                     $savedField = $this->User->saveField('token', $code);
                     $result['code'] = 200;
                     $result['msg'] = "An email has been sent to " . $email . ". You should receive it shortly.";
                 } else {
-
                     $result['code'] = 201;
                     $result['msg'] = $response['msg'];
-
-
                 }
 
                 echo json_encode($result);
                 die();
-            }else{
-
-
+            } else {
                 Message::EMPTYDATA();
                 die();
             }
-
         }
-
     }
-
-
-
 
     public function verifyRegisterEmailCode()
     {
@@ -8240,6 +8228,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
                 echo json_encode($result);
                 die();
             }
+            
             $code = $data['code'];
             $email = $data['email'];
             $details = $this->EmailVerification->verifyCode($email,$code);
@@ -8251,7 +8240,7 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
                 die();
             } else {
                 $result['code'] = 201;
-                $result['msg'] = "invalid code";
+                $result['msg'] = "Invalid code";
                 echo json_encode($result);
                 die();
             }
