@@ -8200,27 +8200,21 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
                 $user_details  = $this->User->getUserDetailsAgainstEmail($data['email']);
                 $active = $user_details['User']['active'];
 
-                if($active > 1){
-
-
+                if ($active > 1) {
                     $output['code'] = 201;
                     $output['msg'] = "You have been blocked by the admin. Contact support";
                     echo json_encode($output);
                     die();
-
                 }
 
                 $output['code'] = 201;
-                $output['msg'] = "The account already exist with this email";
+                $output['msg'] = "This email address is already registered";
                 echo json_encode($output);
                 die();
             }
-            if(!isset($data['code'])){
-
-
+            
+            if(!isset($data['code']) || $data['code'] == "") {
                 $email = $data['email'];
-
-
 
                 $code = Utility::randomNumber(4);
                 $email_data['to'] = $email;
@@ -8229,11 +8223,8 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
                 $email_data['message'] = "Please enter this verification code to register your email.<br><br>Confirmation code: <b></b>" . $code . "<b>";
 
                 if(APP_STATUS == "live"){
-
                     $response = Utility::sendMail($email_data);
-
-                }else{
-
+                } else {
                     $code = 1234;
                 }
 
@@ -8252,21 +8243,18 @@ Please enter this verification code to reset your email.<br><br>Confirmation cod
             $code = $data['code'];
             $email = $data['email'];
             $details = $this->EmailVerification->verifyCode($email,$code);
+        
             if(count($details) > 0) {
-
                 $result['code'] = 200;
                 $result['msg'] = $details;
                 echo json_encode($result);
                 die();
-
-            }else{
-
+            } else {
                 $result['code'] = 201;
                 $result['msg'] = "invalid code";
                 echo json_encode($result);
                 die();
             }
-
         }
     }
 
