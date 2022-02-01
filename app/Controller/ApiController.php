@@ -5069,13 +5069,13 @@ class ApiController extends AppController
             $lang_ids = array();
             $interest_ids = array();
 
-            if(isset($data['user_id'])) {
+            if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
             }
 
             $user_details = $this->User->getUserDetailsFromID($user_id);
 
-            if(APP_STATUS == "demo") {
+            if (APP_STATUS == "demo") {
                 $videos = $this->Video->getRelatedVideosDemo($user_id, $device_id, $starting_point);
             } else {
                 $videos = $this->Video->getRelatedVideosNotWatched($user_id, $device_id, $starting_point);
@@ -5085,7 +5085,7 @@ class ApiController extends AppController
                 }
             }
 
-            if(count($videos) > 0) {
+            if (count($videos) > 0) {
                 foreach($videos as $key=>$video) {
                     if($user_id > 0) {
                         $video_data['user_id'] = $user_id;

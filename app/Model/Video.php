@@ -308,7 +308,7 @@ class Video extends AppModel
                 //'Video.user_id !='=> $user_id,
                 'Video.block'=> 0,
                 'Video.privacy_type'=> 'public',
-								'Video.main_video_id IS NOT NULL',
+								'Video.main_video_id IS NOT NULL OR Video.main_video_id <> 0',
 								'Video.status'=> 2,
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
