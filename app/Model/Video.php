@@ -269,19 +269,19 @@ class Video extends AppModel
 
     public function getVideoReplies($user_id,$video_id,$starting_id)
     {
-				$this->Behaviors->attach('Containable');
+		$this->Behaviors->attach('Containable');
 
-				return $this->find('all', array(
-						'conditions' => array(
-								'Video.main_video_id'=> $video_id,
-								'Video.privacy_type'=> 'public',
-								'Video.status'=> 2,
-						),
-						'contain' => array('Sound', 'User.PrivacySetting','User.PushNotification', 'HashtagVideo.Hashtag', 'Country'),
-						'limit' => APP_RECORDS_PER_PAGE,
-						'offset' => $starting_id*APP_RECORDS_PER_PAGE,
-						'order' => 'Video.view DESC'
-				));
+		return $this->find('all', array(
+			'conditions' => array(
+				'Video.main_video_id'=> $video_id,
+				'Video.privacy_type'=> 'public',
+				'Video.status'=> 2,
+			),
+			'contain' => array('Sound', 'User.PrivacySetting','User.PushNotification', 'HashtagVideo.Hashtag', 'Country'),
+			'limit' => APP_RECORDS_PER_PAGE,
+			'offset' => $starting_id*APP_RECORDS_PER_PAGE,
+			'order' => 'Video.view DESC'
+		));
     }
 
     public function getPromotedVideo()
@@ -311,7 +311,7 @@ class Video extends AppModel
 				'Video.main_video_id !=' => '0',
 				'Video.status'=> 2,
             ),
-            'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
+            'contain' => array('User.PrivacySetting', 'User.PushNotification', 'Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,
             'offset' => $starting_id*10,
             'order' => 'rand()'
@@ -406,7 +406,7 @@ class Video extends AppModel
     }
 
 
-    public function getFollowingVideosWatched($user_id,$device_id,$starting_id)
+    public function getFollowingVideosWatched($user_id, $device_id, $starting_id)
     {
         $this->Behaviors->attach('Containable');
 
@@ -419,7 +419,7 @@ class Video extends AppModel
                 'Video.privacy_type'=> 'public',
                 'Video.status'=> 2,
             ),
-            'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
+            'contain' => array('User.PrivacySetting', 'User.PushNotification', 'Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,
             'offset' => $starting_id*10,
 
@@ -479,16 +479,16 @@ class Video extends AppModel
 
     public function getUserVideosLimit($user_id, $country_id = 0)
     {
-    		$conditions = [];
+    	$conditions = [];
         $conditions['Video.user_id'] = $user_id;
         $conditions['Video.privacy_type'] = "public";
         $conditions['Video.status'] = 2;
         if ($country_id != 0)
-	   				$conditions['Video.country_id'] = $country_id;
+	   		$conditions['Video.country_id'] = $country_id;
 
         $this->Behaviors->attach('Containable');
         return $this->find('all', array(
-            'contain' => array('Sound','User','Country', 'HashtagVideo.Hashtag'),
+            'contain' => array('User', 'User.PrivacySetting', 'User.PushNotification', 'Sound', 'Country', 'HashtagVideo.Hashtag'),
             'conditions' => $conditions,
             'limit'=>5,
             'order' => 'Video.view DESC',
@@ -497,12 +497,12 @@ class Video extends AppModel
 
     public function countUserVideos($user_id, $country_id = 0)
     {
-    		$conditions = [];
+    	$conditions = [];
         $conditions['Video.user_id'] = $user_id;
         $conditions['Video.privacy_type'] = "public";
         $conditions['Video.status'] = 2;
         if ($country_id != 0)
-	   				$conditions['Video.country_id'] = $country_id;
+	   		$conditions['Video.country_id'] = $country_id;
 
         return $this->find('count', array(
             //'contain' => array('Video'),

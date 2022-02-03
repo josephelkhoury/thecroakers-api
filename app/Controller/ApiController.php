@@ -2220,87 +2220,87 @@ class ApiController extends AppController
     public function showDiscoverySections()
     {
         $this->loadModel("HashtagVideo");
-				$this->loadModel("Video");
-				$this->loadModel("VideoLike");
-				$this->loadModel("VideoComment");
+		$this->loadModel("Video");
+		$this->loadModel("VideoLike");
+		$this->loadModel("VideoComment");
 
         if ($this->request->isPost()) {
-            $json = file_get_contents('php://input');
+        	$json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
-	    			$section = 0;
+	    	$section = 0;
 
-	    			if (isset($data['section']))
-								$section = $data['section'];
+	    	if (isset($data['section']))
+				$section = $data['section'];
 
             $starting_point = 0;
 
             if (isset($data['starting_point']))
                 $starting_point = $data['starting_point'];
 
-						$country_id = 0;
+			$country_id = 0;
 
             if (isset($data['country_id']))
-                $country_id = $data['country_id'];
+            	$country_id = $data['country_id'];
 
-	    			$new_array = array();
+			$new_array = array();
 
-	    			if ($section == 0) {
-                $hashtags = $this->HashtagVideo->getHashtagsWhichHasGreaterNoOfVideos($starting_point, $country_id);
-                if(count($hashtags) > 0) {
-                    foreach ($hashtags as $key => $hashtag) {
-                        $hashtag_videos = $this->HashtagVideo->getHashtagVideosLimit($hashtag['Hashtag']['id'], $country_id);
-                        $hashtag_videos_count = $this->HashtagVideo->countHashtagVideos($hashtag['Hashtag']['id'], $country_id);
-                        if(count($hashtag_videos) > 0) {
-                        		$array = array();
-                            $array["Hashtag"] = $hashtag['Hashtag'];
-                            $array["Hashtag"]['views'] = $hashtag[0]['total_views'];
-                            $array["Hashtag"]['Videos'] = $hashtag_videos;
-                            $array["Hashtag"]['videos_count'] = $hashtag_videos_count;
-                            $new_array[] = $array;
-                        }
-                    }
-                }
-	     			}
-	    	 		else if ($section == 1 || $section == 2) {
-	        			$users = $this->Video->getUsersWhichHaveGreaterNoOfVideos($starting_point, $section, $country_id);
-								if (count($users) > 0) {
-		    						foreach ($users as $key => $user) {
-												$user_videos = $this->Video->getUserVideosLimit($user['User']['id'], $country_id);
-												$user_videos_count = $this->Video->countUserVideos($user['User']['id'], $country_id);
-												if (count($user_videos) > 0) {
-														$array = array();
-														$array["User"] = $user['User'];
-														$array["User"]["views"] = $user[0]['total_views'];
-														foreach ($user_videos as $key2 => $video) {
-																$video['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
-																$comment_count = $this->VideoComment->countComments($video['Video']['id']);
-																$video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
-																$video['Video']['comment_count'] = $comment_count;
-																$video['Video']['like_count'] = $video_likes_count;
-																if (isset($data["user_id"])) {
-																		$user_id = $data["user_id"];
-																		$video_data['user_id'] = $user_id;
-																		$video_data['video_id'] = $video['Video']['id'];
-																		$video_like_detail = $this->VideoLike->ifExist($video_data);
-																		if (count($video_like_detail) > 0) {
-																				$video['Video']['like'] = 1;
-																		} else {
-																				$video['Video']['like'] = 0;
-																		}
-																}
-																$array["User"]["Videos"][] = $video;
-														}
-														//$new_array[$key]["User"]["Videos"] = $publisher_videos;
-														$array["User"]["videos_count"] = $user_videos_count;
-														$new_array[] = $array;
-												}
-										}
+			if ($section == 0) {
+				$hashtags = $this->HashtagVideo->getHashtagsWhichHasGreaterNoOfVideos($starting_point, $country_id);
+				if (count($hashtags) > 0) {
+					foreach ($hashtags as $key => $hashtag) {
+						$hashtag_videos = $this->HashtagVideo->getHashtagVideosLimit($hashtag['Hashtag']['id'], $country_id);
+						$hashtag_videos_count = $this->HashtagVideo->countHashtagVideos($hashtag['Hashtag']['id'], $country_id);
+						if (count($hashtag_videos) > 0) {
+							$array = array();
+							$array["Hashtag"] = $hashtag['Hashtag'];
+							$array["Hashtag"]['views'] = $hashtag[0]['total_views'];
+							$array["Hashtag"]['Videos'] = $hashtag_videos;
+							$array["Hashtag"]['videos_count'] = $hashtag_videos_count;
+							$new_array[] = $array;
+						}
+					}
+				}
+			}
+			else if ($section == 1 || $section == 2) {
+				$users = $this->Video->getUsersWhichHaveGreaterNoOfVideos($starting_point, $section, $country_id);
+				if (count($users) > 0) {
+					foreach ($users as $key => $user) {
+						$user_videos = $this->Video->getUserVideosLimit($user['User']['id'], $country_id);
+						$user_videos_count = $this->Video->countUserVideos($user['User']['id'], $country_id);
+						if (count($user_videos) > 0) {
+							$array = array();
+							$array["User"] = $user['User'];
+							$array["User"]["views"] = $user[0]['total_views'];
+							foreach ($user_videos as $key2 => $video) {
+								$video['Topic'] = $this->Video->getTopic($video['HashtagVideo']);
+								$comment_count = $this->VideoComment->countComments($video['Video']['id']);
+								$video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
+								$video['Video']['comment_count'] = $comment_count;
+								$video['Video']['like_count'] = $video_likes_count;
+								if (isset($data["user_id"])) {
+									$user_id = $data["user_id"];
+									$video_data['user_id'] = $user_id;
+									$video_data['video_id'] = $video['Video']['id'];
+									$video_like_detail = $this->VideoLike->ifExist($video_data);
+									if (count($video_like_detail) > 0) {
+										$video['Video']['like'] = 1;
+									} else {
+										$video['Video']['like'] = 0;
+									}
 								}
-	     			}
+								$array["User"]["Videos"][] = $video;
+							}
+							//$new_array[$key]["User"]["Videos"] = $publisher_videos;
+							$array["User"]["videos_count"] = $user_videos_count;
+							$new_array[] = $array;
+						}
+					}
+				}
+			}
 
             if (count($new_array) > 0) {
-            		$output['code'] = 200;
+            	$output['code'] = 200;
                 $output['msg'] = $new_array;
                 echo json_encode($output);
                 die();
@@ -2314,7 +2314,6 @@ class ApiController extends AppController
 
     public function addOrderSession()
     {
-
         $this->loadModel("OrderSession");
 
         if ($this->request->isPost()) {

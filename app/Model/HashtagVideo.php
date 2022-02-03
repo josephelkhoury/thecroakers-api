@@ -31,16 +31,16 @@ class HashtagVideo extends AppModel
         $this->Behaviors->attach('Containable');
         return $this->find('all', array(
             'contain' => array('Video.Sound','Video.User.PrivacySetting','Video.User.PushNotification', 'Video.Country', 'Hashtag'),
-	    'joins' => array(
-		array(
-		    'table' => 'user',
-		    'alias' => 'User',
-		    'type' => 'LEFT',
-		    'conditions' => array(
-			'User.id = Video.user_id'
-		    ),
-		),
-	    ),
+			'joins' => array(
+				array(
+					'table' => 'user',
+					'alias' => 'User',
+					'type' => 'LEFT',
+					'conditions' => array(
+					'User.id = Video.user_id'
+					),
+				),
+	    	),
             'conditions' => array(
                 'HashtagVideo.hashtag_id' => $hashtag_id,
                 'Video.privacy_type' => "public",
