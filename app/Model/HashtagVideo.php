@@ -30,7 +30,7 @@ class HashtagVideo extends AppModel
     {
         $this->Behaviors->attach('Containable');
         return $this->find('all', array(
-            'contain' => array('Video.Sound','Video.User.PrivacySetting','Video.User.PushNotification', 'Video.Country', 'Hashtag'),
+            'contain' => array('Video.Sound', 'Video.User.PrivacySetting', 'Video.User.PushNotification', 'Video.Country', 'Hashtag'),
 			'joins' => array(
 				array(
 					'table' => 'user',
@@ -81,21 +81,21 @@ class HashtagVideo extends AppModel
         $conditions['Video.status'] = 2;
         $conditions['User.role'] = "publisher";
         if ($country_id != 0)
-	   				$conditions['Video.country_id'] = $country_id;
+	   		$conditions['Video.country_id'] = $country_id;
 
         return $this->find('all', array(
-            'contain' => array('Video.Sound','Video.User', 'Video.Country', 'Hashtag'),
+            'contain' => array('Video.Sound','Video.User', 'Video.User.PrivacySetting', 'Video.User.PushNotification', 'Video.Country', 'Hashtag'),
             'joins' => array(
-								array(
-		    						'table' => 'user',
-		    						'alias' => 'User',
-    		    				'type' => 'LEFT',
-		    						'conditions' => array(
-		    								'User.id = Video.user_id'
-		    						),
-								),
-	    			),
-	    			'conditions' => $conditions,
+				array(
+					'table' => 'user',
+					'alias' => 'User',
+				'type' => 'LEFT',
+					'conditions' => array(
+							'User.id = Video.user_id'
+					),
+				),
+			),
+			'conditions' => $conditions,
             'limit'=>5,
             'order' => 'Video.view DESC',
         ));
