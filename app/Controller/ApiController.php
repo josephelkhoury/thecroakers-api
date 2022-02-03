@@ -5635,7 +5635,7 @@ class ApiController extends AppController
             $lang_id = $this->request->data('lang_id');
             $interest_id = $this->request->data('interest_id');
 	    	$topic_id = $this->request->data('topic_id');
-			$main_video_id = $this->request->data('main_video_id');
+			$main_video_id = $this->request->data('main_video_id') ? $this->request->data('main_video_id') : "0";
    			$country_id = $this->request->data('country_id');
 
             $data_hashtag = json_decode($hashtags_json, TRUE);
