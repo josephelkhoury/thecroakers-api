@@ -5645,8 +5645,8 @@ class ApiController extends AppController
 
             if (count($video_userDetails) > 0) {
             	if ($video_userDetails['User']['role'] == 'publisher' && $main_video_id == 0) {
-            		$allow_likes = "false";
-            		$allow_comments = "false";
+            		$allow_likes = "true";
+            		$allow_comments = "true";
             		$allow_replies = "1";
             	} else if ($video_userDetails['User']['role'] == 'publisher' && $main_video_id != 0) {
             		$allow_likes = "true";
