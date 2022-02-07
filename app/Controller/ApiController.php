@@ -2255,7 +2255,26 @@ class ApiController extends AppController
 							$array = array();
 							$array["Hashtag"] = $hashtag['Hashtag'];
 							$array["Hashtag"]['views'] = $hashtag[0]['total_views'];
-							$array["Hashtag"]['Videos'] = $hashtag_videos;
+							
+							foreach ($hashtag_videos as $key2 => $video) {
+								$comment_count = $this->VideoComment->countComments($video['Video']['id']);
+								$video_likes_count = $this->VideoLike->countLikes($video['Video']['id']);
+								$video['Video']['comment_count'] = $comment_count;
+								$video['Video']['like_count'] = $video_likes_count;
+								if (isset($data["user_id"])) {
+									$user_id = $data["user_id"];
+									$video_data['user_id'] = $user_id;
+									$video_data['video_id'] = $video['Video']['id'];
+									$video_like_detail = $this->VideoLike->ifExist($video_data);
+									if (count($video_like_detail) > 0) {
+										$video['Video']['like'] = 1;
+									} else {
+										$video['Video']['like'] = 0;
+									}
+								}
+								$array["Hashtag"]["Videos"][] = $video;
+							}
+							
 							$array["Hashtag"]['videos_count'] = $hashtag_videos_count;
 							$new_array[] = $array;
 						}
