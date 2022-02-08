@@ -10,37 +10,22 @@ class VideoCommentLike extends AppModel
         'VideoComment' => array(
             'className' => 'VideoComment',
             'foreignKey' => 'comment_id',
-
-
-
         ),
 
         'User' => array(
             'className' => 'User',
             'foreignKey' => 'user_id',
-
-
-
         ),
-
     );
 
     public function getDetails($id)
     {
         return $this->find('first', array(
             'conditions' => array(
-
-
-
                 'VideoCommentLike.id'=> $id,
-
-
-
-
             )
         ));
     }
-
 
 
     public function getUserFavouriteComments($user_id)
@@ -49,15 +34,7 @@ class VideoCommentLike extends AppModel
         return $this->find('all', array(
             'contain' => array('Video.Sound','Video.User'),
             'conditions' => array(
-
-
-
-
                 'VideoCommentLike.user_id'=> $user_id,
-
-
-
-
             ),
 
         ));
@@ -67,15 +44,8 @@ class VideoCommentLike extends AppModel
     {
         return $this->find('first', array(
             'conditions' => array(
-
-
-
                 'VideoCommentLike.comment_id'=> $data['comment_id'],
                 'VideoCommentLike.user_id'=> $data['user_id'],
-
-
-
-
             )
         ));
     }
@@ -84,22 +54,15 @@ class VideoCommentLike extends AppModel
     {
         return $this->find('count', array(
             'conditions' => array(
-
-
                 'VideoCommentLike.comment_id' => $comment_id,
-
-
             )
         ));
     }
+    
     public function getAll()
     {
         return $this->find('all');
     }
-
-
-
-
 
 
 }
