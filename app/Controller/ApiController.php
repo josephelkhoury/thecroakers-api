@@ -3417,7 +3417,7 @@ class ApiController extends AppController
         }
     }
 
-    public function showVideosAgainstUserID(){
+    public function showVideosAgainstUserID() {
 
         $this->loadModel('Video');
         $this->loadModel('VideoLike');
@@ -3437,10 +3437,10 @@ class ApiController extends AppController
             if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
             }
-	    			if (isset($data['other_user_id']) && $data['other_user_id'] != "") {
-							$other_user_id = $data['other_user_id'];
-	    			} else
-	    				$other_user_id = $user_id;
+			if (isset($data['other_user_id']) && $data['other_user_id'] != "") {
+					$other_user_id = $data['other_user_id'];
+			} else
+				$other_user_id = $user_id;
 
             if (isset($data['starting_point'])) {
                 $starting_point = $data['starting_point'];
@@ -3458,7 +3458,7 @@ class ApiController extends AppController
             if (count($videos_public) > 0) {
                 foreach ($videos_public as $key => $video) {
                     if ($user_id > 0) {
-                        $video_data['user_id'] = $user_id;
+                    	$video_data['user_id'] = $user_id;
                         $video_data['video_id'] = $video['Video']['id'];
                         $video_like_detail = $this->VideoLike->ifExist($video_data);
                         $video_favourite_detail = $this->VideoFavourite->ifExist($video_data);
