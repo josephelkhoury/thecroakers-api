@@ -39,14 +39,7 @@ class VideoComment extends AppModel
     {
         return $this->find('first', array(
             'conditions' => array(
-
-
-
                 'VideoComment.id'=> $id,
-
-
-
-
             )
         ));
     }
