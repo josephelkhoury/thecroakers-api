@@ -3574,14 +3574,10 @@ class ApiController extends AppController
         }
     }
 
-    public function showVideoComments(){
+    public function showVideoComments() {
 
         $this->loadModel('VideoComment');
         $this->loadModel('VideoCommentLike');
-        $this->loadModel('VideoCommentReplyLike');
-
-
-
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
@@ -3590,7 +3586,6 @@ class ApiController extends AppController
             $video_id = $data['video_id'];
             $user_id = 0;
             if (isset($data['user_id'])) {
-
                 $user_id = $data['user_id'];
             }
 
@@ -3598,17 +3593,13 @@ class ApiController extends AppController
 
 
             if (isset($data['starting_point'])) {
-
                 $starting_point = $data['starting_point'];
-
             }
 
-            $comments = $this->VideoComment->getVideoComments($video_id,$starting_point);
+            $comments = $this->VideoComment->getVideoComments($video_id, $starting_point);
 
-//pr($comments);
-            if(count($comments) > 0) {
+            if (count($comments) > 0) {
                 foreach ($comments as $key => $comment) {
-
 
                     $comment_data['user_id'] = $user_id;
                     $comment_data['comment_id'] = $comment['VideoComment']['id'];
@@ -3616,76 +3607,50 @@ class ApiController extends AppController
                     $video_like_detail = $this->VideoCommentLike->ifExist($comment_data);
 
                     if (count($video_like_detail) > 0) {
-
                         $comments[$key]['VideoComment']['like'] = 1;
-
                     } else {
-
                         $comments[$key]['VideoComment']['like'] = 0;
                     }
 
+                    $video_comment_replies = $comment['CommentReply'];
 
-                    $video_comment_replies = $comment['VideoCommentReply'];
-
-                    if(count($video_comment_replies) > 0){
-
-
-                        foreach ($video_comment_replies  as $key2=>$comment_reply){
-
-
-
+                    if (count($video_comment_replies) > 0) {
+                        foreach ($video_comment_replies as $key2 => $comment_reply) {
                             $comment_reply_data['user_id'] = $user_id;
                             $comment_reply_data['comment_reply_id'] = $comment_reply['id'];
 
-                            $comment_reply_like_detail = $this->VideoCommentReplyLike->ifExist($comment_reply_data);
+                            $comment_reply_like_detail = $this->VideoCommentLike->ifExist($comment_reply_data);
 
                             if (count($comment_reply_like_detail) > 0) {
-
-                                $comments[$key]['VideoCommentReply'][$key2]['like'] = 1;
-
+                                $comments[$key]['CommentReply'][$key2]['like'] = 1;
                             } else {
-
-                                $comments[$key]['VideoCommentReply'][$key2]['like'] = 0;
+                                $comments[$key]['CommentReply'][$key2]['like'] = 0;
                             }
                             $like_count = $this->VideoCommentReplyLike->countLikes($comment_reply['id']);
-                            $comments[$key]['VideoCommentReply'][$key2]['like_count'] = $like_count;
+                            $comments[$key]['CommentReply'][$key2]['like_count'] = $like_count;
                         }
                     }
 
-
-
                     $like_count = $this->VideoCommentLike->countLikes($comment['VideoComment']['id']);
                     $comments[$key]['VideoComment']['like_count'] = $like_count;
-
                 }
 
-
                 $output['code'] = 200;
-
                 $output['msg'] = $comments;
-
 
                 echo json_encode($output);
 
-
                 die();
-
-            }else{
-
+            } else {
                 Message::EMPTYDATA();
                 die();
-
             }
         }
-
-
     }
-    public function showReportReasons(){
+    
+    public function showReportReasons() {
 
         $this->loadModel('ReportReason');
-
-
-
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');

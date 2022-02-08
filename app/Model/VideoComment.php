@@ -10,28 +10,18 @@ class VideoComment extends AppModel
         'Video' => array(
             'className' => 'Video',
             'foreignKey' => 'video_id',
-
-
-
         ),
 
         'User' => array(
             'className' => 'User',
             'foreignKey' => 'user_id',
-
-
-
         ),
-
     );
 
     public $hasMany = array(
-        'VideoCommentReply' => array(
-            'className' => 'VideoCommentReply',
+        'CommentReply' => array(
+            'className' => 'VideoComment',
             'foreignKey' => 'comment_id',
-
-
-
         ),
     );
 
@@ -48,14 +38,7 @@ class VideoComment extends AppModel
     {
         return $this->find('count', array(
             'conditions' => array(
-
-
-
                 'VideoComment.video_id'=> $video_id,
-
-
-
-
             )
         ));
     }
@@ -65,21 +48,13 @@ class VideoComment extends AppModel
         $this->Behaviors->attach('Containable');
         return $this->find('all', array(
             'conditions' => array(
-
-
-
                 'VideoComment.video_id'=> $video_id,
-
-
-
-
             ),
 
             'limit' => 10,
             'offset' => $starting_point*10,
             'order' => 'VideoComment.id DESC',
-            'contain'=>array('Video','User.PrivacySetting','VideoCommentReply.User')
-            
+            'contain'=>array('Video','User.PrivacySetting')
         ));
     }
 
@@ -87,11 +62,5 @@ class VideoComment extends AppModel
     {
         return $this->find('all');
     }
-
-
-
-
-
-
 }
 ?>
