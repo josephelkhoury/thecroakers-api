@@ -63,5 +63,12 @@ class VideoComment extends AppModel
     {
         return $this->find('all');
     }
+    
+    public function deleteCommentsAgainstCommentID($comment_id) {
+        $conditions = array(
+           	'VideoComment.comment_id' => $comment_id
+        );
+        $this->deleteAll($conditions);
+    }
 }
 ?>

@@ -9129,6 +9129,8 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
   				if (count($details) > 0 ) {
 					$this->VideoComment->id = $details['VideoComment']['id'];
 					$this->VideoComment->delete();
+					$this->VideoComment->deleteCommentsAgainstCommentID($comment_id);
+					
 
 					$output['code'] = 200;
 					$output['msg'] = "deleted";
@@ -9139,7 +9141,7 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
 
 				} else {
 					$output['code'] = 201;
-					$output['msg'] = "Invalid id: Do not exist";
+					$output['msg'] = "Invalid id: Does not exist";
 
 					echo json_encode($output);
 
