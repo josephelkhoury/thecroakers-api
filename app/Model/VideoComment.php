@@ -53,7 +53,8 @@ class VideoComment extends AppModel
         $this->Behaviors->attach('Containable');
         return $this->find('all', array(
             'conditions' => array(
-                'VideoComment.video_id'=> $video_id,
+                'VideoComment.video_id' => $video_id,
+                'VideoComment.comment_id' => 0
             ),
 
             'limit' => 10,
