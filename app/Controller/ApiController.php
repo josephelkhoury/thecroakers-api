@@ -2892,16 +2892,12 @@ class ApiController extends AppController
             $comment_id = $data['comment_id'];
             $user_id = $data['user_id'];
 
-
-
             $created = date('Y-m-d H:i:s', time());
 
 
             $fav_comm['comment_id'] = $comment_id;
             $fav_comm['user_id'] = $user_id;
             $fav_comm['created'] = $created;
-
-
 
 
             $details = $this->VideoCommentLike->ifExist($fav_comm);
@@ -9172,20 +9168,16 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
   	
   	public function deleteComment() {
   		$this->loadModel('VideoComment');
-  		$this->loadModel('VideoCommentReply');
   		
   		if ($this->request->isPost()) {
   			$json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
             
-            if (isset($data['video_comment_id']))
-  				$video_comment_id = $data['video_comment_id'];
+            if (isset($data['comment_id']))
+  				$comment_id = $data['comment_id'];
   			
-  			if (isset($data['video_comment_reply_id']))
-  				$video_comment_reply_id = $data['video_comment_reply_id'];
-  			
-  			if ($video_comment_id && $video_comment_id > 0) {
-  				$details = $this->VideoComment->getDetails($video_comment_id);
+  			if ($comment_id && $comment_id > 0) {
+  				$details = $this->VideoComment->getDetails($comment_id);
   				
   				if (count($details) > 0 ) {
 					$this->VideoComment->id = $details['VideoComment']['id'];
@@ -9205,31 +9197,11 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
 					echo json_encode($output);
 
 					die();
-				}	
-  			} else if ($video_comment_reply_id && $video_comment_reply_id > 0) {
-  				$details = $this->VideoCommentReply->getDetails($video_comment_reply_id);
-  				
-  				if (count($details) > 0 ) {
-					$this->VideoCommentReply->id = $details['VideoCommentReply']['id'];
-					$this->VideoCommentReply->delete();
-
-					$output['code'] = 200;
-					$output['msg'] = "deleted";
-
-					echo json_encode($output);
-
-					die();
-
-				} else {
-					$output['code'] = 201;
-					$output['msg'] = "Invalid id: Do not exist";
-
-					echo json_encode($output);
-
-					die();
-				}	
-  			}
-  			
+				}
+			} else {
+				Message::EMPTYDATA();
+	      		die();
+			}	
   		} else {
   			Message::EMPTYDATA();
 	      	die();
