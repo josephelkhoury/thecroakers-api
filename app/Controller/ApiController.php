@@ -2443,12 +2443,14 @@ class ApiController extends AppController
             $video_id = $data['video_id'];
             $user_id = $data['user_id'];
             $comment = $data['comment'];
+            $comment_id = isset($data['comment_id']) ? $data['comment_id'] : 0;
 
             $created = date('Y-m-d H:i:s', time());
 
             $comment_video['video_id'] = $video_id;
             $comment_video['user_id'] = $user_id;
             $comment_video['comment'] = $comment;
+            $comment_video['comment_id'] = $comment_id;
             $comment_video['created'] = $created;
 
             $userDetails = $this->User->getUserDetailsFromID($user_id);
