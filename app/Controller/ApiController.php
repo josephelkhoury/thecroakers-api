@@ -3631,7 +3631,7 @@ class ApiController extends AppController
                         }
                     }
 
-                    $like_count = $this->VideoCommentLike->countLikes($comment['CommentReply']['id']);
+                    $like_count = $this->VideoCommentLike->countLikes($comment['VideoComment']['id']);
                     $comments[$key]['VideoComment']['like_count'] = $like_count;
                 }
 
