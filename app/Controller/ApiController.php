@@ -3604,12 +3604,12 @@ class ApiController extends AppController
                             $comment_reply_like_detail = $this->VideoCommentLike->ifExist($comment_reply_data);
 
                             if (count($comment_reply_like_detail) > 0) {
-                                $comments[$key]['VideoComment']['VideoCommentReply'][$key2]['like'] = 1;
+                                $comments[$key]['VideoCommentReply'][$key2]['like'] = 1;
                             } else {
-                                $comments[$key]['VideoComment']['VideoCommentReply'][$key2]['like'] = 0;
+                                $comments[$key]['VideoCommentReply'][$key2]['like'] = 0;
                             }
                             $like_count = $this->VideoCommentLike->countLikes($comment_reply['id']);
-                            $comments[$key]['VideoComment']['VideoCommentReply'][$key2]['like_count'] = $like_count;
+                            $comments[$key]['VideoCommentReply'][$key2]['like_count'] = $like_count;
                         }
                     }
 
