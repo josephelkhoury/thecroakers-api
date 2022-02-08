@@ -3616,7 +3616,6 @@ class ApiController extends AppController
 
                     if (count($video_comment_replies) > 0) {
                         foreach ($video_comment_replies as $key2 => $comment_reply) {
-                        	var_dump($comment_reply);
                             $comment_reply_data['user_id'] = $user_id;
                             $comment_reply_data['comment_reply_id'] = $comment_reply['id'];
 
@@ -3627,7 +3626,7 @@ class ApiController extends AppController
                             } else {
                                 $comments[$key]['VideoComment'][$key2]['like'] = 0;
                             }
-                            $like_count = $this->VideoCommentReplyLike->countLikes($comment_reply['id']);
+                            $like_count = $this->VideoCommentLike->countLikes($comment_reply['id']);
                             $comments[$key]['VideoComment'][$key2]['like_count'] = $like_count;
                         }
                     }
