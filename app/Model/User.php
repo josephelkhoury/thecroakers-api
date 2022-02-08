@@ -84,7 +84,7 @@ class User extends AppModel
 				),
     );
     
-    public function afterFind($results, $primary = false) {
+    /*public function afterFind($results, $primary = false) {
 		foreach ($results as $key => $val) {
 			if (isset($val['User']['country_id']) && $val['User']['country_id'] == "0") {
 				$results[$key]['Country'] = [];
@@ -93,7 +93,7 @@ class User extends AppModel
 			}
 		}
 		return $results;
-    }
+    }*/
 
     public function isEmailAlreadyExist($email){
 
@@ -270,7 +270,7 @@ class User extends AppModel
                 'User.id' => $user_id,
                 'User.active' => 1,
             ),
-            'contain' => array('PushNotification','PrivacySetting','Country'),
+            'contain' => array('PushNotification', 'PrivacySetting', 'Country'),
             'recursive' => 0
         ));
     }

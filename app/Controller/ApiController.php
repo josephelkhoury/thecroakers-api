@@ -3294,7 +3294,7 @@ class ApiController extends AppController
             $followers_count = $this->Follower->countFollowers($user_id);
             $following_count = $this->Follower->countFollowing($user_id);
             $likes_count = $this->VideoLike->countUserAllVideoLikes($user_id);
-	    			$video_count = $this->Video->getUserVideosCount($user_id);
+	    	$video_count = $this->Video->getUserVideosCount($user_id);
             $userDetail['User']['followers_count'] = $followers_count;
             $userDetail['User']['following_count'] = $following_count;
             $userDetail['User']['likes_count'] = $likes_count;
@@ -3343,7 +3343,7 @@ class ApiController extends AppController
             }
 
 
-            if(isset($data['username'])){
+            if (isset($data['username'])){
 
                 $user_id_details = $this->User->getUserDetailsFromUsername($data['username']);
                 $other_user_id = $user_id_details['User']['id'];
