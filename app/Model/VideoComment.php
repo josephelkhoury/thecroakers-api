@@ -59,7 +59,7 @@ class VideoComment extends AppModel
             'limit' => 10,
             'offset' => $starting_point*10,
             'order' => 'VideoComment.id DESC',
-            'contain'=>array('Video','User.PrivacySetting')
+            'contain'=>array('Video', 'User.PrivacySetting', 'Video.CommentReply', 'Video.VideoComment')
         ));
     }
 
