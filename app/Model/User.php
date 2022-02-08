@@ -83,6 +83,19 @@ class User extends AppModel
 	    			'foreignKey' => 'country_id'
 				),
     );
+    
+    public function afterFind($results, $primary = false) {
+		foreach ($results as $key => $val) {
+			if (isset($val['Country'])) {
+				if ($val['Country']['id'] == "0") {
+					$results[$key]['Country'] = [];
+					$results[$key]['Country']['id'] = 0;
+					$results[$key]['Country']['name'] = "Worldwide";
+				}
+			}
+		}
+		return $results;
+    }
 
     public function isEmailAlreadyExist($email){
 
