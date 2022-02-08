@@ -3613,6 +3613,8 @@ class ApiController extends AppController
                     }
 
                     $video_comment_replies = $comment['CommentReply'];
+                    
+                    var_dump($comment);
 
                     if (count($video_comment_replies) > 0) {
                         foreach ($video_comment_replies as $key2 => $comment_reply) {
