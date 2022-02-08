@@ -5003,9 +5003,9 @@ class ApiController extends AppController
         $this->loadModel('VideoLike');
         $this->loadModel('VideoFavourite');
         $this->loadModel('Follower');
-				$this->loadModel('Topic');
-				$this->loadModel('TopicVideo');
-				$this->loadModel('Country');
+		$this->loadModel('Topic');
+		$this->loadModel('TopicVideo');
+		$this->loadModel('Country');
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
