@@ -16,6 +16,11 @@ class VideoComment extends AppModel
             'className' => 'User',
             'foreignKey' => 'user_id',
         ),
+        
+        'VideoComment' => array(
+            'className' => 'VideoComment',
+            'foreignKey' => 'comment_id',
+        ),
     );
 
     public $hasMany = array(
