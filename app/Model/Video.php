@@ -260,7 +260,7 @@ class Video extends AppModel
                 'Video.privacy_type'=> 'public',
                 'Video.status'=> 2,
             ),
-            'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'HashtagVideo.Hashtag', 'Country'),
+            'contain' => array('User.PrivacySetting','User.PushNotification', 'User.Country', 'Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => APP_RECORDS_PER_PAGE,
             'offset' => $starting_id*APP_RECORDS_PER_PAGE,
             'order' => 'Video.view DESC'
