@@ -24,7 +24,7 @@ class VideoComment extends AppModel
     );
 
     public $hasMany = array(
-        'CommentReply' => array(
+        'VideoCommentReply' => array(
             'className' => 'VideoComment',
             'foreignKey' => 'comment_id',
         ),
@@ -60,7 +60,7 @@ class VideoComment extends AppModel
             'limit' => 10,
             'offset' => $starting_point*10,
             'order' => 'VideoComment.id DESC',
-            'contain'=>array('Video', 'User.PrivacySetting', 'CommentReply')
+            'contain'=>array('Video', 'User.PrivacySetting', 'VideoCommentReply')
         ));
     }
 
