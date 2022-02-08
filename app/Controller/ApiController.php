@@ -3616,6 +3616,7 @@ class ApiController extends AppController
 
                     if (count($video_comment_replies) > 0) {
                         foreach ($video_comment_replies as $key2 => $comment_reply) {
+                        	var_dump($comment_reply);
                             $comment_reply_data['user_id'] = $user_id;
                             $comment_reply_data['comment_reply_id'] = $comment_reply['id'];
 
