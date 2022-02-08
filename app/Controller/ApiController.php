@@ -3612,7 +3612,7 @@ class ApiController extends AppController
                         $comments[$key]['VideoComment']['like'] = 0;
                     }
 
-                    $video_comment_replies = $comment['CommentReply'];
+                    $video_comment_replies = $comment['VideoComment'];
 
                     if (count($video_comment_replies) > 0) {
                         foreach ($video_comment_replies as $key2 => $comment_reply) {

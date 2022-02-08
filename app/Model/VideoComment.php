@@ -19,7 +19,7 @@ class VideoComment extends AppModel
     );
 
     public $hasMany = array(
-        'CommentReply' => array(
+        'VideoComment' => array(
             'className' => 'VideoComment',
             'foreignKey' => 'comment_id',
         ),
