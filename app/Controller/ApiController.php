@@ -3261,7 +3261,7 @@ class ApiController extends AppController
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
-            if(isset($data['user_id'])) {
+            if (isset($data['user_id'])) {
                 $user_id = $data['user_id'];
             }
 
@@ -3321,7 +3321,7 @@ class ApiController extends AppController
             }
 
 
-            if (isset($data['username'])){
+            if (isset($data['username'])) {
 
                 $user_id_details = $this->User->getUserDetailsFromUsername($data['username']);
                 $other_user_id = $user_id_details['User']['id'];
@@ -3346,25 +3346,15 @@ class ApiController extends AppController
                 $userDetail['User']['following_count'] = $following_count;
                 $userDetail['User']['likes_count'] = $likes_count;
                 $userDetail['User']['video_count'] = $video_count;
-                if(count($follower_details) > 0 && count($following_details) > 0){
-
+                if (count($follower_details) > 0 && count($following_details) > 0) {
                     $userDetail['User']['button'] = "Friends";
-
-                } else   if(count($follower_details) > 0 && count($following_details) < 1){
-
+                } else if(count($follower_details) > 0 && count($following_details) < 1) {
                     $userDetail['User']['button'] = "following";
-
-                }else if (count($following_details) > 0){
-
-
+                } else if (count($following_details) > 0){
                     $userDetail['User']['button'] = "follow back";
-                }else{
-
-
+                } else {
                     $userDetail['User']['button'] = "follow";
                 }
-
-
 
                 $profile_visit['sender_id'] = $user_id;
                 $profile_visit['receiver_id'] = $other_user_id;
@@ -9094,6 +9084,8 @@ Please enter this verification code to reset your password.<br><br>Confirmation 
   			$share_link = $this->ShareLink->getDetails($link);
   			
   			if (!empty($share_link)) {
+  				$this->ShareLink->id = $share_link['ShareLink']['id'];
+  				$this->ShareLink->saveField('count', $share_link['ShareLink']['count'] + 1);
   				$output['code'] = 200;
                 $output['msg'] = $share_link;
 
