@@ -84,16 +84,17 @@ class User extends AppModel
 				),
     );
     
-    /*public function afterFind($results, $primary = false) {
+    public function afterFind($results, $primary = false) {
 		foreach ($results as $key => $val) {
 			if (isset($val['User']['country_id']) && $val['User']['country_id'] == "0") {
 				$results[$key]['Country'] = [];
 				$results[$key]['Country']['id'] = 0;
 				$results[$key]['Country']['name'] = "Worldwide";
 			}
+			unset($results[$key]['password']);
 		}
 		return $results;
-    }*/
+    }
 
     public function isEmailAlreadyExist($email){
 

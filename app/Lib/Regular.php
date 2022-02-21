@@ -66,15 +66,15 @@ class Regular
         } else {
             $final_output['audio'] = "";
         }
-				$final_output['video'] = $final_video_file_path;
-				$final_output['gif'] = $gif;
-				$final_output['thum'] = $thumb;
+		$final_output['video'] = $final_video_file_path;
+		$final_output['gif'] = $gif;
+		$final_output['thum'] = $thumb;
 
-			 (new self)->unlinkFile($original_video_file_path);
-				//(new self)->unlinkFile($gif);
-				//(new self)->unlinkFile($thumb);
-				//(new self)->unlinkFile($original_video_file_path);
-				return $final_output;
+	 	(new self)->unlinkFile($original_video_file_path);
+		//(new self)->unlinkFile($gif);
+		//(new self)->unlinkFile($thumb);
+		//(new self)->unlinkFile($original_video_file_path);
+		return $final_output;
     }
 
     static function only_local_video_upload($user_id, $param) {
@@ -100,17 +100,17 @@ class Regular
         if ($param == "image") {
             $ext = ".png";
         } else if ($param == "video") {
-						$ext = ".mp4";
-				} else if ($param == "audio") {
-						$ext = ".mp3";
-				}
-				$filePath = $folder . "/" . $fileName . $ext;
+			$ext = ".mp4";
+		} else if ($param == "audio") {
+			$ext = ".mp3";
+		}
+		$filePath = $folder . "/" . $fileName . $ext;
 
-				if (move_uploaded_file($_FILES[$param]['tmp_name'], $filePath)) {
-						return $filePath;
-				} else {
-						return false;
-				}
+		if (move_uploaded_file($_FILES[$param]['tmp_name'], $filePath)) {
+			return $filePath;
+		} else {
+			return false;
+		}
     }
 
     static function multipartFileUpload($user_id, $param, $sound_details) {
@@ -139,7 +139,6 @@ class Regular
         return $output;
     }
 
-
     function optimizeVideoSize($original_video_path) {
         $without_extension_file_name = pathinfo($original_video_path, PATHINFO_FILENAME);
         $pieces = explode('/', $original_video_path);
@@ -163,7 +162,6 @@ class Regular
 
         return $black_background;
     }
-
 
     function convertVideoToAudio($original_video_file_path,$user_id) {
         $fileName = uniqid().$user_id;
@@ -212,7 +210,6 @@ class Regular
         return $thumb_path;
     }
 
-
     static function duet($video1_path, $video2_path, $duet) {
         $without_extension_file_name = pathinfo($video1_path, PATHINFO_FILENAME);
         $pieces = explode('/', $video1_path);
@@ -240,7 +237,6 @@ class Regular
 
         if (count($if_audio_exist)>0) {
             //replace audio
-
             $cmd_new = "ffmpeg -i $video_path -i $audio -c:v copy -c:a aac -shortest -map 0:v:0 -map 1:a:0 $with_new_audio";
             exec($cmd_new);
         } else {

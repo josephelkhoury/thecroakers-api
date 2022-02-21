@@ -961,10 +961,10 @@ class ApiController extends AppController
             $video_id = $data['video_id'];
 
             $details = $this->Video->getDetails($video_id);
-            if (count($details) > 0 ) {
-                $video_url =  $details['Video']['video'];
-                $thum_url =  $details['Video']['thum'];
-                $gif_url =  $details['Video']['gif'];
+            if (count($details) > 0) {
+                $video_url = $details['Video']['video'];
+                $thum_url = $details['Video']['thum'];
+                $gif_url = $details['Video']['gif'];
                 $key = 'http';
 
                 if (strpos($video_url, $key) !== false) {
@@ -992,7 +992,7 @@ class ApiController extends AppController
                     unlink($thum_url);
                     unlink($gif_url);
                     $code =  200;
-                    $msg = "successfully deleted";
+                    $msg = "Successfully deleted";
                 }
             } else {
                 $code =  200;
@@ -1034,14 +1034,12 @@ class ApiController extends AppController
 
             $sender_details = $this->User->getUserDetailsFromID($sender_id);
 
-            if(count($sender_details) < 1){
-
+            if (count($sender_details) < 1) {
                 $output['code'] = 201;
                 $output['msg'] = "Login First";
                 echo json_encode($output);
 
                 die();
-
             }
 
             $follower_details = $this->Follower->ifFollowing($sender_id, $receiver_id);
@@ -1079,10 +1077,9 @@ class ApiController extends AppController
                     $notification['data']['type'] = "follow";
 
                     $if_exist = $this->PushNotification->getDetails($receiver_details['User']['id']);
-                    if(count($if_exist) > 0) {
-
+                    if (count($if_exist) > 0) {
                         $likes = $if_exist['PushNotification']['new_followers'];
-                        if($likes > 0) {
+                        if ($likes > 0) {
                             Utility::sendPushNotificationToMobileDevice(json_encode($notification));
                         }
                     }
@@ -1096,18 +1093,15 @@ class ApiController extends AppController
                     $notification_data['created'] =  $created;
 
                     $this->Notification->save($notification_data);
-
                 }
 
                 $follower_details = $this->Follower->ifFollowing($sender_details['User']['id'], $receiver_details['User']['id']);
                 $following_details = $this->Follower->ifFollowing($receiver_details['User']['id'], $sender_details['User']['id']);
                 //$follow_request = $this->FollowRequest->checkIfDuplicate($sender_details['User']['id'], $receiver_details['User']['id']);
 
-                if(count($follower_details) > 0 && count($following_details) > 0){
-
+                if (count($follower_details) > 0 && count($following_details) > 0) {
                     $receiver_details['User']['button'] = "Friends";
-
-                } else   if(count($follower_details) > 0 && count($following_details) < 1){
+                } else if(count($follower_details) > 0 && count($following_details) < 1) {
                     $receiver_details['User']['button'] = "following";
                 }
 
@@ -1131,157 +1125,108 @@ class ApiController extends AppController
 
     public function registerDevice()
     {
-
         $this->loadModel("Device");
-
-
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
-
             $name = $data['key'];
 
-
             $created = date('Y-m-d H:i:s', time());
-
 
             $device['key'] = $name;
             $friend['created'] = $created;
 
-
             $device_details = $this->Device->ifExist($name);
-
 
             if (count($device_details) < 1) {
 
                 $this->Device->save($device);
 
-
-
                 $id = $this->Device->getInsertID();
                 $details = $this->Device->getDetails($id);
-
 
                 $output['code'] = 200;
                 $output['msg'] = $details;
                 echo json_encode($output);
-
-
                 die();
-            }else{
+            } else {
 
                 $output['code'] = 200;
                 $output['msg'] = $device_details;
                 echo json_encode($output);
 
-
                 die();
             }
-
-
         }
     }
 
 
     public function updatePushNotificationSettings()
     {
-
         $this->loadModel("PushNotification");
-
-
 
         if ($this->request->isPost()) {
             $json = file_get_contents('php://input');
             $data = json_decode($json, TRUE);
 
-
-
             $user_id =  $data['user_id'];
 
-            if(isset($data['likes'])){
-
+            if (isset($data['likes'])) {
                 $likes =  $data['likes'];
                 $notification['likes'] = $likes;
-
             }
 
-            if(isset($data['comments'])){
-
+            if (isset($data['comments'])) {
                 $comments =  $data['comments'];
                 $notification['comments'] = $comments;
-
             }
 
-            if(isset($data['new_followers'])){
-
+            if (isset($data['new_followers'])) {
                 $new_followers =  $data['new_followers'];
                 $notification['new_followers'] = $new_followers;
-
             }
 
-            if(isset($data['mentions'])){
-
+            if (isset($data['mentions'])) {
                 $mentions =  $data['mentions'];
                 $notification['mentions'] = $mentions;
-
             }
 
-            if(isset($data['direct_messages'])){
-
+            if (isset($data['direct_messages'])) {
                 $direct_messages =  $data['direct_messages'];
                 $notification['direct_messages'] = $direct_messages;
-
             }
 
-            if(isset($data['video_updates'])){
-
+            if (isset($data['video_updates'])) {
                 $video_updates =  $data['video_updates'];
                 $notification['video_updates'] = $video_updates;
-
             }
-
 
             $details = $this->PushNotification->getDetails($user_id);
 
-            if(count($details) > 0) {
-
-
+            if (count($details) > 0) {
                 $this->PushNotification->id = $user_id;
-
                 $this->PushNotification->save($notification);
 
-
-
                 $details = $this->PushNotification->getDetails($user_id);
-
 
                 $output['code'] = 200;
                 $output['msg'] = $details;
                 echo json_encode($output);
 
-
                 die();
-
-            }else {
-
+            } else {
                 $this->PushNotification->save($notification);
                 $id = $this->PushNotification->getInsertID();
                 $details = $this->PushNotification->getDetails($id);
 
-
-
                 $output['code'] = 200;
                 $output['msg'] = $details;
                 echo json_encode($output);
 
-
                 die();
-
             }
-
-
         }
     }
 
@@ -5734,7 +5679,7 @@ class ApiController extends AppController
 		
 		$created = date('Y-m-d H:i:s', time());
 
-        $videos = $this->Video->find('all',['conditions'=>['status' => '0']]);
+        $videos = $this->Video->find('all', ['conditions'=>['status' => '0']]);
         foreach ($videos as $key => $value) {
         	$video_id = $value['Video']['id'];
         	$this->Video->id = $video_id;

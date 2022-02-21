@@ -313,7 +313,7 @@ class Video extends AppModel
             ),
             'contain' => array('User.PrivacySetting', 'User.PushNotification', 'Sound', 'HashtagVideo.Hashtag', 'Country'),
             'limit' => 10,
-            'offset' => $starting_id*10,
+            'offset' => $starting_id * 10,
             'order' => 'rand()'
             //'order' => 'Video.view DESC'
         ));
@@ -334,7 +334,7 @@ class Video extends AppModel
             ),
             'contain' => array('User.PrivacySetting','User.PushNotification','Sound', 'TopicVideo'),
             'limit' => 10,
-            'offset' => $starting_id*10,
+            'offset' => $starting_id * 10,
             'order' => 'rand()'
             //'order' => 'Video.view DESC'
         ));
