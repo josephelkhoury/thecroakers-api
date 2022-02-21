@@ -91,8 +91,8 @@ class User extends AppModel
 				$results[$key]['Country']['id'] = 0;
 				$results[$key]['Country']['name'] = "Worldwide";
 			}
-			unset($results[$key]['password']);
-			unset($results[$key]['auth_token']);
+			unset($results[$key]['User']['password']);
+			unset($results[$key]['User']['auth_token']);
 		}
 		return $results;
     }
