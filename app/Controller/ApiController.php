@@ -675,7 +675,7 @@ class ApiController extends AppController
                 $userData = $this->User->verify($email, $password, "user");
 
                 if (count($userData) < 0) {
-                    $userData = $this->User->verifyWithUsername($email, $password,"user");
+                    $userData = $this->User->verifyWithUsername($email, $password, "user");
                 }
             }
 

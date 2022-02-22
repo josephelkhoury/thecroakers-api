@@ -84,18 +84,22 @@ class User extends AppModel
 		),
     );
     
-    public function afterFind($results, $primary = false) {
+    /*public function afterFind($results, $primary = false) {
 		foreach ($results as $key => $val) {
-			/*if (isset($val['User']['country_id']) && $val['User']['country_id'] == "0") {
+			if (isset($val['User']['country_id']) && $val['User']['country_id'] == "0") {
 				$results[$key]['Country'] = [];
 				$results[$key]['Country']['id'] = 0;
 				$results[$key]['Country']['name'] = "Worldwide";
-			}*/
-			$results[$key]['User']['password'] = "";
-			$results[$key]['User']['auth_token'] = "";
+			}
 		}
 		return $results;
-    }
+    }*/
+    
+    public function findAll(Query $query, array $options) {
+    	$query->selectAllExcept($this, ['password', 'auth_token']);
+
+    	return $query;
+	}
 
     public function isEmailAlreadyExist($email) {
 
@@ -594,7 +598,7 @@ WHERE User.city_id =  $state_id
 
 
     }
-    public function verify($email,$user_password,$role) {
+    public function verify($email, $user_password, $role) {
         if ($email != "") {
             $userData = $this->find('all', array(
                 'conditions' => array(
