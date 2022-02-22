@@ -5,6 +5,8 @@ App::uses('Security', 'Utility');
 class User extends AppModel
 {
     public $useTable = 'user';
+    
+    protected $_hidden = ['password', 'auth_token'];
 
     public $hasMany = array(
         'Video' => array(
