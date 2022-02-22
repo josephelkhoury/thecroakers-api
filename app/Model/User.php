@@ -84,7 +84,7 @@ class User extends AppModel
 				),
     );
     
-    /*public function afterFind($results, $primary = false) {
+    public function afterFind($results, $primary = false) {
 		foreach ($results as $key => $val) {
 			if (isset($val['User']['country_id']) && $val['User']['country_id'] == "0") {
 				$results[$key]['Country'] = [];
@@ -95,7 +95,7 @@ class User extends AppModel
 			unset($results[$key]['User']['auth_token']);
 		}
 		return $results;
-    }*/
+    }
 
     public function isEmailAlreadyExist($email){
 
