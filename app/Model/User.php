@@ -78,13 +78,13 @@ class User extends AppModel
     );
 
     public $belongsTo = array(
-				'Country' => array(
-	    			'className' => 'Country',
-	    			'foreignKey' => 'country_id'
-				),
+		'Country' => array(
+			'className' => 'Country',
+			'foreignKey' => 'country_id'
+		),
     );
     
-    public function afterFind($results, $primary = false) {
+    /*public function afterFind($results, $primary = false) {
 		foreach ($results as $key => $val) {
 			if (isset($val['User']['country_id']) && $val['User']['country_id'] == "0") {
 				$results[$key]['Country'] = [];
@@ -95,9 +95,9 @@ class User extends AppModel
 			unset($results[$key]['User']['auth_token']);
 		}
 		return $results;
-    }
+    }*/
 
-    public function isEmailAlreadyExist($email){
+    public function isEmailAlreadyExist($email) {
 
         return $this->find('count', array(
             'conditions' => array(
@@ -105,21 +105,21 @@ class User extends AppModel
         ));
     }
 
-    public function isfbAlreadyExist($fb_id){
+    public function isfbAlreadyExist($fb_id) {
 
         return $this->find('count', array(
             'conditions' => array('fb_id' => $fb_id)
         ));
     }
 
-    public function getDetailsAgainstFBID($fb_id){
+    public function getDetailsAgainstFBID($fb_id) {
 
         return $this->find('first', array(
             'conditions' => array('fb_id' => $fb_id)
         ));
     }
 
-    public function getAllFacebookUsers($fb_ids,$user_id){
+    public function getAllFacebookUsers($fb_ids,$user_id) {
 
         return $this->find('all', array(
             'conditions' => array(
@@ -130,7 +130,7 @@ class User extends AppModel
         ));
     }
 
-    public function isSocialIDAlreadyExist($social_id){
+    public function isSocialIDAlreadyExist($social_id) {
 
         return $this->find('first', array(
             'conditions' => array(
@@ -149,21 +149,21 @@ class User extends AppModel
         ));
     }
 
-    public function getUserDetailsAgainstEmail($email){
+    public function getUserDetailsAgainstEmail($email) {
 
         return $this->find('first', array(
             'conditions' => array('email' => $email)
         ));
     }
 
-    public function getUserDetailsAgainstUsername($username){
-
+    public function getUserDetailsAgainstUsername($username) {
+ 
         return $this->find('first', array(
             'conditions' => array('username' => $username)
         ));
     }
 
-    public function isUsernameAlreadyExist($username){
+    public function isUsernameAlreadyExist($username) {
 
         return $this->find('count', array(
             'conditions' => array('username' => $username)
@@ -214,7 +214,7 @@ class User extends AppModel
         ));
     }
 
-    public function editIsUsernameAlreadyExist($username,$user_id){
+    public function editIsUsernameAlreadyExist($username,$user_id) {
 
         return $this->find('count', array(
             'conditions' => array(
@@ -224,7 +224,7 @@ class User extends AppModel
         ));
     }
 
-    public function editIsphoneNoAlreadyExist($phone,$user_id){
+    public function editIsphoneNoAlreadyExist($phone,$user_id) {
 
         return $this->find('count', array(
             'conditions' => array(
@@ -234,7 +234,7 @@ class User extends AppModel
         ));
     }
 
-    public function iSUserExist($id){
+    public function iSUserExist($id) {
 
         return $this->find('count', array(
             'conditions' => array('id' => $id)
@@ -242,7 +242,7 @@ class User extends AppModel
 
     }
 
-    public function getMultipleUsersData($users){
+    public function getMultipleUsersData($users) {
 
         return $this->find('all', array(
             'conditions' => array('User.id IN' => $users),
@@ -250,7 +250,7 @@ class User extends AppModel
         ));
     }
 
-    public function getUsersCount($role){
+    public function getUsersCount($role) {
 
         return $this->find('count', array(
             'conditions' => array(
@@ -259,7 +259,7 @@ class User extends AppModel
         ));
     }
 
-    public function getTotalUsersCount(){
+    public function getTotalUsersCount() {
 
         return $this->find('count');
 
@@ -301,7 +301,7 @@ class User extends AppModel
         ));
     }
 
-    public function getUserDetailsFromIDAndRole($user_id,$role){
+    public function getUserDetailsFromIDAndRole($user_id,$role) {
 
         return $this->find('first', array(
             'conditions' => array(
@@ -316,7 +316,7 @@ class User extends AppModel
 
     }
 
-    public function getDriverDetails($user_id,$role){
+    public function getDriverDetails($user_id,$role) {
 
         $this->Behaviors->attach('Containable');
         return $this->find('first', array(
@@ -333,7 +333,7 @@ class User extends AppModel
 
     }
 
-    public function getSearchResults($keyword,$starting_point,$user_id){
+    public function getSearchResults($keyword,$starting_point,$user_id) {
 
         return $this->find('all', array(
             'conditions' => array(
@@ -351,7 +351,7 @@ class User extends AppModel
         ));
     }
 
-    public function verifyPassword($email,$old_password){
+    public function verifyPassword($email,$old_password) {
 
         $userData = $this->findByEmail($email, array(
             'id',
@@ -368,8 +368,7 @@ class User extends AppModel
         }
     }
 
-    function updatepassword($password)
-    {
+    function updatepassword($password) {
         $passwordBlowfishHasher = new BlowfishPasswordHasher();
         $user['password'] = $passwordBlowfishHasher->hash($password);
 
@@ -377,7 +376,7 @@ class User extends AppModel
     }
 
 
-    public function getEmailBasedOnUserID($user_id){
+    public function getEmailBasedOnUserID($user_id) {
 
         return $this->find('all', array(
             'conditions' => array(
@@ -386,7 +385,7 @@ class User extends AppModel
         ));
     }
 
-    public function getAllUsers($starting_point){
+    public function getAllUsers($starting_point) {
 
         return $this->find('all', array(
             'conditions' => array(
@@ -406,7 +405,7 @@ class User extends AppModel
         ));
     }
 
-    public function getAllUsersAgainstUserIDs($user_ids){
+    public function getAllUsersAgainstUserIDs($user_ids) {
 
         return $this->find('all', array(
             'conditions' => array(
@@ -415,7 +414,7 @@ class User extends AppModel
         ));
     }
 
-    public function getDistinctCountries(){
+    public function getDistinctCountries() {
 
         return $this->find('all', array(
             'conditions' => array('User.country !=' => ""),
@@ -426,14 +425,14 @@ class User extends AppModel
         ));
     }
 
-    public function searchLocation($keyword){
+    public function searchLocation($keyword) {
 
         return $this->query("SELECT DISTINCT User.country,User.city,User.region
           FROM user as User
         WHERE User.country Like '$keyword%'  OR User.city Like '$keyword%' OR User.region Like '$keyword%'");
     }
 
-    public function searchLocation2($keyword){
+    public function searchLocation2($keyword) {
 
         return $this->find('all', array(
             'conditions' => array(
@@ -463,7 +462,7 @@ WHERE gender = '$gender' AND
 
 
     }*/
-    public function totalAudienceAgainstGenderAndCountry($min_age,$max_age,$gender,$country_id){
+    public function totalAudienceAgainstGenderAndCountry($min_age,$max_age,$gender,$country_id) {
 
         return $this->query("SELECT count(*) as total_audience
 FROM user as User
@@ -474,7 +473,7 @@ WHERE gender = '$gender' AND country_id =  $country_id
 
     }
 
-    public function totalAudienceAgainstGenderAndCity($min_age,$max_age,$gender,$city_id){
+    public function totalAudienceAgainstGenderAndCity($min_age,$max_age,$gender,$city_id) {
 
         return $this->query("SELECT count(*) as total_audience
 FROM user as User
@@ -485,7 +484,7 @@ WHERE gender = '$gender' AND User.city_id =  $city_id
 
     }
 
-    public function totalAudienceAgainstGenderAndState($min_age,$max_age,$gender,$state_id){
+    public function totalAudienceAgainstGenderAndState($min_age,$max_age,$gender,$state_id) {
 
         return $this->query("SELECT count(*) as total_audience
 FROM user as User
@@ -496,7 +495,7 @@ WHERE gender = '$gender' AND User.city_id =  $state_id
 
     }
 
-    public function totalAudienceWithoutGenderAndCountry($min_age,$max_age,$country_id){
+    public function totalAudienceWithoutGenderAndCountry($min_age,$max_age,$country_id) {
 
         return $this->query("SELECT count(*) as total_audience
 FROM user as User
@@ -507,7 +506,7 @@ WHERE country_id =  $country_id
 
     }
 
-    public function totalAudienceWithoutGenderAndCity($min_age,$max_age,$city_id){
+    public function totalAudienceWithoutGenderAndCity($min_age,$max_age,$city_id) {
 
         return $this->query("SELECT count(*) as total_audience
 FROM user as User
@@ -518,7 +517,7 @@ FROM user as User
 
     }
 
-    public function totalAudienceWithoutGenderAndState($min_age,$max_age,$state_id){
+    public function totalAudienceWithoutGenderAndState($min_age,$max_age,$state_id) {
 
         return $this->query("SELECT count(*) as total_audience
 FROM user as User
@@ -530,7 +529,7 @@ WHERE User.city_id =  $state_id
     }
 
 
-    public function totalAudienceAgainstCountryID($country_id){
+    public function totalAudienceAgainstCountryID($country_id) {
 
         return $this->find('count', array(
 
@@ -543,7 +542,7 @@ WHERE User.city_id =  $state_id
 
     }
 
-    public function totalAudienceAgainstCityID($city_id){
+    public function totalAudienceAgainstCityID($city_id) {
 
         return $this->find('count', array(
 
@@ -556,7 +555,7 @@ WHERE User.city_id =  $state_id
 
     }
 
-    public function totalAudienceAgainstStateID($state_id){
+    public function totalAudienceAgainstStateID($state_id) {
 
         return $this->find('count', array(
 
@@ -569,7 +568,7 @@ WHERE User.city_id =  $state_id
 
     }
 
-    public function getAdminDetails(){
+    public function getAdminDetails() {
 
         return $this->find('all', array(
             'conditions' => array(
@@ -582,7 +581,7 @@ WHERE User.city_id =  $state_id
 
     }
 
-    public function verifyCode($email,$code){
+    public function verifyCode($email,$code) {
 
         return $this->find('count', array(
             'conditions' => array(
@@ -595,8 +594,7 @@ WHERE User.city_id =  $state_id
 
 
     }
-    public function verify($email,$user_password,$role)
-    {
+    public function verify($email,$user_password,$role) {
         if ($email != "") {
             $userData = $this->find('all', array(
                 'conditions' => array(
@@ -626,9 +624,7 @@ WHERE User.city_id =  $state_id
         }
     }
 
-    public function verifyWithUsername($email,$user_password,$role)
-    {
-
+    public function verifyWithUsername($email,$user_password,$role) {
         if ($email != "") {
             $userData = $this->find('all', array(
                 'conditions' => array(
@@ -659,28 +655,18 @@ WHERE User.city_id =  $state_id
         if ($passwordHash == $userData[0]['User']['password'] ) {
             return $userData;
         } else {
-
             return false;
-
-
         }
-
-
-
     }
 
 
-    public function verifyPhoneNoAndPassword($phone_no,$user_password)
-    {
-
-
+    public function verifyPhoneNoAndPassword($phone_no,$user_password) {
             $userData = $this->find('all', array(
                 'conditions' => array(
                     'User.phone_no' => $phone_no
 
                 )
             ));
-
 
             /*$userData = $this->findByEmail($email, array(
             'user_id',
@@ -689,10 +675,7 @@ WHERE User.city_id =  $state_id
             'salt'
            ));*/
             if (empty($userData)) {
-
-
                 return false;
-
             }
 
         $passwordHash = Security::hash($user_password, 'blowfish', $userData[0]['User']['password']);
@@ -701,67 +684,38 @@ WHERE User.city_id =  $state_id
         if ($passwordHash == $userData[0]['User']['password'] ) {
             return $userData;
         } else {
-
             return false;
-
-
         }
-
-
-
     }
 
-
-
-    public function getUsers($role,$starting_point){
-
+    public function getUsers($role,$starting_point) {
         return $this->find('all', array(
-
             'conditions' => array(
-
                 'User.role' => $role
-
             ),
            // 'limit'=>ADMIN_RECORDS_PER_PAGE,
           //  'offset' => $starting_point*ADMIN_RECORDS_PER_PAGE,
-
             'order' => array('User.id DESC'),
         ));
-
     }
 
-
-    public function total_count_getUsers($role){
-
+    public function total_count_getUsers($role) {
         return $this->find('count', array(
-
             'conditions' => array(
-
                 'User.role' => $role
-
             ),
-
         ));
-
     }
 
-
-    public function getUserDetailsFromEmail($email){
-
+    public function getUserDetailsFromEmail($email) {
         return $this->find('first', array(
             'conditions' => array(
-
                 'User.email' => $email
-
             ),
-
         ));
-
-
     }
 
-    public function beforeSave($options = array())
-    {
+    public function beforeSave($options = array()) {
         $passwordBlowfishHasher = new BlowfishPasswordHasher();
 
         if (isset($this->data[$this->alias]['password'])) {
@@ -774,6 +728,5 @@ WHERE User.city_id =  $state_id
         }
         return true;
     }
-
 
 }?>
