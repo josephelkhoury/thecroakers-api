@@ -80,10 +80,8 @@ class ApiController extends AppController
                         die();
                     }
                     if ($social == "facebook") {
-
                         $verify = Utility::getFacebookUserInfo($auth_token);
                         if ($verify) {
-
                             return true;
                         } else {
 
@@ -97,7 +95,6 @@ class ApiController extends AppController
                         }
 
                     } else if ($social == "google") {
-
                         $verify = Utility::getGoogleUserInfo($auth_token);
                         if ($verify) {
                             return true;
@@ -131,7 +128,9 @@ class ApiController extends AppController
                     $version = $data['version'];
                     $this->addPhoneDeviceData($device_token, $ip, $device, $version);
                 }*/
+                var_dump('there');
                 if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
+                	var_dump('here');
                 	$this->addPhoneDeviceData($headers['device-token'], $headers['ip'], $headers['device'], $headers['version']);
                 }
             }
