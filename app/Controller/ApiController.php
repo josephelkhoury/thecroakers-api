@@ -118,13 +118,8 @@ class ApiController extends AppController
                             die();
                         }
                     }*/
-                    if ($db_auth_token == $auth_token)
-						$verify = true;
-					else
-						$verify = false;
-                    
-                    if ($verify) {
-						if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
+                    if ($db_auth_token == $auth_token) {
+                		if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
 							$user['device_token'] = $headers['device-token'];
             				$user['ip'] = $headers['ip'];
             				$user['device'] = $headers['device'];
@@ -132,9 +127,8 @@ class ApiController extends AppController
             				$this->User->id = $user_id;
                 			$this->User->save($user);
 						}
-					} else {
+					else
 						return true;
-					}
                 }
 
                 /*if (isset($data['device_token']) && isset($data['ip'])) {
