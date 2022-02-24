@@ -127,7 +127,7 @@ class ApiController extends AppController
             				$this->User->id = $user_id;
                 			$this->User->save($user);
 						}
-					else
+					} else
 						return true;
                 }
 
