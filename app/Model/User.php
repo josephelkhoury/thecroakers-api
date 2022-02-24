@@ -5,8 +5,6 @@ App::uses('Security', 'Utility');
 class User extends AppModel
 {
     public $useTable = 'user';
-    
-    protected $_hidden = ['password', 'auth_token'];
 
     public $hasMany = array(
         'Video' => array(
@@ -96,12 +94,6 @@ class User extends AppModel
 		}
 		return $results;
     }*/
-    
-    public function findAll(Query $query, array $options) {
-    	$query->selectAllExcept($this, ['password', 'auth_token']);
-
-    	return $query;
-	}
 
     public function isEmailAlreadyExist($email) {
 

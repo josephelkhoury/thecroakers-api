@@ -16,7 +16,6 @@ class ApiController extends AppController
 
     public function beforeFilter()
     {
-
         if ($this->request->isPost()) {
 
             $this->loadModel('User');
@@ -34,41 +33,29 @@ class ApiController extends AppController
                 $user_id = $headers['User-Id'];
 
             } else if (array_key_exists("USER-ID", $headers)) {
-
                 $user_id = $headers['USER-ID'];
             }
-
 
             if (array_key_exists("Auth-Token", $headers)) {
                 $auth_token = $headers['Auth-Token'];
 
             } else if (array_key_exists("AUTH-TOKEN", $headers)) {
-
                 $auth_token = $headers['AUTH-TOKEN'];
             }
-
 
             $client_api_key = 0;
             if (array_key_exists("Api-Key", $headers)) {
                 $client_api_key = $headers['Api-Key'];
-
             } else if (array_key_exists("API-KEY", $headers)) {
-
                 $client_api_key = $headers['API-KEY'];
             } else if (array_key_exists("api-key", $headers)) {
-
                 $client_api_key = $headers['api-key'];
             }
 
-
             if ($client_api_key > 0) {
-
-
                 if ($client_api_key != API_KEY) {
-
                     Message::ACCESSRESTRICTED();
                     die();
-
                 }
             } else {
                 $output['code'] = 201;
@@ -76,11 +63,9 @@ class ApiController extends AppController
 
                 echo json_encode($output);
                 die();
-
             }
 
             if ($user_id > 0) {
-
                 $userDetails = $this->User->getUserDetailsFromID($user_id);
 
                 if (count($userDetails) > 0) {
@@ -139,13 +124,15 @@ class ApiController extends AppController
                     }
                 }
 
-                if(isset($data['device_token']) && isset($data['ip'])) {
-
+                /*if (isset($data['device_token']) && isset($data['ip'])) {
                     $device_token = $data['device_token'];
                     $ip = $data['ip'];
                     $device = $data['device'];
                     $version = $data['version'];
                     $this->addPhoneDeviceData($device_token, $ip, $device, $version);
+                }*/
+                if ($device = array_key_exists("device", $headers) && $version = array_key_exists("version", $headers) && $ip = array_key_exists("ip", $headers) && $device_token = array_key_exists("device-token", $headers)) {
+                	$this->addPhoneDeviceData($device_token, $ip, $device, $version);
                 }
             }
 
