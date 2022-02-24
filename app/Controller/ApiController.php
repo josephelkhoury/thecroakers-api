@@ -131,8 +131,8 @@ class ApiController extends AppController
                     $version = $data['version'];
                     $this->addPhoneDeviceData($device_token, $ip, $device, $version);
                 }*/
-                if ($device = array_key_exists("device", $headers) && $version = array_key_exists("version", $headers) && $ip = array_key_exists("ip", $headers) && $device_token = array_key_exists("device-token", $headers)) {
-                	$this->addPhoneDeviceData($device_token, $ip, $device, $version);
+                if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
+                	$this->addPhoneDeviceData($headers['device-token'], $headers['ip'], $headers['device'], $headers['version']);
                 }
             }
 
