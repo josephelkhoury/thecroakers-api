@@ -81,10 +81,9 @@ class ApiController extends AppController
                     }
                     if ($social == "facebook") {
                         $verify = Utility::getFacebookUserInfo($auth_token);
-                        if ($verify) {
+                        /*if ($verify) {
                             return true;
                         } else {
-
                             return true;
 
                             $output['code'] = 501;
@@ -92,11 +91,10 @@ class ApiController extends AppController
 
                             echo json_encode($output);
                             die();
-                        }
-
+                        }*/
                     } else if ($social == "google") {
                         $verify = Utility::getGoogleUserInfo($auth_token);
-                        if ($verify) {
+                        /*if ($verify) {
                             return true;
                         } else {
                             return true;
@@ -105,20 +103,34 @@ class ApiController extends AppController
 
                             echo json_encode($output);
                             die();
-                        }
+                        }*/
                     } else if (strlen($social) < 2) {
                         if ($db_auth_token == $auth_token) {
-                            return true;
+                            $verify = true;
                         } else {
-                            return true;
+                        	$verify = false;
+                            /*return true;
                             
                             $output['code'] = 501;
                             $output['msg'] = "invalid application token";
 
                             echo json_encode($output);
-                            die();
+                            die();*/
                         }
                     }
+                    
+                    if ($verify) {
+						if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
+							$user['device_token'] = $headers['device-token'];
+            				$user['ip'] = $headers['ip'];
+            				$user['device'] = $headers['device'];
+            				$user['version'] = $headers['version'];
+            				$this->User->id = $user_id;
+                			$this->User->save($user);
+						}
+					} else {
+						return true;
+					}
                 }
 
                 /*if (isset($data['device_token']) && isset($data['ip'])) {
@@ -128,11 +140,6 @@ class ApiController extends AppController
                     $version = $data['version'];
                     $this->addPhoneDeviceData($device_token, $ip, $device, $version);
                 }*/
-                var_dump('there');
-                if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
-                	var_dump('here');
-                	$this->addPhoneDeviceData($headers['device-token'], $headers['ip'], $headers['device'], $headers['version']);
-                }
             }
 
             if ($json_error == "false") {
