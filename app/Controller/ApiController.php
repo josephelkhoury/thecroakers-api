@@ -127,8 +127,13 @@ class ApiController extends AppController
             				$this->User->id = $user_id;
                 			$this->User->save($user);
 						}
-					} else
-						return true;
+					} else {
+						$output['code'] = 501;
+                        $output['msg'] = "Invalid authentication token";
+
+                        echo json_encode($output);
+                        die();
+					}
                 }
 
                 /*if (isset($data['device_token']) && isset($data['ip'])) {
