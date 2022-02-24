@@ -118,9 +118,9 @@ class ApiController extends AppController
                             die();
                         }
                     }*/
-                    if ($db_auth_token == $auth_token) {
+                    if ($db_auth_token == $auth_token)
 						$verify = true;
-					} else {
+					else
 						$verify = false;
                     
                     if ($verify) {
