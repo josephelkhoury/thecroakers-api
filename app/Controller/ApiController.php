@@ -79,9 +79,9 @@ class ApiController extends AppController
                         echo json_encode($output);
                         die();
                     }
-                    if ($social == "facebook") {
+                    /*if ($social == "facebook") {
                         $verify = Utility::getFacebookUserInfo($auth_token);
-                        /*if ($verify) {
+                        if ($verify) {
                             return true;
                         } else {
                             return true;
@@ -91,10 +91,10 @@ class ApiController extends AppController
 
                             echo json_encode($output);
                             die();
-                        }*/
+                        }
                     } else if ($social == "google") {
                         $verify = Utility::getGoogleUserInfo($auth_token);
-                        /*if ($verify) {
+                        if ($verify) {
                             return true;
                         } else {
                             return true;
@@ -103,23 +103,26 @@ class ApiController extends AppController
 
                             echo json_encode($output);
                             die();
-                        }*/
+                        }
                     } else if (strlen($social) < 2) {
                         if ($db_auth_token == $auth_token) {
                             $verify = true;
                         } else {
                         	$verify = false;
-                            /*return true;
+                            return true;
                             
                             $output['code'] = 501;
                             $output['msg'] = "invalid application token";
 
                             echo json_encode($output);
-                            die();*/
+                            die();
                         }
-                    }
+                    }*/
+                    if ($db_auth_token == $auth_token) {
+						$verify = true;
+					} else {
+						$verify = false;
                     
-                    var_dump("here");
                     if ($verify) {
 						if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
 							$user['device_token'] = $headers['device-token'];

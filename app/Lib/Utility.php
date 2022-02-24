@@ -220,10 +220,9 @@ class Utility
     }
 
 
-    public static function getFacebookUserInfo($access_token){
+    public static function getFacebookUserInfo($access_token) {
 
         //$access_token = "EAAHHnWt5954BAKysBA1giqTqE5f6XPLWoY2ztYdsQ8lc4ODXdS8zi36L2ZBiSXunPsfJoXsTBLMjpp7kTcwHHSIdgzNfT1JOxIRQ6cugQoPNFZBjrfqNEyOm1LZA3CYDYOMUoG49P0oyjpIhcfZCVSC8oKR0U6P17TaqgnzxYH7Bm8k0NID8oC643PmICWlzXV1NLVMFzQZDZD";
-
 
         $facebook = new \Facebook\Facebook([
             'app_id'      => FACEBOOK_APP_ID,
