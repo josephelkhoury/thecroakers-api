@@ -119,8 +119,8 @@ class ApiController extends AppController
                         }
                     }
                     
+                    var_dump("here");
                     if ($verify) {
-                    	var_dump("here");
 						if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
 							$user['device_token'] = $headers['device-token'];
             				$user['ip'] = $headers['ip'];
