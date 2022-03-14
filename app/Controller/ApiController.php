@@ -119,21 +119,21 @@ class ApiController extends AppController
                         }
                     }*/
                     if ($db_auth_token == $auth_token) {
-                		if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
-							$user['device_token'] = $headers['device-token'];
-            				$user['ip'] = $headers['ip'];
-            				$user['device'] = $headers['device'];
-            				$user['version'] = $headers['version'];
-            				$this->User->id = $user_id;
-                			$this->User->save($user);
-						}
-					} else {
-						$output['code'] = 501;
-                        $output['msg'] = "Invalid authentication token";
+                			if (array_key_exists("device", $headers) && array_key_exists("version", $headers) && array_key_exists("ip", $headers) && array_key_exists("device-token", $headers)) {
+												$user['device_token'] = $headers['device-token'];
+												$user['ip'] = $headers['ip'];
+												$user['device'] = $headers['device'];
+												$user['version'] = $headers['version'];
+												$this->User->id = $user_id;
+												$this->User->save($user);
+											}
+										} else if (strlen($social) < 2) {
+											$output['code'] = 501;
+												$output['msg'] = "Invalid authentication token";
 
-                        echo json_encode($output);
-                        die();
-					}
+												echo json_encode($output);
+												die();
+										}
                 }
 
                 /*if (isset($data['device_token']) && isset($data['ip'])) {
@@ -2220,8 +2220,7 @@ class ApiController extends AppController
 						}
 					}
 				}
-			}
-			else if ($section == 1 || $section == 2) {
+			} else if ($section == 1 || $section == 2) {
 				$users = $this->Video->getUsersWhichHaveGreaterNoOfVideos($starting_point, $section, $country_id);
 				if (count($users) > 0) {
 					foreach ($users as $key => $user) {
@@ -2269,7 +2268,6 @@ class ApiController extends AppController
              }
         }
     }
-
 
     public function addOrderSession()
     {
